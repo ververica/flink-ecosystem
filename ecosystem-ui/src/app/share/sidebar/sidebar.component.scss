@@ -1,0 +1,64 @@
+.main-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.logo {
+  max-width: 100%;
+  padding: 20px 20%;
+  object-fit: contain;
+}
+
+h1 {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.ant-menu-inline {
+  border-right: 0;
+}
+
+@mixin menu-style() {
+  color: #555;
+  font-weight: bold;
+}
+
+:host ::ng-deep {
+  .ant-menu {
+    &,
+    .ant-menu-submenu > & {
+      background: #f8f8f8;
+    }
+  }
+
+  .ant-menu-submenu-active > div {
+    @include menu-style();
+  }
+
+  .ant-menu-submenu-inline
+    > .ant-menu-submenu-title:hover
+    .ant-menu-submenu-arrow {
+    &::after,
+    &::before {
+      background: linear-gradient(to right, #555, #555);
+    }
+  }
+
+  .ant-menu-item {
+    & > a:hover {
+      @include menu-style();
+    }
+
+    &::after {
+      border-color: #555;
+    }
+  }
+
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background: #e7e7e7;
+
+    & > a {
+      @include menu-style();
+    }
+  }
+}

@@ -1,0 +1,54 @@
+<div class="main-sidebar">
+  <a class="main-link" routerLink="/">
+    <img
+      class="logo"
+      src="/assets/flink_squirrel_500.png"
+      alt="flink squirrel"
+    />
+    <h1>
+      Apache Flink
+      <br />
+      Community Packages
+    </h1>
+  </a>
+  <ul nz-menu nzMode="inline" [nzInlineCollapsed]="collapsed">
+    <li nz-submenu [nzOpen]="true" class="custom-submenu">
+      <span title class="custom-title">
+        Categories
+      </span>
+      <ul>
+        <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+          <a routerLink="/categories/connectors" routerLinkActive="active">
+            Connectors
+          </a>
+        </li>
+        <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+          <a routerLink="/categories/metrics" routerLinkActive="active">
+            Metrics
+          </a>
+        </li>
+        <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+          <a routerLink="/categories/tools" routerLinkActive="active">
+            Tools
+          </a>
+        </li>
+        <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+          <a
+            routerLink="/categories/machine-learning"
+            routerLinkActive="active"
+          >
+            Machine Learning
+          </a>
+        </li>
+        <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+          <a routerLink="/categories/languages" routerLinkActive="active">
+            Languages
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li nz-menu-item routerLinkActive="ant-menu-item-selected">
+      <a routerLink="/guide" routerLinkActive="active">Guide</a>
+    </li>
+  </ul>
+</div>

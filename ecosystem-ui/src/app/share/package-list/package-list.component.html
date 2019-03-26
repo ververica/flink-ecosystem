@@ -1,0 +1,32 @@
+<nz-list *ngFor="let package of packages">
+  <div class="my-card">
+    <img [src]="package.image" [alt]="package.name" width="150px" />
+
+    <div>
+      <nz-card-meta
+        [nzTitle]="titleLink"
+        [nzDescription]="package.description"
+      ></nz-card-meta>
+      <ng-template #titleLink>
+        <a [routerLink]="getPackageLink(package.name)">
+          {{ package.name }}
+        </a>
+      </ng-template>
+      <br />
+      <div nz-row>
+        <div nz-col nzSpan="8">
+          Votes -
+          <i nz-icon type="like" theme="fill"></i>
+          {{ package.upvotes }}
+          <i nz-icon type="dislike" theme="fill"></i>
+          {{ package.downvotes }}
+        </div>
+        <div nz-col nzSpan="8">
+          Comments: ({{ package.commentsCount }})
+          <i nz-icon type="message" theme="fill"></i>
+        </div>
+        <div nz-col nzSpan="8">{{ package.added | date: 'medium' }}</div>
+      </div>
+    </div>
+  </div>
+</nz-list>

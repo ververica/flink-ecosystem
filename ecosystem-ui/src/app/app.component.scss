@@ -1,0 +1,42 @@
+nz-layout {
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+
+  // .ant-layout-content {
+  //   padding-right: 50px;
+  // }
+}
+
+nz-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 50px;
+  background: #fff;
+
+  .github {
+    line-height: 1.4;
+    margin-right: 2em;
+  }
+}
+
+nz-content {
+  margin: 2em 0;
+  margin-right: 50px;
+}
+
+nz-input-group {
+  width: 256px;
+}
+
+nz-footer {
+  margin-right: 50px;
+}
+
+nz-sider {
+  background: #f8f8f8;
+  border-left: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+}
