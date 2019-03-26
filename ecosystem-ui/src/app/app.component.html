@@ -1,0 +1,25 @@
+<nz-layout>
+  <nz-sider nzTheme="light" [nzWidth]="256" class="flink-sidebar">
+    <sidebar></sidebar>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <a href="#" class="github">Log in with Github</a>
+      <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input
+          type="text"
+          nz-input
+          placeholder="search"
+          (keydown.enter)="handleSearch($event)"
+        />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon type="search"></i>
+      </ng-template>
+    </nz-header>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer>Footer</nz-footer>
+  </nz-layout>
+</nz-layout>

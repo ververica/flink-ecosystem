@@ -1,0 +1,20 @@
+nz-list {
+  margin-bottom: 2em;
+}
+
+.my-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  img {
+    margin-right: 1em;
+    flex-shrink: 0;
+  }
+
+  .comments,
+  .added {
+    margin-left: 2em;
+  }
+}

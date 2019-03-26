@@ -1,0 +1,48 @@
+<page-content *ngIf="package" [title]="package.name">
+  <div nz-row>
+    <div nz-col nzSpan="18">
+      <p>{{ package.readme }}</p>
+    </div>
+    <div nz-col nzSpan="5" nzOffset="1">
+      <img [src]="package.image" [alt]="package.name" width="100%" />
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col nzSpan="10">
+      <div>
+        <i nz-icon type="home" theme="fill"></i>
+        {{ package.website }}
+      </div>
+      <div>
+        <i nz-icon type="github" theme="fill"></i>
+        {{ package.repository }}
+      </div>
+    </div>
+    <div nz-col nzSpan="8">TBD License or something</div>
+    <div nz-col nzSpan="5" nzOffset="1">
+      Votes -
+      <i nz-icon type="like" theme="fill"></i>
+      {{ package.upvotes }}
+      <i nz-icon type="dislike" theme="fill"></i>
+      {{ package.downvotes }}
+    </div>
+  </div>
+  <br />
+  <div *ngFor="let comment of package.comments">
+    <nz-comment
+      [nzAuthor]="comment.username"
+      [nzDatetime]="comment.added | date: 'medium'"
+    >
+      <nz-avatar
+        nz-comment-avatar
+        nzIcon="user"
+        [nzSrc]="comment.avatar"
+      ></nz-avatar>
+      <nz-comment-content>
+        <p>
+          {{ comment.text }}
+        </p>
+      </nz-comment-content>
+    </nz-comment>
+  </div>
+</page-content>
