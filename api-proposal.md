@@ -17,7 +17,12 @@ We could have some specifc string matching for categories and tags in the query 
 
 - GET `/api/v1/package/:package`
   ```
-  data: <package>
+  data: {
+    package: <package>
+    comments: [<comment>]
+    releases: [<release>]
+    tags: [<tag>]
+  }
   ```
 - POST `/api/v1/package`
   ```
