@@ -6,13 +6,11 @@
 
 ### Package List
 
-these 3 return a list of packages, they would all use the same schema.
+We could have some specifc string matching for categories and tags in the query if thats what the user is searching for to maybe speed things up. `cat:<category>` and `tag:<string>`.
 
-- GET `/api/v1/packages`
-- GET `/api/v1/categories/:category`
-- GET `/api/v1/search?query=:query`
+- GET `/api/v1/packages?query=:string&page=:number`
   ```
-    items: [<package|quick>]
+    items: [<package>]
   ```
 
 ### Package
