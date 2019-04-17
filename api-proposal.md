@@ -13,14 +13,16 @@ We could have some specifc string matching for categories and tags in the query 
     items: [<package>]
   ```
 
+---
+
 ### Package
 
 - GET `/api/v1/package/:package`
   ```
   data: {
     package: <package>
-    comments: [<comment>]
-    releases: [<release>]
+    comments: [<comment>] // first 50(?) comments
+    releases: [<release>] // first 10(?) releases
     tags: [<tag>]
   }
   ```
@@ -36,45 +38,48 @@ We could have some specifc string matching for categories and tags in the query 
   ```
   data: {
     package: <package>
-    release: [<release>] // updated array to remove a release
     tags: [<tag>] // updated array to remove or add tags
   ```
 
+#### Package Comments
+
+- GET `/api/v1/package/:package/comments?page=:number`
+  ```
+  data: [<comment>] // (x50)
+  ```
+- POST `/api/v1/package/:package/comments`
+  ```
+  data: <comment>
+  ```
+- PATCH `/api/v1/package/:package/comments/:id`
+  ```
+  data: <comment>
+  ```
+- DELETE `/api/v1/package/:package/comments/:id`
+
+#### Package Releases
+
+- GET `/api/v1/package/:package/releases?page=:number`
+  ```
+  data: [<release>] // (x10)
+  ```
+- POST `/api/v1/package/:package/releases`
+  ```
+  data: <release>
+  ```
+- PATCH `/api/v1/package/:package/releases/:id`
+  ```
+  data: <release>
+  ```
+- DELETE `/apk/v1/package/:package/releases/:id`
+
+---
+
 ### Tags
+
+Return a list of all tags for autocomplete for search.
 
 - GET `/api/v1/tags`
   ```
   items: [<tag>]
   ```
-
-### Release
-
-- POST `/api/v1/release`
-  ```
-  data {
-    packageName,
-    release: <release>
-  }
-  ```
-- PATCH `/api/v1/release/:id`
-  ```
-  data: <release>
-  ```
-- DELETE `/apk/v1/release/:id`
-
-### Comments
-
-- POST `/api/v1/comment`
-  ```
-  data {
-    packageName,
-    comment: <comment>
-  }
-  ```
-- PATCH `/api/v1/comment/:id`
-  ```
-  {
-    data: <comment>
-  }
-  ```
-- DELETE `/api/v1/comment/:id`
