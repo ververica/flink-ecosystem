@@ -17,31 +17,58 @@ We could have some specifc string matching for categories and tags in the query 
 
 ### Package
 
+- **Schema**
+
+  ```
+  <package> {
+    id: number
+    name: string
+    description: string
+    readme: string // maybe from github or something?
+    image: blob || string
+    website: string
+    repository: string
+    license: string
+    commentsCount: number
+    upvotes: number
+    downvotes: number
+    tags: string[]
+    added: datetime
+    updated: datetime
+  }
+
+  ```
+
 - GET `/api/v1/package/:package`
   ```
   data: {
     package: <package>
     comments: [<comment>] // first 50(?) comments
     releases: [<release>] // first 10(?) releases
-    tags: [<tag>]
   }
   ```
 - POST `/api/v1/package`
   ```
-  data: {
-    package: <package>
-    releases: [<release>]
-    tags: [<tag>]
-  }
+  data: <package>
   ```
 - PATCH `/api/v1/package/:package`
   ```
-  data: {
-    package: <package>
-    tags: [<tag>] // updated array to remove or add tags
+  data: <package>
   ```
 
 #### Package Comments
+
+- **Schema**
+
+  ```
+  <comment> {
+    id: number
+    username: string // github username
+    text: string
+    added: datetime
+    updated: datetime
+  }
+  ```
 
 - GET `/api/v1/package/:package/comments?page=:number`
   ```
@@ -58,6 +85,18 @@ We could have some specifc string matching for categories and tags in the query 
 - DELETE `/api/v1/package/:package/comments/:id`
 
 #### Package Releases
+
+- **Schema**
+
+  ```
+  <release> {
+    id: number
+    number: string //(semver probably)
+    description: string
+    added: datetime
+    updated: datetime
+  }
+  ```
 
 - GET `/api/v1/package/:package/releases?page=:number`
   ```
@@ -82,4 +121,18 @@ Return a list of all tags for autocomplete for search.
 - GET `/api/v1/tags`
   ```
   items: [<tag>]
+  ```
+
+---
+
+### Authentication
+
+Is the user authenticated?
+
+- GET `/api/v1/auth`
+  ```
+  {
+    username: string // github username
+    ...?
+  }
   ```
