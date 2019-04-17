@@ -10,7 +10,7 @@ We could have some specifc string matching for categories and tags in the query 
 
 - GET `/api/v1/packages?query=:string&page=:number`
   ```
-    items: [<package>]
+  items: [<package>]
   ```
 
 ---
@@ -39,7 +39,7 @@ We could have some specifc string matching for categories and tags in the query 
 
   ```
 
-- GET `/api/v1/package/:package`
+- GET `/api/v1/packages/:package`
   ```
   data: {
     package: <package>
@@ -47,14 +47,15 @@ We could have some specifc string matching for categories and tags in the query 
     releases: [<release>] // first 10(?) releases
   }
   ```
-- POST `/api/v1/package`
+- POST `/api/v1/packages`
   ```
   data: <package>
   ```
-- PATCH `/api/v1/package/:package`
+- PATCH `/api/v1/packages/:package`
   ```
   data: <package>
   ```
+- DELETE `/api/v1/packages/:package`
 
 #### Package Comments
 
@@ -70,19 +71,19 @@ We could have some specifc string matching for categories and tags in the query 
   }
   ```
 
-- GET `/api/v1/package/:package/comments?page=:number`
+- GET `/api/v1/packages/:package/comments?page=:number`
   ```
   data: [<comment>] // (x50)
   ```
-- POST `/api/v1/package/:package/comments`
+- POST `/api/v1/packages/:package/comments`
   ```
   data: <comment>
   ```
-- PATCH `/api/v1/package/:package/comments/:id`
+- PATCH `/api/v1/packages/:package/comments/:id`
   ```
   data: <comment>
   ```
-- DELETE `/api/v1/package/:package/comments/:id`
+- DELETE `/api/v1/packages/:package/comments/:id`
 
 #### Package Releases
 
@@ -93,24 +94,25 @@ We could have some specifc string matching for categories and tags in the query 
     id: number
     number: string //(semver probably)
     description: string
+    download_url: string
     added: datetime
     updated: datetime
   }
   ```
 
-- GET `/api/v1/package/:package/releases?page=:number`
+- GET `/api/v1/packages/:package/releases?page=:number`
   ```
   data: [<release>] // (x10)
   ```
-- POST `/api/v1/package/:package/releases`
+- POST `/api/v1/packages/:package/releases`
   ```
   data: <release>
   ```
-- PATCH `/api/v1/package/:package/releases/:id`
+- PATCH `/api/v1/packages/:package/releases/:id`
   ```
   data: <release>
   ```
-- DELETE `/apk/v1/package/:package/releases/:id`
+- DELETE `/apk/v1/packages/:package/releases/:id`
 
 ---
 
