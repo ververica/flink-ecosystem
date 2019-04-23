@@ -15,7 +15,7 @@ We could have some specifc string matching for categories and tags in the query 
 
 ---
 
-### Package
+### Package endpoint
 
 - **Schema**
 
@@ -24,8 +24,8 @@ We could have some specifc string matching for categories and tags in the query 
     id: number
     name: string
     description: string
-    readme: string // maybe from github or something?
-    image: blob || string
+    readme: string // user can enter a markdown description
+    image: blob // we should restrict the image size to 5kb
     website: string
     repository: string
     license: string
@@ -39,25 +39,28 @@ We could have some specifc string matching for categories and tags in the query 
 
   ```
 
-- GET `/api/v1/packages/:package`
+- **Get a package by id**
+  GET `/api/v1/packages/:package`
   ```
   data: {
     package: <package>
-    comments: [<comment>] // first 50(?) comments
-    releases: [<release>] // first 10(?) releases
   }
   ```
-- POST `/api/v1/packages`
+- **Create a new package**
+  POST `/api/v1/packages`
   ```
   data: <package>
   ```
-- PATCH `/api/v1/packages/:package`
+- **Change a package**
+  PATCH `/api/v1/packages/:package`
   ```
   data: <package>
   ```
-- DELETE `/api/v1/packages/:package`
+- **Delete a package**
+  DELETE `/api/v1/packages/:package`
 
-#### Package Comments
+
+#### Package Comments endpoint
 
 - **Schema**
 
