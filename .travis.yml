@@ -2,32 +2,32 @@ sudo: required
 
 language: node_js
 node_js:
-- "10"
+  - "10"
 
 cache: npm
 
 services:
-- docker
+  - docker
 
 before_install:
-- cd ecosystem-ui
-- if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+  - cd ecosystem-ui
+  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
     rm -rf $HOME/google-cloud-sdk;
     export CLOUDSDK_CORE_DISABLE_PROMPTS=1;
     curl https://sdk.cloud.google.com | bash > /dev/null;
-  fi
-- . $HOME/google-cloud-sdk/path.bash.inc
-- gcloud --quiet version
-- gcloud --quiet components update
-- gcloud --quiet components update kubectl
+    fi
+  - . $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components update kubectl
 
 before_deploy:
-- cd ..
-- openssl aes-256-cbc -K $encrypted_5bc2c3063f5f_key -iv $encrypted_5bc2c3063f5f_iv
-  -in scripts/gcp-client-secret.json.enc -out $HOME/gcp-client-secret.json -d
+  - cd ..
+  - openssl aes-256-cbc -K $encrypted_5bc2c3063f5f_key -iv $encrypted_5bc2c3063f5f_iv
+    -in scripts/gcp-client-secret.json.enc -out $HOME/gcp-client-secret.json -d
 
 deploy:
-- provider: script
-  script: scripts/deploy-dev.sh
-  on:
-    branch: front-end
+  - provider: script
+    script: scripts/deploy-dev.sh
+    on:
+      branch: master
