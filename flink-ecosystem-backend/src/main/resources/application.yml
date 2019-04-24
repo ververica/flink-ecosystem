@@ -1,0 +1,33 @@
+security:
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      scope: read,write
+      auto-approve-scopes: '.*'
+
+github:
+  client:
+    clientId: b42620b938783856f108
+    clientSecret: c2f46233b94d8b674dc57238a32d2e9474ea34b4
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://api.github.com/user
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+spring:
+  app:
+    name: Community
+  profiles:
+    active: dev
+  jpa:
+    database-platform: org.apache.flink.community.dao.configuration.SQLiteDialect
+    hibernate:
+      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+server:
+  port: 2019
