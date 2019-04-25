@@ -8,6 +8,7 @@
         <groupId>org.apache.flink</groupId>
         <artifactId>flink-ecosystem-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
 
@@ -126,6 +127,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>io.github.swagger2markup</groupId>
