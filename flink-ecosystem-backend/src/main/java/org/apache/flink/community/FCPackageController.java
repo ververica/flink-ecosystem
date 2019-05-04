@@ -46,10 +46,10 @@ public class FCPackageController {
 	}
 
 	@RequestMapping(value = "{inputPackage}", method = RequestMethod.GET, produces = "application/json")
-	public String getPackage(@PathVariable("inputPackage") String pack) throws JsonProcessingException {
-		System.out.println("Get package." + pack);
+	public String getPackage(@PathVariable("inputPackage") Integer packId) throws JsonProcessingException {
 
-		return "Have received" + pack;
+		FCPackage pack = packageService.findPackageById(packId);
+		return new ObjectMapper().writeValueAsString(pack);
 	}
 
 	@RequestMapping(value = "{updatePackage}", method = RequestMethod.PATCH, produces = "application/json")

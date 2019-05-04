@@ -18,8 +18,8 @@
 
 package org.apache.flink.community;
 
-import org.apache.flink.community.model.Release;
-import org.apache.flink.community.service.ReleaseService;
+import org.apache.flink.community.model.Tag;
+import org.apache.flink.community.service.TagService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,16 +31,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/release")
-public class ReleaseController {
-	@Autowired
-	private ReleaseService releaseService;
+@RequestMapping(value = "api/v1/tags")
+public class TagController {
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
+	@Autowired
+	private TagService tagService;
+	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
 	public String getReleases() throws JsonProcessingException {
 		System.out.println("Come here release");
-		List<Release> releases = releaseService.findAllPackages();
-		return new ObjectMapper().writeValueAsString(releases);
+		List<Tag> tags = tagService.findAllTags();
+		return new ObjectMapper().writeValueAsString(tags);
 	}
 }
 

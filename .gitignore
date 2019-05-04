@@ -22,7 +22,7 @@ speed-measure-plugin.json
 *.launch
 .settings/
 *.sublime-workspace
-
+flink-ecosystem-backend/flink-ecosystem-backend.iml
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
