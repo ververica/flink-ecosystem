@@ -42,5 +42,14 @@ public class Release {
 	private Date timestamp;
 
 	private Boolean valid = true;
+
+	public void setValid(Boolean valid) {
+		this.valid = valid;
+	}
+
+	public Release update(Release other) {
+		// TODO: need to update
+		return this;
+	}
 }
 

@@ -20,6 +20,7 @@ package org.apache.flink.community.dao;
 
 import org.apache.flink.community.model.Comment;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,13 @@ public interface CommentDao extends CrudRepository<Comment, Integer> {
 	@Query("select t from Comment t where t.id = ?1")
 	Comment findTeamById(Integer id);
 
+	@Query("select t from Comment t where t.packageId = ?1")
+	List<Comment> findCommentsForPackage(Integer pkgID);
+
 	@Query("select t from Comment t")
 	List<Comment> findAllTeams();
+
+	@Modifying
+	@Override
+	Comment save(Comment comment);
 }

@@ -39,7 +39,7 @@ public class ReleaseController {
 	@RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
 	public String getReleases() throws JsonProcessingException {
 		System.out.println("Come here release");
-		List<Release> releases = releaseService.findAllPackages();
+		List<Release> releases = releaseService.findAllReleases();
 		return new ObjectMapper().writeValueAsString(releases);
 	}
 }

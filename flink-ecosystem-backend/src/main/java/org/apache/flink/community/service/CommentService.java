@@ -35,9 +35,16 @@ public class CommentService {
 		return commentDao.findTeamById(id);
 	}
 
+	public List<Comment> findCommentForPackage(Integer pkgId) {
+		return commentDao.findCommentsForPackage(pkgId);
+	}
+
 	public List<Comment> findAllComments() {
 		return commentDao.findAllTeams();
 	}
 
+	public Comment saveComment(Comment newComment) {
+		return commentDao.save(newComment);
+	}
 }
 

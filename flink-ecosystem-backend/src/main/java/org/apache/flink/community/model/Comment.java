@@ -45,5 +45,14 @@ public class Comment {
 	private Date timestamp;
 
 	private Boolean valid = true;
+
+	public void setValid(Boolean valid) {
+		this.valid = valid;
+	}
+
+	public Comment update(Comment newComment) {
+		// TODO: need to update
+		return this;
+	}
 }
 

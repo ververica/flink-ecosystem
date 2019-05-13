@@ -31,12 +31,16 @@ public class ReleaseService {
 	@Autowired
 	private ReleaseDao releaseDao;
 
-	public Release findPackageById(Integer id) {
+	public Release findReleaseById(Integer id) {
 		return releaseDao.findTeamById(id);
 	}
 
-	public List<Release> findAllPackages() {
+	public List<Release> findAllReleases() {
 		return releaseDao.findAllTeams();
+	}
+
+	public Release saveRelease(Release newRelease) {
+		return releaseDao.save(newRelease);
 	}
 
 }

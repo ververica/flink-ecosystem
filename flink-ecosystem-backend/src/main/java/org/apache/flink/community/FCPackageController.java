@@ -18,8 +18,12 @@
 
 package org.apache.flink.community;
 
+import org.apache.flink.community.model.Comment;
 import org.apache.flink.community.model.FCPackage;
+import org.apache.flink.community.model.Release;
+import org.apache.flink.community.service.CommentService;
 import org.apache.flink.community.service.FCPackageService;
+import org.apache.flink.community.service.ReleaseService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,6 +42,12 @@ import java.util.List;
 public class FCPackageController {
 	@Autowired
 	private FCPackageService packageService;
+
+	@Autowired
+	private CommentService commentService;
+
+	@Autowired
+	private ReleaseService releaseService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
 	public String getTeams() throws JsonProcessingException {
@@ -73,6 +84,86 @@ public class FCPackageController {
 		System.out.println("add package" + pack);
 		packageService.savePackage(pack);
 		return "add package " + pack;
+	}
+
+	// endpoints for comments
+
+	@RequestMapping(value = "{pkg}/comments", method = RequestMethod.GET, produces = "application/json")
+	public String getComments(
+			@PathVariable("pkg") Integer pkgId,
+			@RequestParam Integer pageId) throws JsonProcessingException {
+		System.out.println("Come here" + pkgId + ":" + pageId);
+		List<Comment> comments = commentService.findCommentForPackage(pkgId);
+		int startIdx = (pageId - 1) * 25;
+		int endIdx = pageId * 25;
+		return new ObjectMapper().writeValueAsString(comments.subList(startIdx, endIdx));
+	}
+
+	@RequestMapping(value = "{pkg}/comments", method = RequestMethod.POST)
+	public void addComment(
+			@PathVariable("pkg") Integer pkgId,
+			@RequestBody Comment newComment) {
+		System.out.println("Add comment" + pkgId);
+		commentService.saveComment(newComment);
+	}
+
+	@RequestMapping(value = "{pkg}/comments/{comment_id}", method = RequestMethod.PATCH)
+	public void updateComment(
+			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("comment_id") Integer cid,
+			@RequestBody Comment newComment) {
+		Comment old = commentService.findCommentById(cid);
+		commentService.saveComment(old.update(newComment));
+		System.out.println("update comment");
+
+	}
+
+	@RequestMapping(value = "{pkg}/comments/{comment_id}", method = RequestMethod.DELETE)
+	public void deleteComment(
+			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("comment_id") Integer cid) {
+		Comment old = commentService.findCommentById(cid);
+		old.setValid(false);
+		commentService.saveComment(old);
+		System.out.println("del comment");
+	}
+
+
+	// endpoints for release
+	@RequestMapping(value = "{pkg}/releases", method = RequestMethod.GET, produces = "application/json")
+	public String getReleases() throws JsonProcessingException {
+		System.out.println("Come here release");
+		List<Release> comments = releaseService.findAllReleases();
+		return new ObjectMapper().writeValueAsString(comments);
+	}
+
+	@RequestMapping(value = "{pkg}/releases", method = RequestMethod.POST)
+	public void addRelease(
+			@PathVariable("pkg") String packName,
+			@RequestBody Release newRelease) {
+		System.out.println("Add release");
+		releaseService.saveRelease(newRelease);
+	}
+
+	@RequestMapping(value = "{pkg}/releases/{release_id}", method = RequestMethod.PATCH)
+	public void updateRelease(
+			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("release_id") Integer rid,
+			@RequestBody Release newRelease) {
+		Release old = releaseService.findReleaseById(rid);
+		releaseService.saveRelease(old.update(newRelease));
+		System.out.println("update release");
+
+	}
+
+	@RequestMapping(value = "{pkg}/releases/{release_id}", method = RequestMethod.DELETE)
+	public void deleteRelease(
+			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("release_id") Integer rid) {
+		Release old = releaseService.findReleaseById(rid);
+		old.setValid(false);
+		releaseService.saveRelease(old);
+		System.out.println("del release");
 	}
 }
 
