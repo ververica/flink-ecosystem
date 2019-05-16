@@ -51,7 +51,9 @@ public class Comment {
 	}
 
 	public Comment update(Comment newComment) {
-		// TODO: need to update
+		this.userName = newComment.userName;
+		this.text = newComment.text;
+		this.timestamp = newComment.timestamp;
 		return this;
 	}
 }

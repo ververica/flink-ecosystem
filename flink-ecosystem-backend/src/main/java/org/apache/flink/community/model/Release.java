@@ -48,7 +48,9 @@ public class Release {
 	}
 
 	public Release update(Release other) {
-		// TODO: need to update
+		this.version = other.version;
+		this.download = other.download;
+		this.timestamp = other.timestamp;
 		return this;
 	}
 }

@@ -27,6 +27,8 @@ import org.apache.flink.community.service.ReleaseService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,11 +37,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/packages")
 public class FCPackageController {
+	private final static Logger LOG = LoggerFactory.getLogger("FCPackageController");
+
 	@Autowired
 	private FCPackageService packageService;
 
@@ -96,7 +101,19 @@ public class FCPackageController {
 		List<Comment> comments = commentService.findCommentForPackage(pkgId);
 		int startIdx = (pageId - 1) * 25;
 		int endIdx = pageId * 25;
-		return new ObjectMapper().writeValueAsString(comments.subList(startIdx, endIdx));
+		int allComments = comments.size();
+		List<Comment> result;
+		if (startIdx >= allComments || endIdx < 0) {
+			result = Collections.emptyList();
+		} else {
+			try {
+				result = comments.subList(startIdx, Math.min(endIdx, allComments));
+			} catch (IndexOutOfBoundsException e) {
+				LOG.warn("Get comment for {} page {} error, allComments {}.", pkgId, pageId, allComments, e);
+				result = Collections.emptyList();
+			}
+		}
+		return new ObjectMapper().writeValueAsString(result);
 	}
 
 	@RequestMapping(value = "{pkg}/comments", method = RequestMethod.POST)
