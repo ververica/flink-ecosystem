@@ -32,7 +32,7 @@ import javax.persistence.Table;
 public class FCPackage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private String id;
 
 	private String name;
 
@@ -69,11 +69,11 @@ public class FCPackage {
 		return this;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

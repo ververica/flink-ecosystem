@@ -33,7 +33,7 @@ public interface CommentDao extends CrudRepository<Comment, Integer> {
 	Comment findTeamById(Integer id);
 
 	@Query("select t from Comment t where t.packageId = ?1")
-	List<Comment> findCommentsForPackage(Integer pkgID);
+	List<Comment> findCommentsForPackage(String pkgID);
 
 	@Query("select t from Comment t")
 	List<Comment> findAllTeams();

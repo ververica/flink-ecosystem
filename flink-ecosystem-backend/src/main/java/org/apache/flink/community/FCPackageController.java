@@ -62,7 +62,7 @@ public class FCPackageController {
 	}
 
 	@RequestMapping(value = "{inputPackage}", method = RequestMethod.GET, produces = "application/json")
-	public String getPackage(@PathVariable("inputPackage") Integer packId) throws JsonProcessingException {
+	public String getPackage(@PathVariable("inputPackage") String packId) throws JsonProcessingException {
 
 		FCPackage pack = packageService.findPackageById(packId);
 		return new ObjectMapper().writeValueAsString(pack);
@@ -95,7 +95,7 @@ public class FCPackageController {
 
 	@RequestMapping(value = "{pkg}/comments", method = RequestMethod.GET, produces = "application/json")
 	public String getComments(
-			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("pkg") String pkgId,
 			@RequestParam Integer pageId) throws JsonProcessingException {
 		System.out.println("Come here" + pkgId + ":" + pageId);
 		List<Comment> comments = commentService.findCommentForPackage(pkgId);
@@ -118,7 +118,7 @@ public class FCPackageController {
 
 	@RequestMapping(value = "{pkg}/comments", method = RequestMethod.POST)
 	public void addComment(
-			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("pkg") String pkgId,
 			@RequestBody Comment newComment) {
 		System.out.println("Add comment" + pkgId);
 		commentService.saveComment(newComment);
@@ -126,7 +126,7 @@ public class FCPackageController {
 
 	@RequestMapping(value = "{pkg}/comments/{comment_id}", method = RequestMethod.PATCH)
 	public void updateComment(
-			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("pkg") String pkgId,
 			@PathVariable("comment_id") Integer cid,
 			@RequestBody Comment newComment) {
 		Comment old = commentService.findCommentById(cid);
@@ -137,7 +137,7 @@ public class FCPackageController {
 
 	@RequestMapping(value = "{pkg}/comments/{comment_id}", method = RequestMethod.DELETE)
 	public void deleteComment(
-			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("pkg") String pkgId,
 			@PathVariable("comment_id") Integer cid) {
 		Comment old = commentService.findCommentById(cid);
 		old.setValid(false);
@@ -150,8 +150,8 @@ public class FCPackageController {
 	@RequestMapping(value = "{pkg}/releases", method = RequestMethod.GET, produces = "application/json")
 	public String getReleases() throws JsonProcessingException {
 		System.out.println("Come here release");
-		List<Release> comments = releaseService.findAllReleases();
-		return new ObjectMapper().writeValueAsString(comments);
+		List<Release> releases = releaseService.findAllReleases();
+		return new ObjectMapper().writeValueAsString(releases);
 	}
 
 	@RequestMapping(value = "{pkg}/releases", method = RequestMethod.POST)
@@ -164,7 +164,7 @@ public class FCPackageController {
 
 	@RequestMapping(value = "{pkg}/releases/{release_id}", method = RequestMethod.PATCH)
 	public void updateRelease(
-			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("pkg") String pkgId,
 			@PathVariable("release_id") Integer rid,
 			@RequestBody Release newRelease) {
 		Release old = releaseService.findReleaseById(rid);
@@ -175,7 +175,7 @@ public class FCPackageController {
 
 	@RequestMapping(value = "{pkg}/releases/{release_id}", method = RequestMethod.DELETE)
 	public void deleteRelease(
-			@PathVariable("pkg") Integer pkgId,
+			@PathVariable("pkg") String pkgId,
 			@PathVariable("release_id") Integer rid) {
 		Release old = releaseService.findReleaseById(rid);
 		old.setValid(false);

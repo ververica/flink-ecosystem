@@ -35,7 +35,7 @@ public class CommentService {
 		return commentDao.findTeamById(id);
 	}
 
-	public List<Comment> findCommentForPackage(Integer pkgId) {
+	public List<Comment> findCommentForPackage(String pkgId) {
 		return commentDao.findCommentsForPackage(pkgId);
 	}
 

@@ -28,9 +28,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FCPackageDao extends CrudRepository<FCPackage, Integer> {
+public interface FCPackageDao extends CrudRepository<FCPackage, String> {
 	@Query("select t from FCPackage t where t.id = ?1")
-	FCPackage findPackageById(Integer id);
+	FCPackage findPackageById(String id);
 
 	@Query("select t from FCPackage t where t.name = ?1")
 	FCPackage findPackageByName(String name);

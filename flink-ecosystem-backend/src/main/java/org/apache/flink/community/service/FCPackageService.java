@@ -31,7 +31,7 @@ public class FCPackageService {
 	@Autowired
 	private FCPackageDao packageDao;
 
-	public FCPackage findPackageById(Integer id) {
+	public FCPackage findPackageById(String id) {
 		return packageDao.findPackageById(id);
 	}
 
