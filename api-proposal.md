@@ -30,7 +30,7 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
     name: string // human readable name
     description: string 
     readme: string // user can enter a markdown description
-    image: blob // we should restrict the image size to 5kb
+    image: blob // blob limited to 15kb for hosting a package image.
     website: string
     repository: string
     license: string
@@ -55,7 +55,7 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
   ```
   
   
-- **Get packages a by search query**
+- **Get packages by search query**
   
   GET `/api/v1/packages?query=:queryString&page=:number&order=:order&direction=:dir`
   ```javascript
@@ -64,31 +64,33 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
     resultCount: <number> // total number of search query results
   }
   ```
-  The `:queryString` supports a special syntax for selecting packages based on a tag: `tag:<string>`. No (or an empty query string) returns all packages.
-  The `:order` parameter supports: `upvotes`, `comments`, `added`, `updated`.
-  The `:dir` parameter supports: `asc`, `desc`.
-  The call returns at most 30 packages per call. Additional packages need to be retrieved by going through the `page`s. `page`s are 1-indexed (1 is the 1st page, 2 is the 2nd page and so on)
+  * The `:queryString` supports a special syntax for selecting packages based on a tag: `tag:<string>`. No (or an empty query string) returns all packages.
+  * The `:order` parameter supports: `upvotes`, `comments`, `added`, `updated`.
+  * The `:dir` parameter supports: `asc`, `desc`.
+  * The call returns at most 30 packages per call. Additional packages need to be retrieved by going through the `page`s. `page`s are 1-indexed (1 is the 1st page, 2 is the 2nd page and so on)
     
 - **Create a new package**
   POST `/api/v1/packages`
   ```
   data: <package>
   ```
-Access to this endpoint is restricted to authenticated users.
+  Access to this endpoint is restricted to authenticated users.
+  
+  The authenticated user will be put into the `owner` field.
 
 - **Upvote a package**
 
-POST `/api/v1/packages/:package/upvote`
+  POST `/api/v1/packages/:package/upvote`
 
-Note: The system must keep an internal list of users who have up- or down-voted a package, to avoid duplicate voting.
+  Note: The system must keep an internal list of users who have up- or down-voted a package, to avoid duplicate voting.
 
-Access to this endpoint is restricted to authenticated users.
+  Access to this endpoint is restricted to authenticated users.
 
 - **Downvote a package**
 
-POST `/api/v1/packages/:package/downvote`
+  POST `/api/v1/packages/:package/downvote`
 
-Access to this endpoint is restricted to authenticated users.
+  Access to this endpoint is restricted to authenticated users.
 
 
   
@@ -99,17 +101,17 @@ Access to this endpoint is restricted to authenticated users.
   data: <package>
   ```
 
-Only the following fields are editable: name, description, readme, image, website, repository, license, tags.
+  Only the following fields are editable: name, description, readme, image, website, repository, license, tags.
 
-On an update, the `updated` field is set to the current date.
+  On an update, the `updated` field is set to the current date.
   
-Access to this endpoint is restricted to authenticated administrators or the user who created the package.
+  Access to this endpoint is restricted to authenticated administrators or the user who created the package.
 
 - **Delete a package by id**
 
   DELETE `/api/v1/packages/:package`
 
-Access to this endpoint is restricted to authenticated administrators.
+  Access to this endpoint is restricted to authenticated administrators.
 
 #### Package Comments endpoint
 
@@ -135,17 +137,17 @@ Access to this endpoint is restricted to authenticated administrators.
   data: <comment>
   ```
  
-Access to this endpoint is restricted to authenticated users.
+  Access to this endpoint is restricted to authenticated users.
  
 - PATCH `/api/v1/packages/:package/comments/:id`
   ```
   data: <comment>
   ```
-Access to this endpoint is restricted to authenticated administrators or the user who created the package.
+  Access to this endpoint is restricted to authenticated administrators or the user who created the package.
  
 - DELETE `/api/v1/packages/:package/comments/:id`
 
-Access to this endpoint is restricted to authenticated administrators or the user who created the package.
+  Access to this endpoint is restricted to authenticated administrators or the user who created the package.
 
 #### Package Releases
 
@@ -170,16 +172,16 @@ Access to this endpoint is restricted to authenticated administrators or the use
   data: <release>
   ```
   
-Access to this endpoint is restricted to the user who created the package.
+  Access to this endpoint is restricted to the user who created the package.
  
 - PATCH `/api/v1/packages/:package/releases/:id`
   ```
   data: <release>
   ```
-Access to this endpoint is restricted to the user who created the package or administrators.
+  Access to this endpoint is restricted to the user who created the package or administrators.
 
 - DELETE `/apk/v1/packages/:package/releases/:id`
-Access to this endpoint is restricted to the user who created the package or administrators.
+  Access to this endpoint is restricted to the user who created the package or administrators.
 
 ---
 
@@ -201,9 +203,9 @@ Returns information about the currently signed-in user.
 - GET `/api/v1/user`
   ```
   {
-    isAuthenticated: bool //
     username: string // github username
+    avatarURL: string // string with an image URL pointing to the GitHub avatar
   }
   ```
 
-If `isAuthenticated == false`, `username` is not set.
+  If the user is not authenticated, the server returns a 405 error code.
