@@ -21,10 +21,6 @@ router.get("*", ctx => (ctx.body = indexFile));
 const middleware = [
   cors(),
   bodyParser(),
-  // mount(
-  //   "/assets/bootstrap",
-  //   serve(path.resolve("./node_modules/bootstrap/dist"))
-  // ),
   serve("./build"),
   fileRouter.routes(),
   router.routes()

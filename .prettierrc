@@ -1,1 +1,16 @@
-{}
+{
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    },
+    {
+      "files": "package.json",
+      "options": {
+        "printWidth": 1000
+      }
+    }
+  ]
+}
