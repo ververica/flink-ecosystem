@@ -7,6 +7,7 @@ import Package from "./pages/Package";
 import Packages from "./pages/Packages";
 import Category from "./pages/Category";
 import Guide from "./pages/Guide";
+import { useGet } from "./helpers/useAxios";
 
 const SearchIcon = styled.small.attrs({
   className: "fal fa-search position-absolute mr-2",
@@ -24,20 +25,22 @@ const MainCard = props => (
 const TopNav = props => (
   <nav className="navbar navbar-light pr-0 mb-4">
     <ul className="ml-auto navbar-nav mr-3">
-      <li className="nav-item">
-        <small>
-          {props.user.login ? (
-            <>
-              <span className="mr-2">Welcome, {props.user.login}</span>
-              <a href="/logout" onClick={props.logout}>
-                Logout
-              </a>
-            </>
-          ) : (
-            <a href="/auth">Login With Github</a>
-          )}
-        </small>
-      </li>
+      {props.loading ? null : (
+        <li className="nav-item">
+          <small>
+            {props.user.login ? (
+              <>
+                <span className="mr-2">Welcome, {props.user.login}</span>
+                <a href="/logout" onClick={props.logout}>
+                  Logout
+                </a>
+              </>
+            ) : (
+              <a href="/auth">Login With Github</a>
+            )}
+          </small>
+        </li>
+      )}
     </ul>
     <form className="form-inline my-lg-0">
       <div className="position-relative d-flex align-items-center">
@@ -54,12 +57,7 @@ const TopNav = props => (
 );
 
 export default function App() {
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    fetch("/api/v1/user")
-      .then(r => r.json())
-      .then(data => setUser(data));
-  }, []);
+  const [user, loading, setUser] = useGet("/api/v1/user");
 
   const logout = e => {
     e.preventDefault();
@@ -72,7 +70,7 @@ export default function App() {
       <div className="row no-gutters w-100 flex-grow-1">
         <Sidebar />
         <div className="col-md-9">
-          <TopNav user={user} logout={logout} />
+          <TopNav user={user} logout={logout} loading={loading} />
           <MainCard>
             <Router>
               <Packages default />
