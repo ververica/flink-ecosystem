@@ -7,7 +7,7 @@ import AnimateHeight from "react-animate-height";
 import logo from "./flink-logo.png";
 
 const SidebarColumn = styled.div.attrs({
-  className: "col-md-3 bg-light card"
+  className: "col-md-3 bg-light card",
 })`
   border-radius: 0;
   border-top: 0;
@@ -15,10 +15,10 @@ const SidebarColumn = styled.div.attrs({
 `;
 
 const Caret = styled.i.attrs({
-  className: "fal fa-angle-down"
+  className: "fal fa-angle-down",
 })`
   transition: transform 350ms ease;
-  transform: rotateZ(${props => (props.collapsed ? 0 : 180)}deg);
+  transform: rotateZ(${props => (props.collapsed ? 0 : 540)}deg);
 `;
 
 const isActive = ({ className }) => ({ isCurrent }) => {
@@ -26,7 +26,9 @@ const isActive = ({ className }) => ({ isCurrent }) => {
 };
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(
+    !window.location.pathname.startsWith("/categories")
+  );
 
   const toggleCategories = e => {
     e.preventDefault();
@@ -47,7 +49,7 @@ export default function Sidebar() {
       <ul className="nav flex-column">
         <li className="nav-item">
           <a
-            className="nav-link  d-flex justify-content-between align-items-center"
+            className="nav-link d-flex justify-content-between align-items-center"
             href="#categories"
             onClick={toggleCategories}
           >

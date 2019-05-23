@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import cookies from "js-cookie";
+import { Router } from "@reach/router";
 import Sidebar from "./Sidebar";
+import Package from "./pages/Package";
+import Packages from "./pages/Packages";
+import Category from "./pages/Category";
+import Guide from "./pages/Guide";
 
-const SearchIcon = styled.i.attrs({
-  className: "fal fa-search position-absolute mr-2"
+const SearchIcon = styled.small.attrs({
+  className: "fal fa-search position-absolute mr-2",
 })`
   pointer-events: none;
   right: 0;
@@ -20,7 +26,16 @@ const TopNav = props => (
     <ul className="ml-auto navbar-nav mr-3">
       <li className="nav-item">
         <small>
-          <a href="#login">Login With Github</a>
+          {props.user.login ? (
+            <>
+              <span className="mr-2">Welcome, {props.user.login}</span>
+              <a href="/logout" onClick={props.logout}>
+                Logout
+              </a>
+            </>
+          ) : (
+            <a href="/auth">Login With Github</a>
+          )}
         </small>
       </li>
     </ul>
@@ -38,35 +53,33 @@ const TopNav = props => (
   </nav>
 );
 
-function App() {
-  const [packages, setPackages] = useState({});
+export default function App() {
+  const [user, setUser] = useState({});
   useEffect(() => {
-    fetch("/api/v1/packages")
+    fetch("/api/v1/user")
       .then(r => r.json())
-      .then(data => setPackages(data));
+      .then(data => setUser(data));
   }, []);
+
+  const logout = e => {
+    e.preventDefault();
+    cookies.remove("github-token");
+    setUser({});
+  };
 
   return (
     <div className="container min-vh-100 d-flex flex-column">
       <div className="row no-gutters w-100 flex-grow-1">
         <Sidebar />
         <div className="col-md-9">
-          <TopNav />
+          <TopNav user={user} logout={logout} />
           <MainCard>
-            <header className="App-header">
-              <img className="App-logo" alt="logo" />
-              <p>
-                Edit <code>src/App.js</code> and save to reload.
-              </p>
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn React
-              </a>
-            </header>
+            <Router>
+              <Packages default />
+              <Package path="/packages/:package" />
+              <Category path="/categories/:category" />
+              <Guide path="/guide" />
+            </Router>
           </MainCard>
         </div>
       </div>
@@ -74,5 +87,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
