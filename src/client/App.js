@@ -2,17 +2,40 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 
-const Card = styled.div.attrs({
-  className: "card"
+const SearchIcon = styled.i.attrs({
+  className: "fal fa-search position-absolute mr-2"
 })`
-  border-left: 0;
-  border-radius: 0;
+  pointer-events: none;
+  right: 0;
 `;
 
 const MainCard = props => (
-  <Card>
+  <div className="card border-left-0 rounded-0">
     <div className="card-body">{props.children}</div>
-  </Card>
+  </div>
+);
+
+const TopNav = props => (
+  <nav className="navbar navbar-light pr-0 mb-4">
+    <ul className="ml-auto navbar-nav mr-3">
+      <li className="nav-item">
+        <small>
+          <a href="#login">Login With Github</a>
+        </small>
+      </li>
+    </ul>
+    <form className="form-inline my-lg-0">
+      <div className="position-relative d-flex align-items-center">
+        <input
+          className="form-control form-control-sm pr-4 rounded-0"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <SearchIcon />
+      </div>
+    </form>
+  </nav>
 );
 
 function App() {
@@ -28,11 +51,7 @@ function App() {
       <div className="row no-gutters w-100 flex-grow-1">
         <Sidebar />
         <div className="col-md-9">
-          <nav className="navbar navbar-light">
-            <a className="navbar-brand" href="#brand">
-              Navbar
-            </a>
-          </nav>
+          <TopNav />
           <MainCard>
             <header className="App-header">
               <img className="App-logo" alt="logo" />
