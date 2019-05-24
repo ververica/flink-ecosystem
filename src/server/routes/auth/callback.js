@@ -37,7 +37,7 @@ export const get = async ctx => {
     ctx.cookies.set("state", null);
     ctx.body = `
       <!DOCTYPE html><html><head><script>
-        window.opener.postMessage('hello', '*');
+        window.opener.postMessage('github-login-success', window.location.origin);
       </script><style type="text/css">
 
       </style></head><body></body></html>

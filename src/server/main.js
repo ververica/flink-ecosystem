@@ -8,12 +8,14 @@ import bodyParser from "koa-bodyparser";
 import path from "path";
 import fs from "fs";
 
+import errorHandler from "./middleware/errorHandler";
+
 const app = new Koa();
 const fileRouter = new FileRouter("./src/server/routes");
 const router = new Router();
 
 const indexFile = fs.readFileSync(path.resolve("./build/index.html"), {
-  encoding: "utf8"
+  encoding: "utf8",
 });
 
 router.get("*", ctx => (ctx.body = indexFile));
@@ -21,9 +23,10 @@ router.get("*", ctx => (ctx.body = indexFile));
 const middleware = [
   cors(),
   bodyParser(),
+  errorHandler,
   serve("./build"),
   fileRouter.routes(),
-  router.routes()
+  router.routes(),
 ];
 
 middleware.map(mw => app.use(mw));

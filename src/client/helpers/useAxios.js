@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import cookies from "js-cookie";
 
@@ -13,17 +13,17 @@ export const useGet = (url, options) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const { data } = await client.get(url, options);
-        setData(data);
-      } catch (e) {}
-      setLoading(false);
-    };
-
-    getData();
+  const getData = useCallback(async () => {
+    try {
+      const { data } = await client.get(url, options);
+      setData(data);
+    } catch (e) {}
+    setLoading(false);
   }, [url, options]);
 
-  return [data, loading, setData];
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  return [data, loading, setData, getData];
 };

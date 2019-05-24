@@ -4,7 +4,7 @@ export const get = async ctx => {
   const token = ctx.cookies.get("github-token");
 
   if (!token) {
-    ctx.throw(401, { unauthorized: true });
+    ctx.throw(401);
   }
 
   try {
