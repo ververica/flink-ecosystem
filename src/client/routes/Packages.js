@@ -5,9 +5,9 @@ import getFormData from "get-form-data";
 import axios from "axios";
 import { useGet } from "client/helpers/useAxios";
 
-export default function Packages() {
+export default function Packages(props) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [packages, loading] = useGet("/api/v1/packages");
+  const [packages] = useGet("/api/v1/packages");
 
   return (
     <>
@@ -15,12 +15,15 @@ export default function Packages() {
         header={
           <>
             <h2 className="h5 mb-0">Most Popular Packages (15)</h2>
-            <button
-              className="btn btn-primary ml-auto btn-sm"
-              onClick={() => setModalOpen(true)}
-            >
-              Add New Package
-            </button>
+            {props.userLogin && (
+              <button
+                className="btn btn-primary ml-auto btn-sm"
+                onClick={() => setModalOpen(true)}
+              >
+                <i className="far fa-plus mr-2" />
+                Add New Package
+              </button>
+            )}
           </>
         }
       >
@@ -31,6 +34,7 @@ export default function Packages() {
         </div>
       </MainCard>
       <Modal
+        enableBackdropClick={false}
         open={modalOpen}
         onModalHidden={() => setModalOpen(false)}
         title={"Add New Package"}
@@ -39,32 +43,40 @@ export default function Packages() {
           onSubmit={async e => {
             e.preventDefault();
             const data = getFormData(e.target);
-            await axios.post("/api/v1/packages", data);
-            setModalOpen(false);
+            try {
+              await axios.post("/api/v1/packages", data);
+              setModalOpen(false);
+            } catch (e) {
+              if (e.response.status && e.response.status === 403) {
+                // require Auth!
+                debugger;
+              }
+            }
           }}
         >
-          <div class="form-group">
-            <label for="packageName">Package Name</label>
+          <div className="form-group">
+            <label htmlFor="packageName">Package Name</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="packageName"
               placeholder="Package Name"
             />
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Package ID</label>
+          <div className="form-group">
+            <label htmlFor="exampleInputPassword1">Package ID</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="packageId"
               placeholder="Package ID"
-              aria-describedBy="idHelp"
+              aria-describedby="idHelp"
             />
-            <small id="idHelp" class="form-text text-muted">
+            <small id="idHelp" className="form-text text-muted">
               A unique URL Friendly name for your package. [a-z-_]{"{"}2,{"}"}
             </small>
           </div>
+          <button type="submit">go</button>
         </form>
       </Modal>
     </>

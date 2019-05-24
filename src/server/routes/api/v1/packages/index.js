@@ -1,4 +1,5 @@
 import Joi from "@hapi/joi";
+import checkGithub from "../../../../middleware/checkGithub";
 
 const schema = Joi.object().keys({
   id: Joi.string()
@@ -22,20 +23,23 @@ export const get = async ctx => {
   ctx.body = { packages };
 };
 
-export const post = async ctx => {
-  const validation = Joi.validate(ctx.request.body, schema);
-  if (validation.error) ctx.throw(400);
+export const post = [
+  checkGithub,
+  async ctx => {
+    const validation = Joi.validate(ctx.request.body, schema);
+    if (validation.error) ctx.throw(400);
 
-  const packageData = {
-    ...ctx.request.body,
-    commentsCount: 0,
-    upvotes: 0,
-    downvotes: 0,
-    added: Date.now(),
-    updated: Date.now(),
-  };
+    const packageData = {
+      ...ctx.request.body,
+      commentsCount: 0,
+      upvotes: 0,
+      downvotes: 0,
+      added: Date.now(),
+      updated: Date.now(),
+    };
 
-  const result = await ctx.db.collection("packages").insertOne(packageData);
+    const result = await ctx.db.collection("packages").insertOne(packageData);
 
-  ctx.body = { result: result.ops[0] };
-};
+    ctx.body = { result: result.ops[0] };
+  },
+];

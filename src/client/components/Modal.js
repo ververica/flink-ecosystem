@@ -7,7 +7,9 @@ const Dialog = props => {
 
   const handleClick = e => {
     if (ref.current.contains(e.target)) return;
-    props.hideModal();
+    if (props.enableBackdropClick) {
+      props.hideModal();
+    }
   };
 
   useEffect(() => {
@@ -84,7 +86,10 @@ export default function Modal(props) {
     ? ReactDOM.createPortal(
         <>
           <div {...modalProps} tabIndex="-1" role="dialog">
-            <Dialog hideModal={hideModal}>
+            <Dialog
+              hideModal={hideModal}
+              enableBackdropClick={props.enableBackdropClick}
+            >
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title">{props.title}</h5>

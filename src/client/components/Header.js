@@ -4,7 +4,7 @@ import useLocation from "client/helpers/useLocation";
 
 const SearchIcon = styled.small.attrs(props => {
   return {
-    className: "fal fa-search position-absolute mr-2",
+    className: "far fa-search position-absolute mr-2",
   };
 })`
   pointer-events: none;

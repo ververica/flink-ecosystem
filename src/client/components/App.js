@@ -36,7 +36,7 @@ export default function App() {
             loading={loading}
           />
           <Router className="flex-grow-1 d-flex flex-column">
-            <Packages default />
+            <Packages default userLogin={user.login} />
             <Package path="/packages/:package" />
             <Category path="/categories/:category" />
             <Search path="/search/:searchQuery" />
