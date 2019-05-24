@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import cookies from "js-cookie";
 import { Router } from "@reach/router";
@@ -22,10 +22,34 @@ const MainCard = props => (
   </div>
 );
 
-const TopNav = props => (
-  <nav className="navbar navbar-light pr-0 mb-4">
-    <ul className="ml-auto navbar-nav mr-3">
-      {props.loading ? null : (
+const TopNav = props => {
+  const [authWindow, setAuthWindow] = useState(null);
+  const { refreshUser } = props;
+
+  useEffect(() => {
+    const handleMessage = e => {
+      console.log("message", e.data);
+      if (e.data === "github-login-success") {
+        authWindow.close();
+        setAuthWindow(null);
+        refreshUser();
+      }
+    };
+
+    console.log("effect");
+    if (authWindow) {
+      console.log("add");
+      window.addEventListener("message", handleMessage);
+      return () => {
+        console.log("remove");
+        window.removeEventListener("message", handleMessage);
+      };
+    }
+  }, [authWindow, refreshUser]);
+
+  return (
+    <nav className="navbar navbar-light pr-0 mb-4">
+      <ul className="ml-auto navbar-nav mr-3">
         <li className="nav-item">
           <small>
             {props.user.login ? (
@@ -36,28 +60,43 @@ const TopNav = props => (
                 </a>
               </>
             ) : (
-              <a href="/auth">Login With Github</a>
+              <a
+                href="/auth"
+                onClick={e => {
+                  e.preventDefault();
+
+                  const auth = window.open(
+                    "/auth",
+                    "Login with Github",
+                    "width=600,height=600"
+                  );
+
+                  setAuthWindow(auth);
+                }}
+              >
+                Login With Github
+              </a>
             )}
           </small>
         </li>
-      )}
-    </ul>
-    <form className="form-inline my-lg-0">
-      <div className="position-relative d-flex align-items-center">
-        <input
-          className="form-control form-control-sm pr-4 rounded-0"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <SearchIcon />
-      </div>
-    </form>
-  </nav>
-);
+      </ul>
+      <form className="form-inline my-lg-0">
+        <div className="position-relative d-flex align-items-center">
+          <input
+            className="form-control form-control-sm pr-4 rounded-0"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <SearchIcon />
+        </div>
+      </form>
+    </nav>
+  );
+};
 
 export default function App() {
-  const [user, loading, setUser] = useGet("/api/v1/user");
+  const [user, loading, setUser, refreshData] = useGet("/api/v1/user");
 
   const logout = e => {
     e.preventDefault();
@@ -70,7 +109,12 @@ export default function App() {
       <div className="row no-gutters w-100 flex-grow-1">
         <Sidebar />
         <div className="col-md-9">
-          <TopNav user={user} logout={logout} loading={loading} />
+          <TopNav
+            user={user}
+            logout={logout}
+            refreshUser={refreshData}
+            loading={loading}
+          />
           <MainCard>
             <Router>
               <Packages default />

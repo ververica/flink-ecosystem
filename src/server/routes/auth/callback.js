@@ -35,7 +35,13 @@ export const get = async ctx => {
     });
 
     ctx.cookies.set("state", null);
-    ctx.redirect(ctx.request.origin);
+    ctx.body = `
+      <!DOCTYPE html><html><head><script>
+        window.opener.postMessage('hello', '*');
+      </script><style type="text/css">
+
+      </style></head><body></body></html>
+    `;
   } catch (e) {
     ctx.throw(500);
   }
