@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import cookies from "js-cookie";
 import { Router } from "@reach/router";
 import Sidebar from "./Sidebar";
-import Package from "./pages/Package";
-import Packages from "./pages/Packages";
-import Category from "./pages/Category";
-import Guide from "./pages/Guide";
-import { useGet } from "./helpers/useAxios";
+import Package from "./Package";
+import Packages from "./Packages";
+import Category from "./Category";
+import Guide from "./Guide";
+import { useGet } from "../helpers/useAxios";
 
 const SearchIcon = styled.small.attrs({
   className: "fal fa-search position-absolute mr-2",

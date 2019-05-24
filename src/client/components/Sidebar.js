@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "@reach/router";
 import styled from "styled-components";
 import cx from "classnames";
