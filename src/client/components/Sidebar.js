@@ -4,7 +4,7 @@ import styled from "styled-components";
 import cx from "classnames";
 import AnimateHeight from "react-animate-height";
 
-import logo from "./flink-logo.png";
+import logo from "client/assets/flink-logo.png";
 
 const SidebarColumn = styled.div.attrs({
   className: "col-md-3 bg-light card",
@@ -26,9 +26,8 @@ const isActive = ({ className }) => ({ isCurrent }) => {
 };
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(
-    !window.location.pathname.startsWith("/categories")
-  );
+  const isCategoryPage = window.location.pathname.startsWith("/categories");
+  const [collapsed, setCollapsed] = useState(false);
 
   const toggleCategories = e => {
     e.preventDefault();
@@ -53,7 +52,8 @@ export default function Sidebar() {
             href="#categories"
             onClick={toggleCategories}
           >
-            Categories
+            <i className="fal fa-fw fa-tags mr-2" />
+            <span className="mr-auto">Categories</span>
             <Caret collapsed={collapsed} />
           </a>
           <AnimateHeight duration={350} height={collapsed ? 0 : "auto"}>
@@ -63,6 +63,7 @@ export default function Sidebar() {
                   to="/categories/connectors"
                   getProps={isActive({ className: "nav-link pl-5" })}
                 >
+                  <i className="fal fa-fw fa-plug mr-2" />
                   Connectors
                 </Link>
               </li>
@@ -71,6 +72,7 @@ export default function Sidebar() {
                   to="/categories/metrics"
                   getProps={isActive({ className: "nav-link pl-5" })}
                 >
+                  <i className="fal fa-fw fa-tachometer-alt-fast mr-2" />
                   Metrics
                 </Link>
               </li>
@@ -79,6 +81,7 @@ export default function Sidebar() {
                   to="/categories/tools"
                   getProps={isActive({ className: "nav-link pl-5" })}
                 >
+                  <i className="fal fa-fw fa-tools mr-2" />
                   Tools
                 </Link>
               </li>
@@ -87,6 +90,7 @@ export default function Sidebar() {
                   to="/categories/machine-learning"
                   getProps={isActive({ className: "nav-link pl-5" })}
                 >
+                  <i className="fal fa-fw fa-chart-network mr-2" />
                   Machine Learning
                 </Link>
               </li>
@@ -95,6 +99,7 @@ export default function Sidebar() {
                   to="/categories/languages"
                   getProps={isActive({ className: "nav-link pl-5" })}
                 >
+                  <i className="fal fa-fw fa-language mr-2" />
                   Languages
                 </Link>
               </li>
@@ -103,6 +108,7 @@ export default function Sidebar() {
         </li>
         <li className="nav-item">
           <Link to="/guide" getProps={isActive({ className: "nav-link" })}>
+            <i className="fal fa-fw fa-books mr-2" />
             Guide
           </Link>
         </li>
@@ -113,8 +119,8 @@ export default function Sidebar() {
             target="_blank"
             rel="noopener noreferrer"
           >
+            <i className="fal fa-fw fa-external-link-square mr-2" />
             Apache Flink
-            <i className="fal fa-external-link-square ml-2" />
           </a>
         </li>
       </ul>

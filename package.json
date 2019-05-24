@@ -18,23 +18,27 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "@hapi/joi": "^15.0.3",
     "@reach/router": "^1.2.1",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "esm": "^3.2.25",
+    "get-form-data": "^2.0.0",
     "http-proxy-middleware": "^0.19.1",
     "js-cookie": "^2.2.0",
     "kcors": "^2.2.2",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-file-router": "^1.0.0",
+    "koa-mongo": "^1.8.1",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "react": "^16.8.6",
     "react-animate-height": "^2.0.9",
     "react-dom": "^16.8.6",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.2.0",
+    "validate.js": "^0.12.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",

@@ -4,6 +4,7 @@ import Router from "koa-router";
 import serve from "koa-static";
 import cors from "kcors";
 import bodyParser from "koa-bodyparser";
+import mongo from "koa-mongo";
 
 import path from "path";
 import fs from "fs";
@@ -23,6 +24,7 @@ router.get("*", ctx => (ctx.body = indexFile));
 const middleware = [
   cors(),
   bodyParser(),
+  mongo(),
   errorHandler,
   serve("./build"),
   fileRouter.routes(),

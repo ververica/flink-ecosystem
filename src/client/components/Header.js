@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import useLocation from "../helpers/useLocation";
+import useLocation from "client/helpers/useLocation";
 
 const SearchIcon = styled.small.attrs(props => {
   return {
@@ -18,7 +18,7 @@ export default function Header(props) {
   const searchQuery = (location.pathname.match(/^\/search\/(.*)/) || [])[1];
 
   useEffect(() => {
-    const handleMessage = e => {
+    const verifyLogin = e => {
       if (e.origin === location.origin && e.data === "github-login-success") {
         authWindow.close();
         setAuthWindow(null);
@@ -27,12 +27,12 @@ export default function Header(props) {
     };
 
     if (authWindow) {
-      window.addEventListener("message", handleMessage);
+      window.addEventListener("message", verifyLogin);
       return () => {
-        window.removeEventListener("message", handleMessage);
+        window.removeEventListener("message", verifyLogin);
       };
     }
-  }, [authWindow, refreshUser]);
+  }, [authWindow, refreshUser, location]);
 
   const openGithubLogin = e => {
     e.preventDefault();
