@@ -3,7 +3,14 @@ import cookies from "js-cookie";
 import { Router, navigate } from "@reach/router";
 import getFormData from "get-form-data";
 
-import { Package, Packages, Category, Guide, Search } from "client/routes";
+import {
+  Package,
+  Packages,
+  Category,
+  Guide,
+  Search,
+  NewPackage,
+} from "client/routes";
 import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
 import { useGet } from "client/helpers/useAxios";
@@ -26,7 +33,7 @@ export default function App() {
   return (
     <div className="container min-vh-100 d-flex flex-column">
       <div className="row no-gutters w-100 flex-grow-1">
-        <Sidebar />
+        <Sidebar userLogin={user.login} />
         <div className="col-md-9 d-flex flex-column">
           <Header
             onSubmit={onSubmit}
@@ -36,7 +43,8 @@ export default function App() {
             loading={loading}
           />
           <Router className="flex-grow-1 d-flex flex-column">
-            <Packages default userLogin={user.login} />
+            <Packages default />
+            <NewPackage path="/new-package" />
             <Package path="/packages/:package" />
             <Category path="/categories/:category" />
             <Search path="/search/:searchQuery" />

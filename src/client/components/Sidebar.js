@@ -25,8 +25,8 @@ const isActive = ({ className }) => ({ isCurrent }) => {
   return { className: cx(className, { active: isCurrent }) };
 };
 
-export default function Sidebar() {
-  const isCategoryPage = window.location.pathname.startsWith("/categories");
+export default function Sidebar(props) {
+  // const isCategoryPage = window.location.pathname.startsWith("/categories");
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleCategories = e => {
@@ -46,6 +46,19 @@ export default function Sidebar() {
       </Link>
 
       <ul className="nav flex-column">
+        {props.userLogin && (
+          <li className="nav-item">
+            <Link
+              to="/new-package"
+              getProps={isActive({ className: "nav-link" })}
+            >
+              <i className="far fa-fw fa-plus mr-2" />
+              Add a Package
+            </Link>
+            <hr className="m-0" />
+          </li>
+        )}
+
         <li className="nav-item">
           <a
             className="nav-link d-flex justify-content-between align-items-center"

@@ -70,7 +70,7 @@ export default function Header(props) {
         <div className="position-relative d-flex align-items-center">
           <input
             defaultValue={searchQuery}
-            className="form-control form-control-sm pr-4 rounded-0"
+            className="form-control form-control-sm pr-4"
             name="searchQuery"
             placeholder="Search"
             aria-label="Search"

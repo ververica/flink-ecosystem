@@ -28,7 +28,7 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
   <package> {
     id: string // a unique, immutable string identifiying this package. allowed: [a-z-_]{2,}
     name: string // human readable name
-    description: string 
+    description: string
     readme: string // user can enter a markdown description
     image: blob // blob limited to 15kb for hosting a package image.
     website: string
@@ -42,7 +42,6 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
     updated: datetime
     owner: string // github username
   }
-
   ```
 
 - **Get a package by id**
@@ -53,10 +52,10 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
     package: <package>
   }
   ```
-  
-  
+
+
 - **Get packages by search query**
-  
+
   GET `/api/v1/packages?query=:queryString&page=:number&order=:order&direction=:dir`
   ```javascript
   data: {
@@ -68,14 +67,14 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
   * The `:order` parameter supports: `upvotes`, `comments`, `added`, `updated`.
   * The `:dir` parameter supports: `asc`, `desc`.
   * The call returns at most 30 packages per call. Additional packages need to be retrieved by going through the `page`s. `page`s are 1-indexed (1 is the 1st page, 2 is the 2nd page and so on)
-    
+
 - **Create a new package**
   POST `/api/v1/packages`
   ```
   data: <package>
   ```
   Access to this endpoint is restricted to authenticated users.
-  
+
   The authenticated user will be put into the `owner` field.
 
 - **Upvote a package**
@@ -93,7 +92,7 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
   Access to this endpoint is restricted to authenticated users.
 
 
-  
+
 - **Change a package by id**
 
   PATCH `/api/v1/packages/:package`
@@ -104,7 +103,7 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
   Only the following fields are editable: name, description, readme, image, website, repository, license, tags.
 
   On an update, the `updated` field is set to the current date.
-  
+
   Access to this endpoint is restricted to authenticated administrators or the user who created the package.
 
 - **Delete a package by id**
@@ -131,20 +130,20 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
   data: [<comment>] // array of comments
   resultCount: <number> // total number of comments
   ```
-  
+
 - POST `/api/v1/packages/:package/comments`
   ```
   data: <comment>
   ```
- 
+
   Access to this endpoint is restricted to authenticated users.
- 
+
 - PATCH `/api/v1/packages/:package/comments/:id`
   ```
   data: <comment>
   ```
   Access to this endpoint is restricted to authenticated administrators or the user who created the package.
- 
+
 - DELETE `/api/v1/packages/:package/comments/:id`
 
   Access to this endpoint is restricted to authenticated administrators or the user who created the package.
@@ -171,9 +170,9 @@ An authenticated administrator is defined by a set of GitHub usernames in the co
   ```
   data: <release>
   ```
-  
+
   Access to this endpoint is restricted to the user who created the package.
- 
+
 - PATCH `/api/v1/packages/:package/releases/:id`
   ```
   data: <release>

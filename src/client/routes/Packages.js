@@ -9,25 +9,25 @@ export default function Packages(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [packages] = useGet("/api/v1/packages");
 
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const data = getFormData(e.target);
+    try {
+      await axios.post("/api/v1/packages", data);
+      setModalOpen(false);
+    } catch (e) {
+      if (e.response.status && e.response.status === 403) {
+        // require Auth!
+        debugger;
+      }
+    }
+  };
+
   return (
     <>
       <MainCard
-        header={
-          <>
-            <h2 className="h5 mb-0">Most Popular Packages (15)</h2>
-            {props.userLogin && (
-              <button
-                className="btn btn-primary ml-auto btn-sm"
-                onClick={() => setModalOpen(true)}
-              >
-                <i className="far fa-plus mr-2" />
-                Add New Package
-              </button>
-            )}
-          </>
-        }
+        header={<h2 className="h5 mb-0">Most Popular Packages (15)</h2>}
       >
-        <div>packages</div>
         <pre>{JSON.stringify(packages, null, 2)}</pre>
         <div className="row">
           <div className="col-auto ml-auto" />
@@ -39,21 +39,7 @@ export default function Packages(props) {
         onModalHidden={() => setModalOpen(false)}
         title={"Add New Package"}
       >
-        <form
-          onSubmit={async e => {
-            e.preventDefault();
-            const data = getFormData(e.target);
-            try {
-              await axios.post("/api/v1/packages", data);
-              setModalOpen(false);
-            } catch (e) {
-              if (e.response.status && e.response.status === 403) {
-                // require Auth!
-                debugger;
-              }
-            }
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="packageName">Package Name</label>
             <input

@@ -14,6 +14,6 @@ export const get = async ctx => {
     });
     ctx.body = data;
   } catch (e) {
-    console.error("it broke", e.message);
+    ctx.throw(e.response.status);
   }
 };

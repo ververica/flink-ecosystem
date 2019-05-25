@@ -6,12 +6,14 @@ export default async function checkGithub(ctx, next) {
   ).toString("base64");
 
   try {
-    await axios.get(
+    const { data } = await axios.get(
       `https://api.github.com/applications/${
         process.env.GITHUB_CLIENT
       }/tokens/${ctx.cookies.get("github-token")}`,
       { headers: { Authorization: `Basic ${basicAuthString}` } }
     );
+
+    ctx.state.user = data.user;
 
     return next();
   } catch (e) {

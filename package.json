@@ -50,6 +50,7 @@
     "build": "react-scripts build",
     "client": "react-scripts start",
     "nodemon": "nodemon -r esm src/server/main.js --ignore src/client",
+    "mongodb": "docker run --rm -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4",
     "server": "node -r esm src/server/main.js",
     "start": "concurrently --kill-others-on-fail --prefix '[{name}]' --names 'client,server' 'npm run client' 'npm run nodemon'",
     "test": "react-scripts test"
