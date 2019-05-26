@@ -2,16 +2,17 @@ import Joi from "@hapi/joi";
 import checkGithub from "../../../../middleware/checkGithub";
 
 const schema = Joi.object().keys({
+  name: Joi.string().required(),
   id: Joi.string()
     .regex(/[a-z-_]{2,}/)
     .required(),
-  name: Joi.string().required(),
   description: Joi.string().required(),
   readme: Joi.string().required(),
   website: Joi.string().required(),
   repository: Joi.string().required(),
-  license: Joi.string().required(),
+  category: Joi.string().required(),
   tags: Joi.array().items(Joi.string()),
+  license: Joi.string().required(),
 });
 
 export const get = async ctx => {
@@ -26,10 +27,8 @@ export const get = async ctx => {
 export const post = [
   checkGithub,
   async ctx => {
-    // const validation = Joi.validate(ctx.request.body, schema);
-    // if (validation.error) ctx.throw(400);
-
-    console.log(ctx.state.user);
+    const validation = Joi.validate(ctx.request.body, schema);
+    if (validation.error) ctx.throw(400, validation.error);
 
     const packageData = {
       ...ctx.request.body,
@@ -41,9 +40,8 @@ export const post = [
       updated: Date.now(),
     };
 
-    // const result = await ctx.db.collection("packages").insertOne(packageData);
+    const result = await ctx.db.collection("packages").insertOne(packageData);
 
-    // ctx.body = { result: result.ops[0] };
-    ctx.body = packageData;
+    ctx.body = { result: result.ops[0] };
   },
 ];

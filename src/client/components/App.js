@@ -44,7 +44,7 @@ export default function App() {
           />
           <Router className="flex-grow-1 d-flex flex-column">
             <Packages default />
-            <NewPackage path="/new-package" />
+            <NewPackage path="/new-package" userLogin={user.login} />
             <Package path="/packages/:package" />
             <Category path="/categories/:category" />
             <Search path="/search/:searchQuery" />

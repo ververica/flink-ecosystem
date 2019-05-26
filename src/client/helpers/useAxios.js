@@ -9,9 +9,9 @@ const client = axios.create({
   },
 });
 
-export const useGet = (url, options) => {
+export const useGet = (url, initialValue = {}, options) => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState({});
+  const [data, setData] = useState(initialValue);
 
   const getData = useCallback(async () => {
     try {
@@ -26,4 +26,14 @@ export const useGet = (url, options) => {
   }, [getData]);
 
   return [data, loading, setData, getData];
+};
+
+export const usePost = (url, body, initialValue, options) => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(initialValue);
+
+  const getPost = useCallback(async () => {
+    try {
+    } catch (e) {}
+  }, [url, body, options]);
 };

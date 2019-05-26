@@ -1,27 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import MainCard from "client/components/MainCard";
-import Modal from "client/components/Modal";
-import getFormData from "get-form-data";
-import axios from "axios";
 import { useGet } from "client/helpers/useAxios";
 
 export default function Packages(props) {
-  const [modalOpen, setModalOpen] = useState(false);
   const [packages] = useGet("/api/v1/packages");
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const data = getFormData(e.target);
-    try {
-      await axios.post("/api/v1/packages", data);
-      setModalOpen(false);
-    } catch (e) {
-      if (e.response.status && e.response.status === 403) {
-        // require Auth!
-        debugger;
-      }
-    }
-  };
 
   return (
     <>
@@ -33,38 +15,6 @@ export default function Packages(props) {
           <div className="col-auto ml-auto" />
         </div>
       </MainCard>
-      <Modal
-        enableBackdropClick={false}
-        open={modalOpen}
-        onModalHidden={() => setModalOpen(false)}
-        title={"Add New Package"}
-      >
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="packageName">Package Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="packageName"
-              placeholder="Package Name"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword1">Package ID</label>
-            <input
-              type="text"
-              className="form-control"
-              id="packageId"
-              placeholder="Package ID"
-              aria-describedby="idHelp"
-            />
-            <small id="idHelp" className="form-text text-muted">
-              A unique URL Friendly name for your package. [a-z-_]{"{"}2,{"}"}
-            </small>
-          </div>
-          <button type="submit">go</button>
-        </form>
-      </Modal>
     </>
   );
 }
