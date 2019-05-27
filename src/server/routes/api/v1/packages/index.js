@@ -16,12 +16,17 @@ const schema = Joi.object().keys({
 });
 
 export const get = async ctx => {
-  const packages = await ctx.db
-    .collection("packages")
-    .find()
-    .toArray();
+  const [packages, count] = await Promise.all([
+    ctx.db
+      .collection("packages")
+      .find()
+      .limit(15)
+      .toArray(),
 
-  ctx.body = { packages };
+    ctx.db.collection("packages").count(),
+  ]);
+
+  ctx.body = { packages, count };
 };
 
 export const post = [

@@ -4,6 +4,7 @@ import getFormData from "get-form-data";
 import axios from "axios";
 import { get, isEmpty } from "lodash/fp";
 import InputField from "client/components/InputField";
+import cx from "classnames";
 
 const categories = [
   "Connectors",
@@ -12,6 +13,17 @@ const categories = [
   "Machine Learning",
   "Languages",
 ];
+
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w-]+/g, "") // Remove all non-word chars
+    .replace(/--+/g, "-") // Replace multiple - with single -
+    .replace(/^-+/, "") // Trim - from start of text
+    .replace(/-+$/, ""); // Trim - from end of text
+}
 
 const parseError = error => {
   const firstBracket = error.indexOf("[");
@@ -24,53 +36,61 @@ const parseError = error => {
 
 const makeGeneralError = message => ({ id: null, message });
 
+const handleSubmit = setError => async e => {
+  e.preventDefault();
+  const data = getFormData(e.target);
+
+  try {
+    await axios.post("/api/v1/packages", data);
+  } catch (e) {
+    switch (get("response.status", e)) {
+      case 403:
+        return setError(makeGeneralError("You are not logged in!"));
+      case 400:
+        return setError(parseError(e.response.data.message));
+      default:
+        return setError(makeGeneralError("An unknown error has occurred"));
+    }
+  }
+};
+
 export default function NewPackage() {
   const [error, setError] = useState({});
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const data = getFormData(e.target);
-
-    try {
-      await axios.post("/api/v1/packages", data);
-    } catch (e) {
-      switch (get("response.status", e)) {
-        case 403:
-          return setError(makeGeneralError("You are not logged in!"));
-        case 400:
-          return setError(parseError(e.response.data.message));
-        default:
-          return setError(makeGeneralError("An unknown error has occurred"));
-      }
-    }
-  };
+  const onSubmit = handleSubmit(setError);
 
   return (
-    <MainCard
-      className="p-3"
-      header={<h2 className="h5 mb-0">Add a new Package</h2>}
-    >
+    <MainCard className="p-3" header="Add a new Package">
       {!isEmpty(error) && error.id === null && (
         <div className="alert alert-danger" role="alert">
           {error.message}
         </div>
       )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <InputField
+          value={name}
           error={error}
           id="name"
           label="Package Name"
           name="name"
           placeholder="Package Name"
+          onChange={e => setName(e.target.value)}
+          onBlur={() => {
+            if (!id) setId(slugify(name));
+          }}
         />
 
         <InputField
+          value={id}
           error={error}
           help="A unique URL Friendly name for your package. [a-z-_]{2,}"
           id="id"
           label="Package ID"
           name="id"
           placeholder="Package ID"
+          onChange={e => setId(e.target.value)}
         />
 
         <InputField
@@ -84,7 +104,9 @@ export default function NewPackage() {
         <div className="form-group">
           <label htmlFor="readme">Readme</label>
           <textarea
-            className="form-control"
+            className={cx("form-control", {
+              "is-invalid": error.id === "readme",
+            })}
             id="readme"
             rows="5"
             placeholder="Readme"

@@ -50,7 +50,7 @@ export default function Header(props) {
     <nav className="navbar navbar-light pr-0 mb-4">
       <ul className="ml-auto navbar-nav mr-3">
         <li className="nav-item">
-          <small>
+          <small hidden={props.loading}>
             {props.userLogin ? (
               <>
                 <span className="mr-2">Welcome, {props.userLogin}</span>

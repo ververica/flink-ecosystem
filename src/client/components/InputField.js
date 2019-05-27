@@ -6,14 +6,17 @@ export default function InputField(props) {
     <div className="form-group">
       <label htmlFor={props.id}>{props.label}</label>
       <input
-        name={props.name}
-        type="text"
+        aria-describedby={`${props.id}-help`}
         className={cx("form-control", {
           "is-invalid": props.error.id === props.id,
         })}
         id={props.id}
+        name={props.name}
+        onBlur={props.onBlur}
+        onChange={props.onChange}
         placeholder={props.placeholder}
-        aria-describedby={`${props.id}-help`}
+        type="text"
+        value={props.value}
       />
       {props.help && (
         <small id={`${props.id}-help`} className="form-text text-muted">
