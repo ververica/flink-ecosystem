@@ -42,7 +42,7 @@ export default function App() {
             refreshUser={refreshData}
             loading={loading}
           />
-          <Router className="flex-grow-1 d-flex flex-column">
+          <Router primary={false} className="flex-grow-1 d-flex flex-column">
             <Packages default />
             <NewPackage path="/new-package" userLogin={user.login} />
             <Package path="/packages/:package" />

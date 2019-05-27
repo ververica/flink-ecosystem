@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import MainCard from "client/components/MainCard";
 import getFormData from "get-form-data";
 import axios from "axios";
 import { get, isEmpty } from "lodash/fp";
-import InputField from "client/components/InputField";
 import cx from "classnames";
+
+import MainCard from "client/components/MainCard";
+import InputField from "client/components/InputField";
+import slugify from "client/helpers/slugify";
 
 const categories = [
   "Connectors",
@@ -14,16 +16,14 @@ const categories = [
   "Languages",
 ];
 
-function slugify(text) {
-  return text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w-]+/g, "") // Remove all non-word chars
-    .replace(/--+/g, "-") // Replace multiple - with single -
-    .replace(/^-+/, "") // Trim - from start of text
-    .replace(/-+$/, ""); // Trim - from end of text
-}
+const licenses = [
+  "MIT License",
+  "GPLv3",
+  "BSD License",
+  "LGPL",
+  "Apache 2.0",
+  "Eclipse License",
+];
 
 const parseError = error => {
   const firstBracket = error.indexOf("[");
@@ -85,7 +85,7 @@ export default function NewPackage() {
         <InputField
           value={id}
           error={error}
-          help="A unique URL Friendly name for your package. [a-z-_]{2,}"
+          help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
           id="id"
           label="Package ID"
           name="id"
@@ -108,46 +108,55 @@ export default function NewPackage() {
               "is-invalid": error.id === "readme",
             })}
             id="readme"
-            rows="5"
+            rows="6"
             placeholder="Readme"
           />
         </div>
 
-        <InputField
-          error={error}
-          id="website"
-          label="Website"
-          name="website"
-          placeholder="Website"
-        />
-
-        <InputField
-          error={error}
-          id="repository"
-          label="Repository"
-          name="repository"
-          placeholder="Repository"
-        />
+        <div className="row">
+          <div className="col-md-4">
+            <InputField
+              error={error}
+              id="website"
+              label="Website"
+              name="website"
+              placeholder="Website"
+            />
+          </div>
+          <div className="col-md-4">
+            <InputField
+              error={error}
+              id="repository"
+              label="Repository"
+              name="repository"
+              placeholder="Repository"
+            />
+          </div>
+          <div className="col-md-4">
+            <div className="form-group">
+              <SelectField
+                name="license"
+                id="license"
+                label="License"
+                error={error}
+                placeholder="Select a License"
+                options={licenses}
+              />
+            </div>
+          </div>
+        </div>
 
         <div className="row">
           <div className="col-auto">
             <div className="form-group">
-              <label htmlFor="category">Category</label>
-              <select
+              <SelectField
                 name="category"
                 id="category"
-                className="form-control"
-                defaultValue=""
-              >
-                <option value="" disabled hidden>
-                  Select a Category
-                </option>
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
+                label="Category"
+                error={error}
+                options={categories}
+                placeholder="Select a Category"
+              />
             </div>
           </div>
           <div className="col">
@@ -163,14 +172,6 @@ export default function NewPackage() {
           </div>
         </div>
 
-        <InputField
-          error={error}
-          id="license"
-          label="License"
-          name="license"
-          placeholder="License"
-        />
-
         <div className="row">
           <div className="col-auto ml-auto">
             <button className="btn btn-success" type="submit">
@@ -182,5 +183,29 @@ export default function NewPackage() {
       </form>
     </MainCard>
   );
-  // return <div></div>;
 }
+
+const SelectField = props => {
+  return (
+    <>
+      <label htmlFor={props.id}>{props.label}</label>
+      <select
+        name={props.name}
+        id={props.id}
+        className={cx("form-control", {
+          "is-invalid": props.error.id === props.id,
+        })}
+        defaultValue={props.defaultValue || ""}
+      >
+        <option value="" disabled hidden>
+          {props.placeholder}
+        </option>
+        {props.options.map(option => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+};

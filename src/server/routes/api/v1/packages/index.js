@@ -4,7 +4,7 @@ import checkGithub from "../../../../middleware/checkGithub";
 const schema = Joi.object().keys({
   name: Joi.string().required(),
   id: Joi.string()
-    .regex(/[a-z-_]{2,}/)
+    .regex(/[a-z0-9-_]{2,}/)
     .required(),
   description: Joi.string().required(),
   readme: Joi.string().required(),
@@ -15,15 +15,34 @@ const schema = Joi.object().keys({
   license: Joi.string().required(),
 });
 
+const findCategory = category => {
+  if (!category) return null;
+  return {
+    category: {
+      $regex: category.replace("-", " "),
+      $options: "i",
+    },
+  };
+};
+
 export const get = async ctx => {
+  const { category, page = 1 } = ctx.request.query;
+
+  // pagination
+  const limit = 15;
+  const skip = (page - 1) * limit;
+
   const [packages, count] = await Promise.all([
     ctx.db
       .collection("packages")
-      .find()
-      .limit(15)
+      .find({
+        ...findCategory(category),
+      })
+      .skip(skip)
+      .limit(limit)
       .toArray(),
 
-    ctx.db.collection("packages").count(),
+    ctx.db.collection("packages").countDocuments(),
   ]);
 
   ctx.body = { packages, count };

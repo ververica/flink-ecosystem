@@ -8,21 +8,21 @@ import axios from "axios";
 //   },
 // });
 
-export const useGet = (url, initialValue = {}, options) => {
+export const useGet = (url, key) => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(initialValue);
+  const [data, setData] = useState({});
 
   const getData = useCallback(async () => {
     try {
-      const { data } = await axios.get(url, options);
+      const { data } = await axios.get(url);
       setData(data);
     } catch (e) {}
     setLoading(false);
-  }, [url, options]);
+  }, [url]);
 
   useEffect(() => {
     getData();
-  }, [getData]);
+  }, [getData, key]);
 
   return [data, loading, setData, getData];
 };

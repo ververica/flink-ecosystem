@@ -5,6 +5,7 @@ import cx from "classnames";
 import AnimateHeight from "react-animate-height";
 
 import logo from "client/assets/flink-logo.png";
+// import flinkIcon from "client/assets/flink-icon.svg";
 
 const SidebarColumn = styled.div.attrs({
   className: "col-md-3 bg-light card",
@@ -115,6 +116,7 @@ export default function Sidebar(props) {
             target="_blank"
             rel="noopener noreferrer"
           >
+            {/* <img src={flinkIcon} style={{ width: 20 }} className="mr-2" /> */}
             <Icon icon="external-link-square" />
             Apache Flink
           </a>

@@ -1,3 +1,3 @@
 export const get = async ctx => {
-  const foo = "";
+  ctx.body = ctx.params;
 };
