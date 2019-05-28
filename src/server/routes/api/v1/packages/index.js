@@ -35,9 +35,7 @@ export const get = async ctx => {
   const [packages, count] = await Promise.all([
     ctx.db
       .collection("packages")
-      .find({
-        ...findCategory(category),
-      })
+      .find({ ...findCategory(category) })
       .skip(skip)
       .limit(limit)
       .toArray(),
@@ -45,7 +43,10 @@ export const get = async ctx => {
     ctx.db.collection("packages").countDocuments(),
   ]);
 
-  ctx.body = { packages, count };
+  // + 1 pecause pages are 1 indexed, not 0 indexed.
+  const totalPages = ((count / limit) | 0) + 1;
+
+  ctx.body = { packages, count, totalPages };
 };
 
 export const post = [

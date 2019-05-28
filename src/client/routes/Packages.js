@@ -1,15 +1,16 @@
 import React from "react";
 import { Link } from "@reach/router";
 import qs from "querystring";
-import cx from "classnames";
+
 import MainCard from "client/components/MainCard";
 import { useGet } from "client/helpers/useAxios";
+import Pager from "client/components/Pager";
 
 export default function Packages(props) {
-  const [data] = useGet("/api/v1/packages", props.location.key);
-  const packages = data.packages || [];
+  const { page = 1 } = qs.parse(props.location.search.slice(1));
 
-  const { page } = qs.parse(props.location.search.slice(1));
+  const [data] = useGet(`/api/v1/packages?page=${page}`, props.location.key);
+  const packages = data.packages || [];
 
   // @TODO total packages ()
   return (
@@ -22,7 +23,7 @@ export default function Packages(props) {
             </li>
           ))}
         </ul>
-        <Pager page={page} />
+        <Pager page={page} total={data.totalPages} />
         <div className="row">
           <div className="col-auto ml-auto" />
         </div>
@@ -31,56 +32,3 @@ export default function Packages(props) {
     </>
   );
 }
-
-function range(start, end) {
-  if (start === end) return [start];
-  return [start, ...range(start + 1, end)];
-}
-
-const Pager = props => {
-  const page = Number(props.page);
-  const total = 30;
-
-  const start = Math.max(1, page - 2);
-  const end = Math.min(total, Number(page) + 2);
-
-  // @TODO always show 5 pages...
-
-  return (
-    <nav aria-label="Page navigation example">
-      <ul className="pagination">
-        <li
-          className={cx("page-item", {
-            disabled: page === 1,
-          })}
-        >
-          <Link className="page-link" to={`?page=${page - 1}`}>
-            Previous
-          </Link>
-        </li>
-
-        {range(start, end).map(current => (
-          <li
-            className={cx("page-item", {
-              active: current === page,
-            })}
-          >
-            <Link className="page-link" to={`?page=${current}`} key={current}>
-              {current}
-            </Link>
-          </li>
-        ))}
-
-        <li
-          className={cx("page-item", {
-            disabled: page === total,
-          })}
-        >
-          <Link className="page-link" to={`?page=${page + 1}`}>
-            Next
-          </Link>
-        </li>
-      </ul>
-    </nav>
-  );
-};

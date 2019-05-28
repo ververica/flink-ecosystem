@@ -1,0 +1,73 @@
+import React from "react";
+import useLocation from "client/helpers/useLocation";
+import qs from "querystring";
+import cx from "classnames";
+import { Link } from "@reach/router";
+
+const createPager = (current, { range, total = 1 }) => {
+  const pager = [];
+  const start = 1;
+
+  let i = Math.min(
+    Math.max(total + start - range, 1),
+    Math.max(start, current - ((range / 2) | 0))
+  );
+
+  const end = i + range > total ? total + 1 : i + range;
+
+  while (i < end) {
+    pager.push(
+      <PageLink key={i} active={current === i} i={i}>
+        {i}
+      </PageLink>
+    );
+    i++;
+  }
+
+  return pager;
+};
+
+const PageLink = props => {
+  const { location } = useLocation();
+  const { page, ...rest } = qs.parse(location.search.slice(1));
+
+  // If we're going to the first page, just remove 'page' from the querystring
+  const querystring = qs.encode(
+    props.i === 1 ? rest : { ...rest, page: props.i }
+  );
+
+  return (
+    <li
+      className={cx("page-item", {
+        active: props.active,
+        disabled: props.disabled,
+      })}
+    >
+      <Link className="page-link" to={"?" + querystring}>
+        {props.children}
+      </Link>
+    </li>
+  );
+};
+
+const Pager = props => {
+  const page = Number(props.page);
+  const { total } = props;
+  const range = 5;
+
+  return (
+    <nav aria-label="Page navigation example">
+      <ul className="pagination">
+        <PageLink disabled={page === 1} i={page - 1}>
+          Previous
+        </PageLink>
+        {createPager(page, { range, total })}
+        <PageLink disabled={page === total} i={page + 1}>
+          Next
+        </PageLink>
+      </ul>
+    </nav>
+  );
+};
+
+export default Pager;
