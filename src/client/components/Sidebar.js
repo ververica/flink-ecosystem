@@ -8,7 +8,7 @@ import logo from "client/assets/flink-logo.png";
 // import flinkIcon from "client/assets/flink-icon.svg";
 
 const SidebarColumn = styled.div.attrs({
-  className: "col-md-3 bg-light card",
+  className: "col-md-4 col-lg-3 order-first bg-light card",
 })`
   border-radius: 0;
   border-top: 0;
@@ -16,6 +16,10 @@ const SidebarColumn = styled.div.attrs({
   /* subnav items */
   li li a {
     padding-left: 2.7em;
+  }
+
+  @media screen and (max-width: 991px) and (min-width: 768px) {
+    position: absolute;
   }
 `;
 

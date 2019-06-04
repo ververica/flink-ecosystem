@@ -33,8 +33,7 @@ export default function App() {
   return (
     <div className="container min-vh-100 d-flex flex-column">
       <div className="row no-gutters w-100 flex-grow-1">
-        <Sidebar userLogin={user.login} />
-        <div className="col-md-9 d-flex flex-column">
+        <div className="col-lg-9 d-flex flex-column">
           <Header
             onSubmit={onSubmit}
             userLogin={user.login}
@@ -53,6 +52,7 @@ export default function App() {
             </Router>
           </Suspense>
         </div>
+        <Sidebar userLogin={user.login} />
       </div>
       <div className="row no-gutters text-center d-block">footer</div>
     </div>

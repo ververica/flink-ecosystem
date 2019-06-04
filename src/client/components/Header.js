@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import useLocation from "client/helpers/useLocation";
 
-const SearchIcon = styled.small.attrs(props => {
-  return {
-    className: "far fa-search position-absolute mr-2",
-  };
+const SearchIcon = styled.small.attrs({
+  className: "fal fa-search mr-2",
 })`
+  position: absolute;
   pointer-events: none;
   right: 0;
 `;
