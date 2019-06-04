@@ -1,10 +1,15 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import useLocation from "client/helpers/useLocation";
 import qs from "querystring";
 import cx from "classnames";
 import { Link } from "@reach/router";
 
-const createPager = (current, { range, total = 1 }) => {
+type CreatePages = (
+  current: number,
+  options: { range: number; total: number }
+) => Array<JSX.Element>;
+
+const createPages: CreatePages = (current, { range, total = 1 }) => {
   const pager = [];
   const start = 1;
 
@@ -27,7 +32,13 @@ const createPager = (current, { range, total = 1 }) => {
   return pager;
 };
 
-const PageLink = props => {
+type PageLinkProps = {
+  active?: boolean;
+  disabled?: boolean;
+  i: number;
+};
+
+const PageLink: FunctionComponent<PageLinkProps> = props => {
   const { location } = useLocation();
   const { page, ...rest } = qs.parse(location.search.slice(1));
 
@@ -50,7 +61,12 @@ const PageLink = props => {
   );
 };
 
-const Pager = props => {
+type PagerProps = {
+  page: number | string;
+  total: number;
+};
+
+const Pager: FunctionComponent<PagerProps> = props => {
   const page = Number(props.page);
   const { total } = props;
   const range = 5;
@@ -61,7 +77,7 @@ const Pager = props => {
         <PageLink disabled={page === 1} i={page - 1}>
           Previous
         </PageLink>
-        {createPager(page, { range, total })}
+        {createPages(page, { range, total })}
         <PageLink disabled={page === total} i={page + 1}>
           Next
         </PageLink>

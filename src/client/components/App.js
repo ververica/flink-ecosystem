@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import cookies from "js-cookie";
 import { Router, navigate } from "@reach/router";
 import getFormData from "get-form-data";
@@ -42,14 +42,16 @@ export default function App() {
             refreshUser={refreshData}
             loading={loading}
           />
-          <Router primary={false} className="flex-grow-1 d-flex flex-column">
-            <Packages default />
-            <NewPackage path="/new-package" userLogin={user.login} />
-            <Package path="/packages/:package" />
-            <Category path="/categories/:category" />
-            <Search path="/search/:searchQuery" />
-            <Guide path="/guide" />
-          </Router>
+          <Suspense fallback="Loading... ">
+            <Router primary={false} className="flex-grow-1 d-flex flex-column">
+              <Packages default />
+              <NewPackage path="/new-package" userLogin={user.login} />
+              <Package path="/packages/:package" />
+              <Category path="/categories/:category" />
+              <Search path="/search/:searchQuery" />
+              <Guide path="/guide" />
+            </Router>
+          </Suspense>
         </div>
       </div>
       <div className="row no-gutters text-center d-block">footer</div>

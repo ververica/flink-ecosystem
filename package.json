@@ -20,10 +20,16 @@
   "dependencies": {
     "@hapi/joi": "^15.0.3",
     "@reach/router": "^1.2.1",
+    "@types/classnames": "^2.2.8",
+    "@types/node": "^12.0.4",
+    "@types/reach__router": "^1.2.4",
+    "@types/styled-components": "^4.1.15",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "date-fns": "^1.30.1",
     "esm": "^3.2.25",
+    "fetch-suspense": "^1.1.0",
     "get-form-data": "^2.0.0",
     "http-proxy-middleware": "^0.19.1",
     "js-cookie": "^2.2.0",
@@ -40,9 +46,12 @@
     "react-animate-height": "^2.0.9",
     "react-dom": "^16.8.6",
     "styled-components": "^4.2.0",
+    "typescript": "^3.5.1",
     "validate.js": "^0.12.0"
   },
   "devDependencies": {
+    "@types/react": "^16.8.19",
+    "@types/react-dom": "^16.8.4",
     "concurrently": "^4.1.0",
     "node-sass": "^4.12.0",
     "nodemon": "^1.19.0",
@@ -52,7 +61,7 @@
     "build": "react-scripts build",
     "client": "react-scripts start",
     "nodemon": "nodemon -r esm src/server/main.js --ignore src/client",
-    "mongodb": "docker run --rm -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4",
+    "mongodb": "docker run -d --rm -p 27017-27019:27017-27019 -v /tmp/mongo-data:/data/db --name mongodb mongo:4.0.4",
     "server": "node -r esm src/server/main.js",
     "start": "concurrently --kill-others-on-fail --prefix '[{name}]' --names 'client,server' 'npm run client' 'npm run nodemon'",
     "test": "react-scripts test"

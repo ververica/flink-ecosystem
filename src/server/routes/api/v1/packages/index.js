@@ -32,15 +32,17 @@ export const get = async ctx => {
   const limit = 15;
   const skip = (page - 1) * limit;
 
+  const base = ctx.db
+    .collection("packages")
+    .find({ ...findCategory(category) });
+
   const [packages, count] = await Promise.all([
-    ctx.db
-      .collection("packages")
-      .find({ ...findCategory(category) })
+    base
       .skip(skip)
       .limit(limit)
       .toArray(),
 
-    ctx.db.collection("packages").countDocuments(),
+    base.count(),
   ]);
 
   // + 1 pecause pages are 1 indexed, not 0 indexed.

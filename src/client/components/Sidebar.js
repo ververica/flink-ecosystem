@@ -22,7 +22,7 @@ const SidebarColumn = styled.div.attrs({
 const getRotation = props => (props.collapsed ? 0 : 540);
 
 const Caret = styled.i.attrs({
-  className: "far fa-angle-down",
+  className: "fal fa-angle-down",
 })`
   transition: transform 350ms ease;
   transform: rotateZ(${getRotation}deg);
@@ -32,7 +32,7 @@ const isActive = ({ isCurrent }) => {
   return { className: cx("nav-link", { active: isCurrent }) };
 };
 
-const Icon = props => <i className={`far fa-fw mr-2 fa-${props.icon}`} />;
+const Icon = props => <i className={`fal fa-fw mr-2 fa-${props.icon}`} />;
 
 const NavItem = props => {
   return (
