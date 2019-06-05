@@ -4,7 +4,7 @@ import Router from "koa-router";
 import serve from "koa-static";
 import cors from "kcors";
 import bodyParser from "koa-bodyparser";
-import mongo from "koa-mongo";
+import knex from "koa-knex";
 
 import path from "path";
 import fs from "fs";
@@ -24,7 +24,15 @@ router.get("*", ctx => (ctx.body = indexFile));
 const middleware = [
   cors(),
   bodyParser(),
-  mongo(),
+  knex({
+    client: "mysql",
+    connection: {
+      host: "127.0.0.1",
+      user: "root",
+      password: "test",
+      database: "flink-ecosystem",
+    },
+  }),
   errorHandler,
   serve("./build"),
   fileRouter.routes(),

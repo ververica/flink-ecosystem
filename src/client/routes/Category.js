@@ -1,23 +1,19 @@
 import React from "react";
+import useFetch from "fetch-suspense";
 import MainCard from "client/components/MainCard";
-import { useGet } from "client/helpers/useAxios";
-import { Link } from "@reach/router";
+import PackageList from "client/components/PackageList";
 
 export default function Category(props) {
-  const [data] = useGet(`/api/v1/packages?category=${props.category}`);
+  const data = useFetch(
+    `/api/v1/packages?category=${props.category}&key=${props.location.key}`
+  );
   const packages = data.packages || [];
 
   return (
     <MainCard
       header={`Packages tagged with "${props.category}" (${data.count || 0})`}
     >
-      <ul>
-        {packages.map(pkg => (
-          <li key={pkg._id}>
-            <Link to={`/packages/${pkg.id}`}>{pkg.name}</Link>
-          </li>
-        ))}
-      </ul>
+      <PackageList packages={packages} />
     </MainCard>
   );
 }

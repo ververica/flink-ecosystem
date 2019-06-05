@@ -15,39 +15,54 @@ const schema = Joi.object().keys({
   license: Joi.string().required(),
 });
 
-const findCategory = category => {
-  if (!category) return null;
-  return {
-    category: {
-      $regex: category.replace("-", " "),
-      $options: "i",
-    },
-  };
-};
-
 export const get = async ctx => {
   const { category, page = 1 } = ctx.request.query;
 
   // pagination
   const limit = 15;
-  const skip = (page - 1) * limit;
+  const offset = (page - 1) * limit;
 
-  const base = ctx.db
-    .collection("packages")
-    .find({ ...findCategory(category) });
+  const packagesQuery = ctx
+    .knex("package")
+    .select(
+      "package.name",
+      "package.slug",
+      "package.description",
+      "package.updated",
+      "user.name as owner",
+      ctx
+        .knex("upvotes")
+        .count("*")
+        .whereRaw("upvotes.package_id = package.id")
+        .as("upvotes"),
+      ctx
+        .knex("downvotes")
+        .count("*")
+        .whereRaw("downvotes.package_id = package.id")
+        .as("downvotes")
+    )
+    .join("user", "package.owner_id", "user.id")
+    .leftJoin("upvotes", "package.id", "upvotes.package_id")
+    .leftJoin("downvotes", "package.id", "downvotes.package_id")
+    .groupBy("package.id")
+    .limit(limit)
+    .offset(offset);
 
-  const [packages, count] = await Promise.all([
-    base
-      .skip(skip)
-      .limit(limit)
-      .toArray(),
+  const countQuery = ctx
+    .knex("package")
+    .count("* as count")
+    .first();
 
-    base.count(),
-  ]);
+  if (category) {
+    packagesQuery.where({ category });
+    countQuery.where({ category });
+  }
+
+  const packages = await packagesQuery;
+  const { count } = await countQuery;
 
   // + 1 pecause pages are 1 indexed, not 0 indexed.
   const totalPages = ((count / limit) | 0) + 1;
-
   ctx.body = { packages, count, totalPages };
 };
 
