@@ -1,4 +1,6 @@
 import Joi from "@hapi/joi";
+import { getOr } from "lodash/fp";
+
 import checkGithub from "../../../../middleware/checkGithub";
 
 const schema = Joi.object().keys({
@@ -15,59 +17,66 @@ const schema = Joi.object().keys({
   license: Joi.string().required(),
 });
 
-export const get = async ctx => {
-  const { category, page = 1 } = ctx.request.query;
+const getUserId = getOr(0, "state.user.id");
 
-  // pagination
-  const limit = 15;
-  const offset = (page - 1) * limit;
+export const get = [
+  checkGithub({ required: false }),
+  async ctx => {
+    const { category, page = 1 } = ctx.request.query;
 
-  const packagesQuery = ctx
-    .knex("package")
-    .select(
-      "package.name",
-      "package.slug",
-      "package.description",
-      "package.updated",
-      "user.name as owner",
-      ctx
-        .knex("upvotes")
-        .count("*")
-        .whereRaw("upvotes.package_id = package.id")
-        .as("upvotes"),
-      ctx
-        .knex("downvotes")
-        .count("*")
-        .whereRaw("downvotes.package_id = package.id")
-        .as("downvotes")
-    )
-    .join("user", "package.owner_id", "user.id")
-    .leftJoin("upvotes", "package.id", "upvotes.package_id")
-    .leftJoin("downvotes", "package.id", "downvotes.package_id")
-    .groupBy("package.id")
-    .limit(limit)
-    .offset(offset);
+    // pagination
+    const limit = 15;
+    const offset = (page - 1) * limit;
 
-  const countQuery = ctx
-    .knex("package")
-    .count("* as count")
-    .first();
+    const packagesQuery = ctx
+      .knex("package")
+      .select(
+        "package.name",
+        "package.slug",
+        "package.description",
+        "package.updated",
+        ctx.knex.raw("count(distinct upvotes.id) as upvotes"),
+        ctx.knex.raw("count(distinct downvotes.id) as downvotes"),
+        ctx
+          .knex("upvotes")
+          .select(1)
+          .whereRaw("upvotes.package_id = package.id")
+          .where({ "upvotes.user_id": getOr(0, "state.user.id", ctx) })
+          .as("upvoted"),
+        ctx
+          .knex("downvotes")
+          .select(1)
+          .whereRaw("downvotes.package_id = package.id")
+          .where({ "downvotes.user_id": getOr(0, "state.user.id", ctx) })
+          .as("downvoted")
+      )
+      .leftJoin("upvotes", "package.id", "upvotes.package_id")
+      .leftJoin("downvotes", "package.id", "downvotes.package_id")
+      .groupBy("package.id")
+      .limit(limit)
+      .offset(offset);
 
-  if (category) {
-    packagesQuery.where({ category });
-    countQuery.where({ category });
-  }
+    const countQuery = ctx
+      .knex("package")
+      .count("* as count")
+      .first();
 
-  const packages = await packagesQuery;
-  const { count } = await countQuery;
+    if (category) {
+      packagesQuery.where({ category });
+      countQuery.where({ category });
+    }
 
-  // + 1 pecause pages are 1 indexed, not 0 indexed.
-  const totalPages = ((count / limit) | 0) + 1;
-  ctx.body = { packages, count, totalPages };
-};
+    const packages = await packagesQuery;
+    const { count } = await countQuery;
+
+    // + 1 pecause pages are 1 indexed, not 0 indexed.
+    const totalPages = ((count / limit) | 0) + 1;
+    ctx.body = { packages, count, totalPages };
+  },
+];
 
 export const post = [
-  checkGithub,
+  checkGithub({ required: true }),
   async ctx => {
     const validation = Joi.validate(ctx.request.body, schema);
     if (validation.error) ctx.throw(400, validation.error);

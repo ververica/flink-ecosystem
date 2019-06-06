@@ -10,6 +10,7 @@ import path from "path";
 import fs from "fs";
 
 import errorHandler from "./middleware/errorHandler";
+import lruCache from "./middleware/lruCache";
 
 const app = new Koa();
 const fileRouter = new FileRouter("./src/server/routes");
@@ -33,6 +34,7 @@ const middleware = [
       database: "flink-ecosystem",
     },
   }),
+  lruCache,
   errorHandler,
   serve("./build"),
   fileRouter.routes(),

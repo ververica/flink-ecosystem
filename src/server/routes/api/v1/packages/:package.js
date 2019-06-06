@@ -5,7 +5,7 @@ export const get = async ctx => {
       .select(
         "package.slug",
         "package.name",
-        "user.name as owner",
+        "user.login as owner",
         "package.description",
         "package.readme",
         "package.image",
