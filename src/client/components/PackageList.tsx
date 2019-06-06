@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 import { format } from "date-fns";
 import useScroll from "client/helpers/useScroll";
 import cx from "classnames";
+import Votes from "./Votes";
 
 type Package = {
   description: string;
@@ -27,6 +28,10 @@ const Img = styled.img`
   width: 100%;
 `;
 
+const VoteContainer = styled.small`
+  cursor: pointer;
+`;
+
 const votesClass = (voted: number | null) =>
   cx("mr-4", { "text-muted": !voted });
 
@@ -45,15 +50,13 @@ export default function PackageList(props: Props) {
         <div className="card-text">{pkg.description}</div>
         <div className="card-text mt-2 d-flex justify-content-between">
           <span>
-            <small className={votesClass(pkg.upvoted)}>
-              <i className="fal fa-thumbs-up mr-1" title="Upvotes" />
-              {pkg.upvotes}
-            </small>
-
-            <small className={votesClass(pkg.downvoted)}>
-              <i className="fal fa-thumbs-down mr-1" title="Downvotes" />
-              {pkg.downvotes}
-            </small>
+            <Votes
+              slug={pkg.slug}
+              upvoted={!!pkg.upvoted}
+              downvoted={!!pkg.downvoted}
+              upvotes={pkg.upvotes}
+              downvotes={pkg.downvotes}
+            />
             <small className="text-muted">
               <i className="fal fa-comments mr-1" title="Comments" />
               50
