@@ -38,9 +38,7 @@ export const get = async ctx => {
     ctx.body = `
       <!DOCTYPE html><html><head><script>
         window.opener.postMessage('github-login-success', window.location.origin);
-      </script><style type="text/css">
-
-      </style></head><body></body></html>
+      </script></head><body></body></html>
     `;
   } catch (e) {
     ctx.throw(500);

@@ -35,23 +35,21 @@ export const get = [
         "package.slug",
         "package.description",
         "package.updated",
-        ctx.knex.raw("count(distinct upvotes.id) as upvotes"),
-        ctx.knex.raw("count(distinct downvotes.id) as downvotes"),
-        ctx
-          .knex("upvotes")
-          .select(1)
-          .whereRaw("upvotes.package_id = package.id")
-          .where({ "upvotes.user_id": getOr(0, "state.user.id", ctx) })
-          .as("upvoted"),
-        ctx
-          .knex("downvotes")
-          .select(1)
-          .whereRaw("downvotes.package_id = package.id")
-          .where({ "downvotes.user_id": getOr(0, "state.user.id", ctx) })
-          .as("downvoted")
+        ctx.knex.raw("ifnull(vote.vote, 0) as vote"),
+        ctx.knex.raw("count(distinct upvote.id) as upvotes"),
+        ctx.knex.raw("count(distinct downvote.id) as downvotes")
       )
-      .leftJoin("upvotes", "package.id", "upvotes.package_id")
-      .leftJoin("downvotes", "package.id", "downvotes.package_id")
+      .leftJoin("vote", join => {
+        join
+          .on("package.id", "vote.package_id")
+          .on("vote.user_id", getUserId(ctx));
+      })
+      .leftJoin("vote as upvote", join => {
+        join.on("package.id", "upvote.package_id").on("upvote.vote", 1);
+      })
+      .leftJoin("vote as downvote", join => {
+        join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
+      })
       .groupBy("package.id")
       .limit(limit)
       .offset(offset);
@@ -65,6 +63,8 @@ export const get = [
       packagesQuery.where({ category });
       countQuery.where({ category });
     }
+
+    console.log("packages query: ", packagesQuery.toString());
 
     const packages = await packagesQuery;
     const { count } = await countQuery;

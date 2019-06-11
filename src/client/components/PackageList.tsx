@@ -8,13 +8,12 @@ import Votes from "./Votes";
 
 type Package = {
   description: string;
-  downvoted: number | null;
   downvotes: number;
   name: string;
   slug: string;
   updated: string;
-  upvoted: number | null;
   upvotes: number;
+  vote: number;
 };
 
 type Props = {
@@ -51,9 +50,8 @@ export default function PackageList(props: Props) {
         <div className="card-text mt-2 d-flex justify-content-between">
           <span>
             <Votes
+              vote={pkg.vote}
               slug={pkg.slug}
-              upvoted={!!pkg.upvoted}
-              downvoted={!!pkg.downvoted}
               upvotes={pkg.upvotes}
               downvotes={pkg.downvotes}
             />
