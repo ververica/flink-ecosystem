@@ -44,6 +44,7 @@
     "react": "^16.8.6",
     "react-animate-height": "^2.0.9",
     "react-dom": "^16.8.6",
+    "react-markdown": "^4.0.8",
     "styled-components": "^4.2.0",
     "typescript": "^3.5.1",
     "validate.js": "^0.12.0"
@@ -67,7 +68,7 @@
     "client": "react-scripts start",
     "nodemon": "nodemon -r esm src/server/main.js --ignore src/client",
     "mariadb": "docker run -d --rm -p 3306:3306 -v /tmp/maria-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=test --name mariadb mariadb:10.3",
-    "server": "node -r esm src/server/main.js",
+    "server": "NODE_PATH=src/ node -r esm src/server/main.js",
     "start": "concurrently --kill-others-on-fail --prefix '[{name}]' --names 'client,server' 'npm run client' 'npm run nodemon'",
     "test": "react-scripts test"
   }

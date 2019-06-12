@@ -10,7 +10,7 @@ import { RouteComponentProps } from "@reach/router";
 export default function Packages(props: Props) {
   const { search = "", key = 0 } = props.location || {};
   const searchQuery = qs.parse(search.slice(1));
-  const page = Number(searchQuery.page);
+  const page = Number(searchQuery.page || 1);
 
   const data = useFetch(`/api/v1/packages?page=${page}&key=${key}`) as Data;
   const packages = data.packages || [];

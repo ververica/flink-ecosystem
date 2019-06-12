@@ -1,5 +1,4 @@
 import Joi from "@hapi/joi";
-import { getOr } from "lodash/fp";
 
 import checkGithub from "../../../../middleware/checkGithub";
 
@@ -16,8 +15,6 @@ const schema = Joi.object().keys({
   tags: Joi.array().items(Joi.string()),
   license: Joi.string().required(),
 });
-
-const getUserId = getOr(0, "state.user.id");
 
 export const get = [
   checkGithub({ required: false }),
@@ -42,7 +39,7 @@ export const get = [
       .leftJoin("vote", join => {
         join
           .on("package.id", "vote.package_id")
-          .on("vote.user_id", getUserId(ctx));
+          .on("vote.user_id", ctx.state.user.id);
       })
       .leftJoin("vote as upvote", join => {
         join.on("package.id", "upvote.package_id").on("upvote.vote", 1);
@@ -83,7 +80,7 @@ export const post = [
 
     const packageData = {
       ...ctx.request.body,
-      owner: ctx.state.user.login,
+      user_id: ctx.state.user.id,
       commentsCount: 0,
       upvotes: 0,
       downvotes: 0,

@@ -44,3 +44,7 @@ const middleware = [
 middleware.map(mw => app.use(mw));
 
 app.listen(4000);
+process.on("SIGINT", () => {
+  console.log("Bye bye!");
+  process.exit();
+});

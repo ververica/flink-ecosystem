@@ -26,6 +26,7 @@ const licenses = [
   "Eclipse License",
 ];
 
+// The error messagse from 'Joi' are not quite a joy to parse. :(
 const parseError = (error: string) => {
   const firstBracket = error.indexOf("[");
   const lastBracket = error.lastIndexOf("]");
@@ -40,7 +41,9 @@ const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 
 const handleSubmit: HandleSubmit = setError => async e => {
   e.preventDefault();
-  const data = getFormData(e.target);
+  const data = getFormData(e.target) as NewPackageData;
+  const tags = data.tagsString.split(",").map(tag => tag.trim());
+  data.tags = tags;
 
   try {
     await axios.post("/api/v1/packages", data);
@@ -179,7 +182,7 @@ export default function NewPackage(props: NewPackageProps) {
                 error={error}
                 id="tags"
                 label="Tags"
-                name="tags"
+                name="tagsString"
                 placeholder="Tags"
               />
             </div>
@@ -248,3 +251,8 @@ type HandleSubmit = (
 ) => (e: SyntheticEvent) => void;
 
 type MakeGeneralError = (message: string) => Error;
+
+type NewPackageData = {
+  tags: Array<string>;
+  tagsString: string;
+};

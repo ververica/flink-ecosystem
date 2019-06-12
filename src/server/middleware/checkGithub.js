@@ -6,6 +6,11 @@ const defaultOptions = {
 
 export default function checkGithub(options = defaultOptions) {
   return async (ctx, next) => {
+    // set user.id to 0 so it's always available even if there is no user.
+    ctx.state.user = {
+      id: 0,
+    };
+
     const token = ctx.cookies.get("github-token");
     const user = ctx.cache.get(token);
 
@@ -35,17 +40,10 @@ export default function checkGithub(options = defaultOptions) {
         { headers: { Authorization: `Basic ${basicAuthString}` } }
       );
 
-      const userExists = await ctx
-        .knex("user")
-        .select("*")
-        .where({ id: data.user.id })
-        .first();
-
-      if (!userExists) {
-        await ctx
-          .knex("user")
-          .insert({ id: data.user.id, login: data.user.login });
-      }
+      await ctx.knex.raw(
+        "replace user (id, login, avatar_url) values (?, ?, ?)",
+        [data.user.id, data.user.login, data.user.avatar_url]
+      );
 
       ctx.cache.set(token, data.user);
       ctx.state.user = data.user;

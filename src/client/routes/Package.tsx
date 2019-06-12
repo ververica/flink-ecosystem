@@ -4,6 +4,9 @@ import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
 import { Package as TPackage } from "client/components/PackageList";
+import Comment from "client/components/Comment";
+import ReactMarkdown from "react-markdown";
+import Votes from "client/components/Votes";
 
 const Img = styled.img`
   object-fit: cover;
@@ -11,7 +14,8 @@ const Img = styled.img`
 `;
 
 export default function Package(props: Props) {
-  const pkg = useFetch(`/api/v1/packages/${props.package}`) as TPackage;
+  const data = useFetch(`/api/v1/packages/${props.package}`) as PackageData;
+  const { package: pkg, comments } = data;
 
   return (
     <MainCard header={`Package: ${pkg.name} `}>
@@ -21,7 +25,9 @@ export default function Package(props: Props) {
             <Img src="https://lorempixel.com/640/480/city/" alt="something" />
           </div>
         </div>
-        <div className="col-sm-9">{pkg.readme}</div>
+        <div className="col-sm-9">
+          <ReactMarkdown source={pkg.readme} />
+        </div>
       </div>
       <div className="row mt-3 justify-content-between">
         <div className="col-auto">
@@ -34,13 +40,18 @@ export default function Package(props: Props) {
 
         <div className="col-auto">License: {pkg.license}</div>
         <div className="col-auto">
-          <i className="fal fa-thumbs-up mr-1" title="Upvotes" />
-          {pkg.upvotes}
-          <span className="mr-3" />
-          <i className="fal fa-thumbs-down mr-1" title="Downvotes" />
-          {pkg.downvotes}
+          <Votes
+            slug={pkg.slug}
+            upvotes={pkg.upvotes}
+            downvotes={pkg.downvotes}
+            vote={pkg.vote}
+          />
         </div>
       </div>
+      <hr />
+      {data.comments.map(comment => (
+        <Comment {...comment} key={comment.id} />
+      ))}
     </MainCard>
   );
 }
@@ -48,3 +59,15 @@ export default function Package(props: Props) {
 type Props = RouteComponentProps<{
   package: string;
 }>;
+
+type PackageData = {
+  package: TPackage;
+  comments: Array<{
+    added: string;
+    avatar_url: string;
+    login: string;
+    id: number;
+    text: string;
+    user_id: number;
+  }>;
+};
