@@ -4,7 +4,7 @@ import Router from "koa-router";
 import serve from "koa-static";
 import cors from "kcors";
 import bodyParser from "koa-bodyparser";
-import knex from "koa-knex";
+import knex from "knex";
 
 import path from "path";
 import fs from "fs";
@@ -22,18 +22,24 @@ const indexFile = fs.readFileSync(path.resolve("./build/index.html"), {
 
 router.get("*", ctx => (ctx.body = indexFile));
 
+const db = knex({
+  client: "mysql",
+  pool: { min: 0 },
+  connection: {
+    host: "127.0.0.1",
+    user: "root",
+    password: "test",
+    database: "flink-ecosystem",
+  },
+});
+
 const middleware = [
   cors(),
   bodyParser(),
-  knex({
-    client: "mysql",
-    connection: {
-      host: "127.0.0.1",
-      user: "root",
-      password: "test",
-      database: "flink-ecosystem",
-    },
-  }),
+  (ctx, next) => {
+    ctx.db = db;
+    return next();
+  },
   lruCache,
   errorHandler,
   serve("./build"),
@@ -44,7 +50,10 @@ const middleware = [
 middleware.map(mw => app.use(mw));
 
 app.listen(4000);
-process.on("SIGINT", () => {
+console.log("server listening on port 4000");
+
+process.on("SIGTERM", () => {
   console.log("Bye bye!");
+  db.destroy();
   process.exit();
 });

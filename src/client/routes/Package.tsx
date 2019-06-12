@@ -18,6 +18,8 @@ export default function Package(props: Props) {
   const data = useFetch(`/api/v1/packages/${props.package}`) as PackageData;
   const { package: pkg, comments } = data;
 
+  if (!pkg) return null;
+
   return (
     <MainCard header={`Package: ${pkg.name} `}>
       <div className="row">

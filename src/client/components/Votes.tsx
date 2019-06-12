@@ -19,7 +19,13 @@ export default function Votes(props: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug: props.slug, vote: newVote }),
-      }).then(r => r.json());
+      }).then(r => {
+        if (r.ok) {
+          return r.json();
+        } else {
+          throw r;
+        }
+      });
       setVoteState(results);
     } catch (e) {}
   };

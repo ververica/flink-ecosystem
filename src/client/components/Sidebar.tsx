@@ -3,6 +3,7 @@ import React, {
   useEffect,
   FunctionComponent,
   SyntheticEvent,
+  useContext,
 } from "react";
 import { Link } from "@reach/router";
 import styled from "styled-components";
@@ -12,6 +13,7 @@ import logo from "client/assets/flink-logo.png";
 // import flinkIcon from "client/assets/flink-icon.svg";
 
 import { mediaLarge } from "client/helpers/styles";
+import { UserData } from "./UserDataProvider";
 
 const SidebarColumn = styled.div.attrs({
   className: "col-lg-3 order-first bg-light card",
@@ -110,6 +112,8 @@ export default function Sidebar(props: SidebarProps) {
   const [mainCollapsed, setMainCollapsed] = useState(false);
   const [subCollapsed, setSubCollapsed] = useState(false);
 
+  const { user } = useContext(UserData);
+
   const toggleMain = (e: SyntheticEvent) => {
     e.preventDefault();
     setMainCollapsed(!mainCollapsed);
@@ -181,7 +185,7 @@ export default function Sidebar(props: SidebarProps) {
           {/* <NavItem to="/guide" icon="books">
             Guide
           </NavItem> */}
-          {props.userLogin && (
+          {user.login && (
             <>
               <hr className="m-0" />
               <NavItem to="/new-package" icon="plus">

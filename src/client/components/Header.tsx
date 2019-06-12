@@ -1,6 +1,7 @@
-import React, { useState, useEffect, SyntheticEvent } from "react";
+import React, { useState, useEffect, SyntheticEvent, useContext } from "react";
 import styled from "styled-components";
 import useLocation from "client/helpers/useLocation";
+import { UserData } from "./UserDataProvider";
 
 const SearchIcon = styled.small.attrs({
   className: "fal fa-search mr-2",
@@ -17,57 +18,31 @@ const SearchInput = styled.input.attrs({
   "aria-label": "Search",
 })``;
 
-const WelcomeUser = (props: WelcomeUserProps) => (
-  <>
-    <span className="mr-2">Welcome, {props.userLogin}</span>
-    <a href="/logout" onClick={props.logout}>
-      Logout
-    </a>
-  </>
-);
+const WelcomeUser = () => {
+  const { user, logout } = useContext(UserData);
+  return (
+    <>
+      <span className="mr-2">Welcome, {user.login}</span>
+      <a href="/logout" onClick={logout}>
+        Logout
+      </a>
+    </>
+  );
+};
 
 export default function Header(props: HeaderProps) {
-  const [authWindow, setAuthWindow] = useState<Window | null>(null);
-  const { refreshUser } = props;
   const { location } = useLocation();
   const searchQuery = (location.pathname.match(/^\/search\/(.*)/) || [])[1];
 
-  useEffect(() => {
-    const verifyLogin = (e: MessageEvent) => {
-      if (e.origin === location.origin && e.data === "github-login-success") {
-        authWindow && authWindow.close();
-        setAuthWindow(null);
-        refreshUser();
-      }
-    };
-
-    if (authWindow) {
-      window.addEventListener("message", verifyLogin);
-      return () => {
-        window.removeEventListener("message", verifyLogin);
-      };
-    }
-  }, [authWindow, refreshUser, location]);
-
-  const openGithubLogin = (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    const auth = window.open(
-      "/auth",
-      "Login with Github",
-      "width=600,height=600"
-    );
-
-    setAuthWindow(auth);
-  };
+  const { user, openGithubLogin } = useContext(UserData);
 
   return (
     <nav className="navbar navbar-light pr-0 mb-4">
       <ul className="ml-auto navbar-nav mr-3">
         <li className="nav-item">
-          <small hidden={props.loading}>
-            {props.userLogin ? (
-              <WelcomeUser userLogin={props.userLogin} logout={props.logout} />
+          <small>
+            {user.login ? (
+              <WelcomeUser />
             ) : (
               <a href="/auth" onClick={openGithubLogin}>
                 Login With Github
@@ -87,14 +62,5 @@ export default function Header(props: HeaderProps) {
 }
 
 type HeaderProps = {
-  loading: boolean;
-  logout: (e: SyntheticEvent) => void;
   onSubmit: (e: SyntheticEvent) => void;
-  refreshUser: () => void;
-  userLogin: string;
-};
-
-type WelcomeUserProps = {
-  logout: (e: SyntheticEvent) => void;
-  userLogin: string;
 };

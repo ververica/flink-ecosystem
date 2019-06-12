@@ -26,15 +26,15 @@ export const get = [
     const offset = (page - 1) * limit;
 
     const packagesQuery = ctx
-      .knex("package")
+      .db("package")
       .select(
         "package.name",
         "package.slug",
         "package.description",
         "package.updated",
-        ctx.knex.raw("ifnull(vote.vote, 0) as vote"),
-        ctx.knex.raw("count(distinct upvote.id) as upvotes"),
-        ctx.knex.raw("count(distinct downvote.id) as downvotes")
+        ctx.db.raw("ifnull(vote.vote, 0) as vote"),
+        ctx.db.raw("count(distinct upvote.id) as upvotes"),
+        ctx.db.raw("count(distinct downvote.id) as downvotes")
       )
       .leftJoin("vote", join => {
         join
@@ -52,7 +52,7 @@ export const get = [
       .offset(offset);
 
     const countQuery = ctx
-      .knex("package")
+      .db("package")
       .count("* as count")
       .first();
 

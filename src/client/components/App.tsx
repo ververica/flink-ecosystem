@@ -14,7 +14,8 @@ import {
 } from "client/routes";
 import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
-import { useGet } from "client/helpers/useAxios";
+
+import UserDataProvider from "./UserDataProvider";
 
 const Container = styled.div.attrs({
   className: "container min-vh-100 d-flex flex-column",
@@ -34,14 +35,17 @@ const Container = styled.div.attrs({
 `;
 
 export default function App() {
-  const [user, loading, setUser, refreshData] = useGet(
-    "/api/v1/user"
-  ) as GetUserData;
+  const user = {
+    login: "",
+  };
+
+  const refreshData = () => {};
+  const loading = false;
 
   const logout = (e: SyntheticEvent) => {
     e.preventDefault();
     cookies.remove("github-token");
-    setUser({});
+    // setUser({});
   };
 
   const onSubmit = (e: SyntheticEvent) => {
@@ -51,46 +55,46 @@ export default function App() {
   };
 
   return (
-    <Container>
-      <div className="row no-gutters w-100 flex-grow-1">
-        <div className="col-lg-9 d-flex flex-column">
-          <Header
-            onSubmit={onSubmit}
-            userLogin={user.login}
-            logout={logout}
-            refreshUser={refreshData}
-            loading={loading}
-          />
-          <Suspense fallback="Loading... ">
-            <Router primary={false} className="flex-grow-1 d-flex flex-column">
-              <Packages default />
-              <NewPackage path="/new-package" userLogin={user.login} />
-              <Package path="/packages/:package" />
-              <Category path="/categories/:category" />
-              <Search path="/search/:searchQuery" />
-              <Guide path="/guide" />
-            </Router>
-          </Suspense>
+    <UserDataProvider>
+      <Container>
+        <div className="row no-gutters w-100 flex-grow-1">
+          <div className="col-lg-9 d-flex flex-column">
+            <Header onSubmit={onSubmit} />
+            <Suspense fallback="Loading... ">
+              <Router
+                primary={false}
+                className="flex-grow-1 d-flex flex-column"
+              >
+                <Packages default />
+                <NewPackage path="/new-package" userLogin={user.login} />
+                <Package path="/packages/:package" />
+                <Category path="/categories/:category" />
+                <Search path="/search/:searchQuery" />
+                <Guide path="/guide" />
+              </Router>
+            </Suspense>
+          </div>
+          <Sidebar userLogin={user.login} />
         </div>
-        <Sidebar userLogin={user.login} />
-      </div>
-      <div className="row no-gutters text-center d-block py-4">
-        <p>
-          Copyright © 2014-2019{" "}
-          <a href="https://apache.org/">The Apache Software Foundation</a>. All
-          Rights Reserved.
-        </p>
-        <p>
-          Apache Flink, Flink®, Apache®, and the squirrel logo are either
-          registered trademarks or trademarks of The Apache Software Foundation.
-        </p>
-        <p>
-          <a href="https://flink.apache.org/privacy-policy.html">
-            Privacy Policy
-          </a>
-        </p>
-      </div>
-    </Container>
+        <div className="row no-gutters text-center d-block py-4">
+          <p>
+            Copyright © 2014-2019{" "}
+            <a href="https://apache.org/">The Apache Software Foundation</a>.
+            All Rights Reserved.
+          </p>
+          <p>
+            Apache Flink, Flink®, Apache®, and the squirrel logo are either
+            registered trademarks or trademarks of The Apache Software
+            Foundation.
+          </p>
+          <p>
+            <a href="https://flink.apache.org/privacy-policy.html">
+              Privacy Policy
+            </a>
+          </p>
+        </div>
+      </Container>
+    </UserDataProvider>
   );
 }
 

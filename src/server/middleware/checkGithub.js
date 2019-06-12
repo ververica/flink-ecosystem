@@ -40,7 +40,7 @@ export default function checkGithub(options = defaultOptions) {
         { headers: { Authorization: `Basic ${basicAuthString}` } }
       );
 
-      await ctx.knex.raw(
+      await ctx.db.raw(
         "replace user (id, login, avatar_url) values (?, ?, ?)",
         [data.user.id, data.user.login, data.user.avatar_url]
       );

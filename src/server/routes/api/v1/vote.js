@@ -7,24 +7,24 @@ export const post = [
 
     try {
       const { id } = await ctx
-        .knex("package")
+        .db("package")
         .select()
         .where({ slug })
         .first();
 
       // insert or replace the vote.
-      await ctx.knex.raw(
+      await ctx.db.raw(
         `replace into vote (user_id, package_id, vote) values(?, ?, ?)`,
         [ctx.state.user.id, id, vote]
       );
 
       // query the table again to get the current vote status, and scores
       const results = await ctx
-        .knex("vote")
+        .db("vote")
         .select(
           "vote.vote",
-          ctx.knex.raw("count(distinct upvote.id) as upvotes"),
-          ctx.knex.raw("count(distinct downvote.id) as downvotes")
+          ctx.db.raw("count(distinct upvote.id) as upvotes"),
+          ctx.db.raw("count(distinct downvote.id) as downvotes")
         )
         .where({ "vote.package_id": id, "vote.user_id": ctx.state.user.id })
         .leftJoin("vote as upvote", join => {
