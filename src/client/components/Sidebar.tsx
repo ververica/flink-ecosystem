@@ -178,9 +178,9 @@ export default function Sidebar(props: SidebarProps) {
               </ul>
             </AnimateHeight>
           </li>
-          <NavItem to="/guide" icon="books">
+          {/* <NavItem to="/guide" icon="books">
             Guide
-          </NavItem>
+          </NavItem> */}
           {props.userLogin && (
             <>
               <hr className="m-0" />

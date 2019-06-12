@@ -50,7 +50,7 @@ export const get = [
           "user.login"
         )
         .where({ slug: ctx.params.package })
-        .leftJoin("comment", "comment.package_id", "package.id")
+        .join("comment", "comment.package_id", "package.id")
         .leftJoin("user", "comment.user_id", "user.id");
 
       ctx.body = {

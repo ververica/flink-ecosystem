@@ -7,6 +7,7 @@ import { Package as TPackage } from "client/components/PackageList";
 import Comment from "client/components/Comment";
 import ReactMarkdown from "react-markdown";
 import Votes from "client/components/Votes";
+import AddComment from "client/components/AddComment";
 
 const Img = styled.img`
   object-fit: cover;
@@ -39,19 +40,21 @@ export default function Package(props: Props) {
         </div>
 
         <div className="col-auto">License: {pkg.license}</div>
-        <div className="col-auto">
+        <big className="col-auto">
           <Votes
             slug={pkg.slug}
             upvotes={pkg.upvotes}
             downvotes={pkg.downvotes}
             vote={pkg.vote}
           />
-        </div>
+        </big>
       </div>
       <hr />
-      {data.comments.map(comment => (
-        <Comment {...comment} key={comment.id} />
-      ))}
+      {data.comments.length ? (
+        data.comments.map(comment => <Comment {...comment} key={comment.id} />)
+      ) : (
+        <AddComment />
+      )}
     </MainCard>
   );
 }
