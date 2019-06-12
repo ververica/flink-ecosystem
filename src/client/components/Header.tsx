@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SyntheticEvent } from "react";
 import styled from "styled-components";
 import useLocation from "client/helpers/useLocation";
 
@@ -10,16 +10,32 @@ const SearchIcon = styled.small.attrs({
   right: 0;
 `;
 
-export default function Header(props) {
-  const [authWindow, setAuthWindow] = useState(null);
+const SearchInput = styled.input.attrs({
+  className: "form-control form-control-sm pr-4",
+  name: "searchQuery",
+  placeholder: "Search",
+  "aria-label": "Search",
+})``;
+
+const WelcomeUser = (props: WelcomeUserProps) => (
+  <>
+    <span className="mr-2">Welcome, {props.userLogin}</span>
+    <a href="/logout" onClick={props.logout}>
+      Logout
+    </a>
+  </>
+);
+
+export default function Header(props: HeaderProps) {
+  const [authWindow, setAuthWindow] = useState<Window | null>(null);
   const { refreshUser } = props;
   const { location } = useLocation();
   const searchQuery = (location.pathname.match(/^\/search\/(.*)/) || [])[1];
 
   useEffect(() => {
-    const verifyLogin = e => {
+    const verifyLogin = (e: MessageEvent) => {
       if (e.origin === location.origin && e.data === "github-login-success") {
-        authWindow.close();
+        authWindow && authWindow.close();
         setAuthWindow(null);
         refreshUser();
       }
@@ -33,7 +49,7 @@ export default function Header(props) {
     }
   }, [authWindow, refreshUser, location]);
 
-  const openGithubLogin = e => {
+  const openGithubLogin = (e: SyntheticEvent) => {
     e.preventDefault();
 
     const auth = window.open(
@@ -51,12 +67,7 @@ export default function Header(props) {
         <li className="nav-item">
           <small hidden={props.loading}>
             {props.userLogin ? (
-              <>
-                <span className="mr-2">Welcome, {props.userLogin}</span>
-                <a href="/logout" onClick={props.logout}>
-                  Logout
-                </a>
-              </>
+              <WelcomeUser userLogin={props.userLogin} logout={props.logout} />
             ) : (
               <a href="/auth" onClick={openGithubLogin}>
                 Login With Github
@@ -67,16 +78,23 @@ export default function Header(props) {
       </ul>
       <form className="form-inline my-lg-0" onSubmit={props.onSubmit}>
         <div className="position-relative d-flex align-items-center">
-          <input
-            defaultValue={searchQuery}
-            className="form-control form-control-sm pr-4"
-            name="searchQuery"
-            placeholder="Search"
-            aria-label="Search"
-          />
+          <SearchInput defaultValue={searchQuery} />
           <SearchIcon />
         </div>
       </form>
     </nav>
   );
 }
+
+type HeaderProps = {
+  loading: boolean;
+  logout: (e: SyntheticEvent) => void;
+  onSubmit: (e: SyntheticEvent) => void;
+  refreshUser: () => void;
+  userLogin: string;
+};
+
+type WelcomeUserProps = {
+  logout: (e: SyntheticEvent) => void;
+  userLogin: string;
+};

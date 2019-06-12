@@ -2,14 +2,16 @@ import React from "react";
 import useFetch from "fetch-suspense";
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
+import { RouteComponentProps } from "@reach/router";
+import { Package as TPackage } from "client/components/PackageList";
 
 const Img = styled.img`
   object-fit: cover;
   max-height: 150px;
 `;
 
-export default function Package(props) {
-  const pkg = useFetch(`/api/v1/packages/${props.package}`);
+export default function Package(props: Props) {
+  const pkg = useFetch(`/api/v1/packages/${props.package}`) as TPackage;
 
   return (
     <MainCard header={`Package: ${pkg.name} `}>
@@ -42,3 +44,7 @@ export default function Package(props) {
     </MainCard>
   );
 }
+
+type Props = RouteComponentProps<{
+  package: string;
+}>;

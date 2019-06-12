@@ -4,11 +4,6 @@ import qs from "querystring";
 import cx from "classnames";
 import { Link } from "@reach/router";
 
-type CreatePages = (
-  current: number,
-  options: { range: number; total: number }
-) => Array<JSX.Element>;
-
 const createPages: CreatePages = (current, { range, total = 1 }) => {
   const pager = [];
   const start = 1;
@@ -30,12 +25,6 @@ const createPages: CreatePages = (current, { range, total = 1 }) => {
   }
 
   return pager;
-};
-
-type PageLinkProps = {
-  active?: boolean;
-  disabled?: boolean;
-  i: number;
 };
 
 const PageLink: FunctionComponent<PageLinkProps> = props => {
@@ -61,12 +50,7 @@ const PageLink: FunctionComponent<PageLinkProps> = props => {
   );
 };
 
-type PagerProps = {
-  page: number | string;
-  total: number;
-};
-
-const Pager: FunctionComponent<PagerProps> = props => {
+export default function Pager(props: PagerProps) {
   const page = Number(props.page);
   const { total } = props;
   const range = 5;
@@ -84,6 +68,20 @@ const Pager: FunctionComponent<PagerProps> = props => {
       </ul>
     </nav>
   );
+}
+
+type CreatePages = (
+  current: number,
+  options: { range: number; total: number }
+) => Array<JSX.Element>;
+
+type PageLinkProps = {
+  active?: boolean;
+  disabled?: boolean;
+  i: number;
 };
 
-export default Pager;
+type PagerProps = {
+  page: number | string;
+  total: number;
+};

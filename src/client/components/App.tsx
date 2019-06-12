@@ -1,7 +1,8 @@
-import React, { Suspense } from "react";
+import React, { Suspense, SyntheticEvent } from "react";
 import cookies from "js-cookie";
 import { Router, navigate } from "@reach/router";
 import getFormData from "get-form-data";
+import styled from "styled-components/macro";
 
 import {
   Package,
@@ -15,23 +16,42 @@ import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
 import { useGet } from "client/helpers/useAxios";
 
-export default function App() {
-  const [user, loading, setUser, refreshData] = useGet("/api/v1/user");
+const Container = styled.div.attrs({
+  className: "container min-vh-100 d-flex flex-column",
+})`
+  .nav a {
+    color: #333;
 
-  const logout = e => {
+    &:hover {
+      color: #333;
+      background: #e7e7e7;
+    }
+
+    &.active {
+      font-weight: bold;
+    }
+  }
+`;
+
+export default function App() {
+  const [user, loading, setUser, refreshData] = useGet(
+    "/api/v1/user"
+  ) as GetUserData;
+
+  const logout = (e: SyntheticEvent) => {
     e.preventDefault();
     cookies.remove("github-token");
     setUser({});
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const { searchQuery } = getFormData(e.target);
     navigate(searchQuery ? `/search/${searchQuery}` : "/");
   };
 
   return (
-    <div className="container min-vh-100 d-flex flex-column">
+    <Container>
       <div className="row no-gutters w-100 flex-grow-1">
         <div className="col-lg-9 d-flex flex-column">
           <Header
@@ -55,6 +75,12 @@ export default function App() {
         <Sidebar userLogin={user.login} />
       </div>
       <div className="row no-gutters text-center d-block">footer</div>
-    </div>
+    </Container>
   );
 }
+
+type User = {
+  login: string;
+};
+
+type GetUserData = [User, boolean, (user: User | {}) => void, () => void];

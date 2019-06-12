@@ -16,5 +16,5 @@
     "jsx": "preserve",
     "baseUrl": "src/"
   },
-  "include": ["src/client"]
+  "include": ["src"]
 }

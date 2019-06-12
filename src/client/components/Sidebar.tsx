@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  FunctionComponent,
+  SyntheticEvent,
+} from "react";
 import { Link } from "@reach/router";
 import styled from "styled-components";
 import cx from "classnames";
 import AnimateHeight from "react-animate-height";
-import debounce from "lodash/fp";
 import logo from "client/assets/flink-logo.png";
 // import flinkIcon from "client/assets/flink-icon.svg";
 
@@ -74,22 +78,24 @@ const TitleContainer = styled.div`
   }
 `;
 
-const getRotation = props => (props.collapsed ? 0 : 540);
+const getRotation = (props: CaretProps) => (props.collapsed ? 0 : 540);
 
 const Caret = styled.i.attrs({
   className: "fal fa-angle-down",
-})`
+})<CaretProps>`
   transition: transform 350ms ease;
   transform: rotateZ(${getRotation}deg);
 `;
 
-const isActive = ({ isCurrent }) => {
+const isActive = ({ isCurrent }: { isCurrent: boolean }) => {
   return { className: cx("nav-link", { active: isCurrent }) };
 };
 
-const Icon = props => <i className={`fal fa-fw mr-2 fa-${props.icon}`} />;
+const Icon = (props: IconProps) => (
+  <i className={`fal fa-fw mr-2 fa-${props.icon}`} />
+);
 
-const NavItem = props => {
+const NavItem: FunctionComponent<NavItemProps> = props => {
   return (
     <li className="nav-item">
       <Link to={props.to} getProps={isActive}>
@@ -100,16 +106,16 @@ const NavItem = props => {
   );
 };
 
-export default function Sidebar(props) {
+export default function Sidebar(props: SidebarProps) {
   const [mainCollapsed, setMainCollapsed] = useState(false);
   const [subCollapsed, setSubCollapsed] = useState(false);
 
-  const toggleMain = e => {
+  const toggleMain = (e: SyntheticEvent) => {
     e.preventDefault();
     setMainCollapsed(!mainCollapsed);
   };
 
-  const toggleCategories = e => {
+  const toggleCategories = (e: SyntheticEvent) => {
     e.preventDefault();
     setSubCollapsed(!subCollapsed);
   };
@@ -192,7 +198,6 @@ export default function Sidebar(props) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {/* <img src={flinkIcon} style={{ width: 20 }} className="mr-2" /> */}
               <Icon icon="external-link-square" />
               Apache Flink
             </a>
@@ -202,3 +207,20 @@ export default function Sidebar(props) {
     </SidebarColumn>
   );
 }
+
+type CaretProps = {
+  collapsed: boolean;
+};
+
+type IconProps = {
+  icon: string;
+};
+
+type NavItemProps = {
+  to: string;
+  icon: string;
+};
+
+type SidebarProps = {
+  userLogin: string;
+};

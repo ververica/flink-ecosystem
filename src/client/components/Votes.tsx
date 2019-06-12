@@ -1,6 +1,42 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, SyntheticEvent } from "react";
 import styled from "styled-components";
 import cx from "classnames";
+
+const VoteContainer = styled.small.attrs<VoteContainerProps>(props => ({
+  className: cx("mr-4", { "text-muted": !props.voted }),
+}))<VoteContainerProps>`
+  cursor: pointer;
+`;
+
+export default function Votes(props: Props) {
+  const [{ vote, upvotes, downvotes }, setVoteState] = useState(props);
+
+  const castVote: CastVote = (currentVote, change) => async e => {
+    e.preventDefault();
+    const newVote = currentVote !== change ? change : 0;
+    try {
+      const results = await fetch(`/api/v1/vote`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: props.slug, vote: newVote }),
+      }).then(r => r.json());
+      setVoteState(results);
+    } catch (e) {}
+  };
+
+  return (
+    <>
+      <VoteContainer voted={vote > 0} onClick={castVote(vote, 1)}>
+        <i className="fal fa-thumbs-up mr-1" title="Upvotes" />
+        {upvotes}
+      </VoteContainer>
+      <VoteContainer voted={vote < 0} onClick={castVote(vote, -1)}>
+        <i className="fal fa-thumbs-down mr-1" title="Upvotes" />
+        {downvotes}
+      </VoteContainer>
+    </>
+  );
+}
 
 type Props = {
   downvotes: number;
@@ -9,42 +45,11 @@ type Props = {
   vote: number;
 };
 
-const VoteContainer = styled.small`
-  margin-right: 1.5rem;
-  cursor: pointer;
-`;
+type CastVote = (
+  currentVote: number,
+  change: number
+) => (e: SyntheticEvent) => void;
 
-export default function Upvote(props: Props) {
-  const [{ vote, upvotes, downvotes }, setVoteState] = useState(props);
-
-  const castVote = (currentVote: number, change: number) => async (e: any) => {
-    e.preventDefault();
-    const newVote = currentVote !== change ? change : 0;
-    fetch(`/api/v1/vote`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug: props.slug, vote: newVote }),
-    })
-      .then(r => r.json())
-      .then(setVoteState);
-  };
-
-  return (
-    <>
-      <VoteContainer
-        className={cx({ "text-muted": vote < 1 })}
-        onClick={castVote(vote, 1)}
-      >
-        <i className="fal fa-thumbs-up mr-1" title="Upvotes" />
-        {upvotes}
-      </VoteContainer>
-      <VoteContainer
-        className={cx({ "text-muted": vote > -1 })}
-        onClick={castVote(vote, -1)}
-      >
-        <i className="fal fa-thumbs-down mr-1" title="Upvotes" />
-        {downvotes}
-      </VoteContainer>
-    </>
-  );
-}
+type VoteContainerProps = {
+  voted: boolean;
+};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, SyntheticEvent } from "react";
 import getFormData from "get-form-data";
 import axios from "axios";
 import { get, isEmpty } from "lodash/fp";
@@ -7,6 +7,7 @@ import cx from "classnames";
 import MainCard from "client/components/MainCard";
 import InputField from "client/components/InputField";
 import slugify from "client/helpers/slugify";
+import { RouteComponentProps } from "@reach/router";
 
 const categories = [
   "Connectors",
@@ -25,18 +26,19 @@ const licenses = [
   "Eclipse License",
 ];
 
-const parseError = error => {
+const parseError = (error: string) => {
   const firstBracket = error.indexOf("[");
   const lastBracket = error.lastIndexOf("]");
-  const message = error.slice(firstBracket + 1, lastBracket);
-  const id = message.match(/"(.*?)"/)[1];
+  const message = error.slice(firstBracket + 1, lastBracket) || "";
+  const match = message.match(/"(.*?)"/) || [];
+  const id = match[1];
 
   return { id, message };
 };
 
-const makeGeneralError = message => ({ id: null, message });
+const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 
-const handleSubmit = setError => async e => {
+const handleSubmit: HandleSubmit = setError => async e => {
   e.preventDefault();
   const data = getFormData(e.target);
 
@@ -54,15 +56,29 @@ const handleSubmit = setError => async e => {
   }
 };
 
-export default function NewPackage() {
-  const [error, setError] = useState({});
+export default function NewPackage(props: NewPackageProps) {
+  const [error, setError] = useState({}) as [Error, () => void];
   const [name, setName] = useState("");
   const [id, setId] = useState("");
 
   const onSubmit = handleSubmit(setError);
 
+  const handleNameChange = (e: React.FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    setName(target.value);
+  };
+
+  const handleIdChange = (e: React.FormEvent) => {
+    const target = e.target as HTMLInputElement;
+    setId(target.value);
+  };
+
+  const handleBlur = () => {
+    if (!id) setId(slugify(name));
+  };
+
   return (
-    <MainCard className="p-3" header="Add a new Package">
+    <MainCard header="Add a new Package">
       {!isEmpty(error) && error.id === null && (
         <div className="alert alert-danger" role="alert">
           {error.message}
@@ -76,10 +92,8 @@ export default function NewPackage() {
           label="Package Name"
           name="name"
           placeholder="Package Name"
-          onChange={e => setName(e.target.value)}
-          onBlur={() => {
-            if (!id) setId(slugify(name));
-          }}
+          onChange={handleNameChange}
+          onBlur={handleBlur}
         />
 
         <InputField
@@ -90,7 +104,7 @@ export default function NewPackage() {
           label="Package ID"
           name="id"
           placeholder="Package ID"
-          onChange={e => setId(e.target.value)}
+          onChange={handleIdChange}
         />
 
         <InputField
@@ -108,7 +122,7 @@ export default function NewPackage() {
               "is-invalid": error.id === "readme",
             })}
             id="readme"
-            rows="6"
+            rows={6}
             placeholder="Readme"
           />
         </div>
@@ -185,7 +199,7 @@ export default function NewPackage() {
   );
 }
 
-const SelectField = props => {
+const SelectField = (props: SelectFieldProps) => {
   return (
     <>
       <label htmlFor={props.id}>{props.label}</label>
@@ -209,3 +223,28 @@ const SelectField = props => {
     </>
   );
 };
+
+type Error = {
+  id: string;
+  message: string;
+};
+
+type SelectFieldProps = {
+  id: string;
+  label: string;
+  error: Error;
+  defaultValue?: string;
+  name: string;
+  placeholder: string;
+  options: Array<string>;
+};
+
+type NewPackageProps = RouteComponentProps<{
+  userLogin: string;
+}>;
+
+type HandleSubmit = (
+  setError: (error: Error) => void
+) => (e: SyntheticEvent) => void;
+
+type MakeGeneralError = (message: string) => Error;

@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-export default function InputField(props) {
+export default function InputField(props: Props) {
   return (
     <div className="form-group">
       <label htmlFor={props.id}>{props.label}</label>
@@ -26,3 +26,15 @@ export default function InputField(props) {
     </div>
   );
 }
+
+type Props = {
+  id: string;
+  label: string;
+  error: { id: string };
+  name: string;
+  onBlur?: () => void;
+  onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  value?: string | number;
+  help?: string;
+};
