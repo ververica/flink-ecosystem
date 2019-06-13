@@ -10,6 +10,7 @@ export const get = [
       const pkg = await ctx
         .db("package")
         .select(
+          "package.id",
           "package.slug",
           "package.name",
           "user.login as owner",

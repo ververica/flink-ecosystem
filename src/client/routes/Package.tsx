@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "fetch-suspense";
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
@@ -15,7 +15,16 @@ const Img = styled.img`
 `;
 
 export default function Package(props: Props) {
-  const data = useFetch(`/api/v1/packages/${props.package}`) as PackageData;
+  const [time, setTime] = useState(0);
+
+  const data = useFetch(
+    `/api/v1/packages/${props.package}?time=${time}`
+  ) as PackageData;
+
+  const refreshPackageData = () => {
+    setTime(Date.now());
+  };
+
   const { package: pkg, comments } = data;
 
   if (!pkg) return null;
@@ -44,6 +53,7 @@ export default function Package(props: Props) {
         <div className="col-auto">License: {pkg.license}</div>
         <big className="col-auto">
           <Votes
+            id={pkg.id}
             slug={pkg.slug}
             upvotes={pkg.upvotes}
             downvotes={pkg.downvotes}
@@ -52,11 +62,16 @@ export default function Package(props: Props) {
         </big>
       </div>
       <hr />
-      {data.comments.length ? (
-        data.comments.map(comment => <Comment {...comment} key={comment.id} />)
-      ) : (
-        <AddComment />
-      )}
+      <AddComment
+        slug={pkg.slug}
+        id={pkg.id}
+        refreshPackageData={refreshPackageData}
+      />
+      {data.comments.length
+        ? data.comments.map(comment => (
+            <Comment {...comment} key={comment.id} />
+          ))
+        : null}
     </MainCard>
   );
 }

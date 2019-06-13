@@ -18,7 +18,7 @@ export default function Votes(props: Props) {
       const results = await fetch(`/api/v1/vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug: props.slug, vote: newVote }),
+        body: JSON.stringify({ slug: props.slug, id: props.id, vote: newVote }),
       }).then(r => {
         if (r.ok) {
           return r.json();
@@ -49,6 +49,7 @@ type Props = {
   slug: string;
   upvotes: number;
   vote: number;
+  id: number;
 };
 
 type CastVote = (

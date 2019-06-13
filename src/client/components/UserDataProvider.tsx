@@ -6,6 +6,7 @@ import useLocation from "client/helpers/useLocation";
 const defaultState = {
   user: {
     login: "",
+    avatar_url: "",
   },
   refreshData: () => {},
   logout: (e: SyntheticEvent) => {},
@@ -25,7 +26,7 @@ export default function UserDataProvider(props: any) {
 
   useEffect(() => {
     refreshData();
-  }, []);
+  }, [refreshData]);
 
   const logout = (e: SyntheticEvent) => {
     e.preventDefault();

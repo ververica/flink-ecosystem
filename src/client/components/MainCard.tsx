@@ -23,7 +23,7 @@ export default function MainCard(props: Props) {
         </div>
       </Card>
       <Card>
-        <div className="card-body">{props.children}</div>
+        <div className="card-body markdown">{props.children}</div>
       </Card>
     </>
   );

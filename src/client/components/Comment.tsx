@@ -9,56 +9,27 @@ const Avatar = styled.img.attrs({
   max-width: 32px;
 `;
 
-const Media = styled.div.attrs({
-  className: "media",
-})`
-  h1 {
-    font-size: 1.5rem;
-  }
-  h2 {
-    font-size: 1.4rem;
-  }
-  h3 {
-    font-size: 1.3rem;
-  }
-  h4 {
-    font-size: 1.2rem;
-  }
-  h5 {
-    font-size: 1.1rem;
-  }
-  h6 {
-    font-size: 1rem;
-  }
-`;
-
-const Code = (props: any) => (
+const code = (props: any) => (
   <pre className="pre-scrollable">
-    <code>{props.children}</code>
+    <code>{props.value}</code>
   </pre>
+);
+
+const table = (table: any) => (
+  <table className="table table-bordered table-sm">{table.children}</table>
 );
 
 export default function Comment(props: AddCommentProps) {
   return (
-    <Media>
+    <div className="media">
       <Avatar src={props.avatar_url} alt={props.login} />
       <div className="media-body">
         <small className="text-muted">
-          {format(props.added, "MM/DD/YYYY")} - {props.login}
+          {props.login} - {format(props.added, "DD.MM.YYYY HH:mma")}
         </small>
-        <ReactMarkdown
-          source={props.text}
-          renderers={{
-            code: code => <Code>{code.value}</Code>,
-            table: table => (
-              <table className="table table-bordered table-sm">
-                {table.children}
-              </table>
-            ),
-          }}
-        />
+        <ReactMarkdown source={props.text} renderers={{ code, table }} />
       </div>
-    </Media>
+    </div>
   );
 }
 

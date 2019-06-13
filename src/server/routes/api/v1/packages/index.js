@@ -28,6 +28,7 @@ export const get = [
     const packagesQuery = ctx
       .db("package")
       .select(
+        "package.id",
         "package.name",
         "package.slug",
         "package.description",

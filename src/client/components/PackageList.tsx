@@ -33,6 +33,7 @@ export default function PackageList(props: Props) {
             <div className="card-text mt-2 d-flex justify-content-between">
               <span>
                 <Votes
+                  id={pkg.id}
                   vote={pkg.vote}
                   slug={pkg.slug}
                   upvotes={pkg.upvotes}
@@ -65,6 +66,7 @@ export type Package = {
   upvotes: number;
   vote: number;
   website: string;
+  id: number;
 };
 
 type Props = {
