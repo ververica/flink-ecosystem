@@ -39,10 +39,12 @@ export default function PackageList(props: Props) {
                   upvotes={pkg.upvotes}
                   downvotes={pkg.downvotes}
                 />
-                <small className="text-muted">
-                  <i className="fal fa-comments mr-1" title="Comments" />
-                  50
-                </small>
+                <Link to={`/packages/${pkg.slug}`}>
+                  <small className="text-muted">
+                    <i className="fal fa-comments mr-1" title="Comments" />
+                    {pkg.comments}
+                  </small>
+                </Link>
               </span>
 
               <small>Last Updated: {format(pkg.updated, "MM/DD/YYYY")}</small>
@@ -67,6 +69,7 @@ export type Package = {
   vote: number;
   website: string;
   id: number;
+  comments: number;
 };
 
 type Props = {

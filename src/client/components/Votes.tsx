@@ -20,11 +20,8 @@ export default function Votes(props: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug: props.slug, id: props.id, vote: newVote }),
       }).then(r => {
-        if (r.ok) {
-          return r.json();
-        } else {
-          throw r;
-        }
+        if (r.ok) return r.json();
+        else throw r;
       });
       setVoteState(results);
     } catch (e) {}

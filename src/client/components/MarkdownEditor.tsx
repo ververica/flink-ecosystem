@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 
 export default function MarkdownEditor(props: any) {
   const [tab, setTab] = useState("write");
+  const [minHeight, setMinHeight] = useState(0);
   const ref = useRef() as any;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -15,13 +16,10 @@ export default function MarkdownEditor(props: any) {
   const changeTab = (newTab: string) => (e: SyntheticEvent) => {
     e.preventDefault();
     setTab(newTab);
-  };
-
-  useEffect(() => {
-    if (tab === "write") {
-      ref.current.focus();
+    if (newTab === "write") {
+      setTimeout(() => ref.current.focus());
     }
-  }, [tab]);
+  };
 
   return (
     <>
@@ -46,9 +44,11 @@ export default function MarkdownEditor(props: any) {
             placeholder={props.placeholder}
             onChange={handleChange}
             minRows={4}
+            name={props.name}
+            onHeightChange={(height: number) => setMinHeight(height)}
           />
         </div>
-        <div hidden={tab === "write"}>
+        <div hidden={tab === "write"} style={{ minHeight }}>
           <ReactMarkdown source={props.content} />
         </div>
       </div>

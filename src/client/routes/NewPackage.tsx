@@ -8,6 +8,7 @@ import MainCard from "client/components/MainCard";
 import InputField from "client/components/InputField";
 import slugify from "client/helpers/slugify";
 import { RouteComponentProps } from "@reach/router";
+import MarkdownEditor from "client/components/MarkdownEditor";
 
 const categories = [
   "Connectors",
@@ -63,6 +64,7 @@ export default function NewPackage(props: NewPackageProps) {
   const [error, setError] = useState({}) as [Error, () => void];
   const [name, setName] = useState("");
   const [id, setId] = useState("");
+  const [readme, setReadme] = useState("");
 
   const onSubmit = handleSubmit(setError);
 
@@ -120,13 +122,15 @@ export default function NewPackage(props: NewPackageProps) {
 
         <div className="form-group">
           <label htmlFor="readme">Readme</label>
-          <textarea
+          <MarkdownEditor
             className={cx("form-control", {
               "is-invalid": error.id === "readme",
             })}
-            id="readme"
-            rows={6}
+            name="readme"
+            content={readme}
+            onChange={setReadme}
             placeholder="Readme"
+            minRows={6}
           />
         </div>
 

@@ -35,7 +35,8 @@ export const get = [
         "package.updated",
         ctx.db.raw("ifnull(vote.vote, 0) as vote"),
         ctx.db.raw("count(distinct upvote.id) as upvotes"),
-        ctx.db.raw("count(distinct downvote.id) as downvotes")
+        ctx.db.raw("count(distinct downvote.id) as downvotes"),
+        ctx.db.raw("count(distinct comment.id) as comments")
       )
       .leftJoin("vote", join => {
         join
@@ -48,6 +49,7 @@ export const get = [
       .leftJoin("vote as downvote", join => {
         join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
       })
+      .leftJoin("comment", "package.id", "comment.package_id")
       .groupBy("package.id")
       .limit(limit)
       .offset(offset);
