@@ -4,7 +4,7 @@ import checkGithub from "../../../../middleware/checkGithub";
 
 const schema = Joi.object().keys({
   name: Joi.string().required(),
-  id: Joi.string()
+  slug: Joi.string()
     .regex(/[a-z0-9-_]{2,}/)
     .required(),
   description: Joi.string().required(),
@@ -12,7 +12,8 @@ const schema = Joi.object().keys({
   website: Joi.string().required(),
   repository: Joi.string().required(),
   category: Joi.string().required(),
-  tags: Joi.array().items(Joi.string()),
+  // tags: Joi.array().items(Joi.string()),
+  tags: Joi.string().required(),
   license: Joi.string().required(),
 });
 
@@ -52,7 +53,8 @@ export const get = [
       .leftJoin("comment", "package.id", "comment.package_id")
       .groupBy("package.id")
       .limit(limit)
-      .offset(offset);
+      .offset(offset)
+      .orderBy("package.added", "desc");
 
     const countQuery = ctx
       .db("package")
@@ -81,18 +83,13 @@ export const post = [
     const validation = Joi.validate(ctx.request.body, schema);
     if (validation.error) ctx.throw(400, validation.error);
 
-    const packageData = {
+    const result = await ctx.db("package").insert({
       ...ctx.request.body,
       user_id: ctx.state.user.id,
-      commentsCount: 0,
-      upvotes: 0,
-      downvotes: 0,
-      added: Date.now(),
-      updated: Date.now(),
-    };
+      added: ctx.db.raw("now()"),
+      updated: ctx.db.raw("now()"),
+    });
 
-    const result = await ctx.db.collection("packages").insertOne(packageData);
-
-    ctx.body = { result: result.ops[0] };
+    ctx.body = { result };
   },
 ];

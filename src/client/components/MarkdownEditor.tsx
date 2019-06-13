@@ -8,10 +8,10 @@ export default function MarkdownEditor(props: any) {
   const [minHeight, setMinHeight] = useState(0);
   const ref = useRef() as any;
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    e.preventDefault();
-    props.onChange(e.target.value);
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   e.preventDefault();
+  //   props.onChange(e.target.value);
+  // };
 
   const changeTab = (newTab: string) => (e: SyntheticEvent) => {
     e.preventDefault();
@@ -40,16 +40,16 @@ export default function MarkdownEditor(props: any) {
           <TextareaAutosize
             inputRef={ref}
             className="form-control"
-            value={props.content}
+            value={props.value}
             placeholder={props.placeholder}
-            onChange={handleChange}
+            onChange={props.onChange}
             minRows={4}
             name={props.name}
             onHeightChange={(height: number) => setMinHeight(height)}
           />
         </div>
         <div hidden={tab === "write"} style={{ minHeight }}>
-          <ReactMarkdown source={props.content} />
+          <ReactMarkdown source={props.value} />
         </div>
       </div>
     </>

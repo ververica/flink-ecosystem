@@ -14,6 +14,11 @@ export default function AddComment(props: AddCommentProps) {
   const { user } = useContext(UserData);
   const [content, setContent] = useState("");
 
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    setContent(e.target.value);
+  };
+
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     const data = { package_id: props.id, text: content };
@@ -35,9 +40,9 @@ export default function AddComment(props: AddCommentProps) {
           <div className="card">
             <div className="card-body">
               <MarkdownEditor
-                content={content}
+                value={content}
                 placeholder="Add a new comment."
-                onChange={setContent}
+                onChange={handleChange}
               />
               <div className="d-flex mt-2">
                 <button

@@ -57,19 +57,21 @@ export default function PackageList(props: Props) {
 }
 
 export type Package = {
+  category: string;
+  comments: number;
   description: string;
   downvotes: number;
+  id: number;
   license: string;
   name: string;
   readme: string;
   repository: string;
   slug: string;
+  tags: string;
   updated: string;
   upvotes: number;
   vote: number;
   website: string;
-  id: number;
-  comments: number;
 };
 
 type Props = {

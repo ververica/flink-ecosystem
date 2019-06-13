@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import cx from "classnames";
 
 export default function InputField(props: Props) {
@@ -27,14 +27,20 @@ export default function InputField(props: Props) {
   );
 }
 
+InputField.defaultProps = {
+  error: {},
+};
+
 type Props = {
+  error?: { id: string };
+  help?: string;
   id: string;
   label: string;
-  error: { id: string };
   name: string;
-  onBlur?: () => void;
-  onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
+  onBlur?: (e: SyntheticEvent) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
-  value?: string | number;
-  help?: string;
-};
+  value: string | number;
+} & DefaultProps;
+
+type DefaultProps = Readonly<typeof InputField.defaultProps>;
