@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useFetch from "fetch-suspense";
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
@@ -30,7 +30,7 @@ export default function Package(props: Props) {
   if (!pkg) return null;
 
   return (
-    <MainCard header={`Package: ${pkg.name} `}>
+    <MainCard header={pkg.name}>
       <div className="row">
         <div className="col-sm-3 order-last ">
           <div className="overflow-hidden d-flex justify-content-center">
@@ -67,10 +67,8 @@ export default function Package(props: Props) {
         id={pkg.id}
         refreshPackageData={refreshPackageData}
       />
-      {data.comments.length
-        ? data.comments.map(comment => (
-            <Comment {...comment} key={comment.id} />
-          ))
+      {comments.length
+        ? comments.map(comment => <Comment {...comment} key={comment.id} />)
         : null}
     </MainCard>
   );

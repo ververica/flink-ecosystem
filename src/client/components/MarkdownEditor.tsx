@@ -1,17 +1,12 @@
-import React, { useState, SyntheticEvent, useRef, useEffect } from "react";
+import React, { useState, SyntheticEvent, useRef, ChangeEvent } from "react";
 import cx from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
 import ReactMarkdown from "react-markdown";
 
-export default function MarkdownEditor(props: any) {
+export default function MarkdownEditor(props: MarkdownEditorProps) {
   const [tab, setTab] = useState("write");
   const [minHeight, setMinHeight] = useState(0);
   const ref = useRef() as any;
-
-  // const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   e.preventDefault();
-  //   props.onChange(e.target.value);
-  // };
 
   const changeTab = (newTab: string) => (e: SyntheticEvent) => {
     e.preventDefault();
@@ -38,6 +33,7 @@ export default function MarkdownEditor(props: any) {
       <div className="pt-2">
         <div hidden={tab === "preview"}>
           <TextareaAutosize
+            id={props.id}
             inputRef={ref}
             className="form-control"
             value={props.value}
@@ -55,3 +51,11 @@ export default function MarkdownEditor(props: any) {
     </>
   );
 }
+
+type MarkdownEditorProps = {
+  id: string;
+  value: string;
+  placeholder: string;
+  name: string;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+};

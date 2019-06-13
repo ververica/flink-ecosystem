@@ -1,5 +1,4 @@
 import React, { Suspense, SyntheticEvent } from "react";
-import cookies from "js-cookie";
 import { Router, navigate } from "@reach/router";
 import getFormData from "get-form-data";
 import styled from "styled-components/macro";
@@ -35,19 +34,6 @@ const Container = styled.div.attrs({
 `;
 
 export default function App() {
-  const user = {
-    login: "",
-  };
-
-  const refreshData = () => {};
-  const loading = false;
-
-  const logout = (e: SyntheticEvent) => {
-    e.preventDefault();
-    cookies.remove("github-token");
-    // setUser({});
-  };
-
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const { searchQuery } = getFormData(e.target);
@@ -66,7 +52,7 @@ export default function App() {
                 className="flex-grow-1 d-flex flex-column"
               >
                 <Packages default />
-                <NewPackage path="/new-package" userLogin={user.login} />
+                <NewPackage path="/new-package" />
                 <Package path="/packages/:package" />
                 <Category path="/categories/:category" />
                 <Search path="/search/:searchQuery" />
@@ -74,7 +60,7 @@ export default function App() {
               </Router>
             </Suspense>
           </div>
-          <Sidebar userLogin={user.login} />
+          <Sidebar />
         </div>
         <div className="row no-gutters text-center d-block py-4">
           <p>

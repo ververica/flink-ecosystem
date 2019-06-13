@@ -40,6 +40,8 @@ export default function AddComment(props: AddCommentProps) {
           <div className="card">
             <div className="card-body">
               <MarkdownEditor
+                id="comment"
+                name="comment"
                 value={content}
                 placeholder="Add a new comment."
                 onChange={handleChange}

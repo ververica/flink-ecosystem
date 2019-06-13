@@ -108,7 +108,7 @@ const NavItem: FunctionComponent<NavItemProps> = props => {
   );
 };
 
-export default function Sidebar(props: SidebarProps) {
+export default function Sidebar() {
   const [mainCollapsed, setMainCollapsed] = useState(false);
   const [subCollapsed, setSubCollapsed] = useState(false);
 
@@ -223,8 +223,4 @@ type IconProps = {
 type NavItemProps = {
   to: string;
   icon: string;
-};
-
-type SidebarProps = {
-  userLogin: string;
 };

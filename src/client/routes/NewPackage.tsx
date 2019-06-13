@@ -1,33 +1,11 @@
-import React, { useState, SyntheticEvent } from "react";
-import getFormData from "get-form-data";
+import React, { useState } from "react";
 import axios from "axios";
 import { get, isEmpty } from "lodash/fp";
-import cx from "classnames";
 
 import MainCard from "client/components/MainCard";
-import InputField from "client/components/InputField";
-import slugify from "client/helpers/slugify";
 import { RouteComponentProps } from "@reach/router";
-import MarkdownEditor from "client/components/MarkdownEditor";
 import PackageForm from "client/components/PackageForm";
 import { Package } from "client/components/PackageList";
-
-const categories = [
-  "Connectors",
-  "Metrics",
-  "Tools",
-  "Machine Learning",
-  "Languages",
-];
-
-const licenses = [
-  "MIT License",
-  "GPLv3",
-  "BSD License",
-  "LGPL",
-  "Apache 2.0",
-  "Eclipse License",
-];
 
 // The error messagse from 'Joi' are not quite a joy to parse. :(
 const parseError = (error: string) => {
@@ -83,49 +61,12 @@ export default function NewPackage(props: NewPackageProps) {
   );
 }
 
-const SelectField = (props: SelectFieldProps) => {
-  return (
-    <>
-      <label htmlFor={props.id}>{props.label}</label>
-      <select
-        name={props.name}
-        id={props.id}
-        className={cx("form-control", {
-          "is-invalid": props.error.id === props.id,
-        })}
-        defaultValue={props.defaultValue || ""}
-      >
-        <option value="" disabled hidden>
-          {props.placeholder}
-        </option>
-        {props.options.map(option => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </>
-  );
-};
-
 type Error = {
   id: string;
   message: string;
 };
 
-type SelectFieldProps = {
-  id: string;
-  label: string;
-  error: Error;
-  defaultValue?: string;
-  name: string;
-  placeholder: string;
-  options: Array<string>;
-};
-
-type NewPackageProps = RouteComponentProps<{
-  userLogin: string;
-}>;
+type NewPackageProps = RouteComponentProps<{}>;
 
 type HandleSubmit = (
   setError: (error: Error) => void

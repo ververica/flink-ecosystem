@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent, useEffect } from "react";
+import React, { useState, SyntheticEvent } from "react";
 import { Package } from "./PackageList";
 import InputField from "./InputField";
 import slugify from "client/helpers/slugify";
@@ -55,10 +55,6 @@ export default function PackageForm(props: PackageFormProps) {
     const data = { ...inputs };
     props.onSubmit(data);
   };
-
-  useEffect(() => {
-    console.log(inputs);
-  }, [inputs]);
 
   return (
     <form onSubmit={handleFormSubmit}>
