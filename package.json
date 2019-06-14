@@ -46,7 +46,7 @@
     "react-ga": "^2.5.7",
     "react-markdown": "^4.0.8",
     "react-textarea-autosize": "^7.1.0",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.3.1"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.8",

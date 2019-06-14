@@ -20,41 +20,14 @@ const Img = styled.img`
 `;
 
 export default function ViewPackage(props: ViewPackageProps) {
-  const [show, setShow] = useState(false);
-
-  const ref = useOutsideClick(() => {
-    if (show) setShow(false);
-  });
-
   const { user } = useContext(UserData);
   const { package: pkg, comments } = props.data;
 
-  const packageOptions = (
-    <div className={cx("dropdown", { show })}>
-      <button
-        className="btn btn-light dropdown-toggle btn-sm"
-        type="button"
-        aria-haspopup="true"
-        onClick={() => setShow(!show)}
-      >
-        <Icon name="ellipsis-v" margin={0} />
-      </button>
-      <div
-        className={cx("dropdown-menu dropdown-menu-right", { show })}
-        ref={ref}
-      >
-        <Link to="edit" className="dropdown-item">
-          <Icon name="edit" fw={false} /> Edit
-        </Link>
-        <a href="#delete" className="dropdown-item">
-          <Icon name="trash-alt" fw={false} /> Delete
-        </a>
-      </div>
-    </div>
-  );
-
   return (
-    <MainCard header={pkg.name} options={packageOptions}>
+    <MainCard
+      header={pkg.name}
+      options={user.id === pkg.user_id && <PackageOptions />}
+    >
       <div className="row">
         <div className="col-sm-3 order-last ">
           <div className="overflow-hidden d-flex justify-content-center">
@@ -101,6 +74,38 @@ export default function ViewPackage(props: ViewPackageProps) {
     </MainCard>
   );
 }
+
+const PackageOptions = () => {
+  const [show, setShow] = useState(false);
+
+  const ref = useOutsideClick(() => {
+    if (show) setShow(false);
+  });
+
+  return (
+    <div className={cx("dropdown", { show })}>
+      <button
+        className="btn btn-light dropdown-toggle btn-sm"
+        type="button"
+        aria-haspopup="true"
+        onClick={() => setShow(!show)}
+      >
+        <Icon name="ellipsis-v" margin={0} />
+      </button>
+      <div
+        className={cx("dropdown-menu dropdown-menu-right", { show })}
+        ref={ref}
+      >
+        <Link to="edit" className="dropdown-item">
+          <Icon name="edit" fw={false} /> Edit
+        </Link>
+        <a href="#delete" className="dropdown-item">
+          <Icon name="trash-alt" fw={false} /> Delete
+        </a>
+      </div>
+    </div>
+  );
+};
 
 type ViewPackageProps = {
   data: PackageResult;

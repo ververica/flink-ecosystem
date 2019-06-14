@@ -1,10 +1,11 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components/macro";
+import { mediaLarge } from "client/helpers/styles";
 
 const Card = styled.div.attrs({
   className: `card rounded-0`,
 })`
-  @media screen and (min-width: 992px) {
+  @media ${mediaLarge} {
     border-left: 0;
   }
 

@@ -3,10 +3,11 @@ import qs from "querystring";
 
 import MainCard from "client/components/MainCard";
 import Pager from "client/components/Pager";
-import PackageList, { Package } from "client/components/PackageList";
+import PackageList from "client/components/PackageList";
 import { RouteComponentProps } from "@reach/router";
 
 import useFetchData from "client/helpers/useFetchData";
+import { PackageData } from "client/types/Package";
 
 export default function Packages(props: Props) {
   const { search = "", key = 0 } = props.location || {};
@@ -31,7 +32,7 @@ export default function Packages(props: Props) {
 type Props = RouteComponentProps;
 
 export type PackagesData = {
-  packages: Array<Package>;
+  packages: Array<PackageData>;
   count: number;
   totalPages: number;
 };

@@ -1,9 +1,9 @@
 import React, { useState, SyntheticEvent } from "react";
-import { Package } from "./PackageList";
 import InputField from "./InputField";
 import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
 import SelectField from "./SelectField";
+import { PackageData } from "client/types/Package";
 
 const initialValues = {
   name: "",
@@ -188,8 +188,8 @@ type FormError = {
 
 type PackageFormProps = {
   error: FormError;
-  onSubmit: (data: Package) => void;
-  initialValues: Package;
+  onSubmit: (data: PackageData) => void;
+  initialValues: PackageData;
   submitButton: React.ReactNode;
 };
 

@@ -12,6 +12,7 @@ export type PackageData = {
   tags: string;
   updated: string;
   upvotes: number;
+  user_id: number;
   vote: number;
   website: string;
 };

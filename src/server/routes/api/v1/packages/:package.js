@@ -3,9 +3,6 @@ import checkGithub from "server/middleware/checkGithub";
 export const get = [
   checkGithub({ required: false }),
   async ctx => {
-    console.log("user id: ", ctx.state.user.id);
-    console.log(typeof ctx.state.user.id);
-
     try {
       const pkg = await ctx
         .db("package")
@@ -14,6 +11,7 @@ export const get = [
           "package.slug",
           "package.name",
           "user.login as owner",
+          "user.id as user_id",
           "package.description",
           "package.readme",
           "package.image",

@@ -5,7 +5,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import cx from "classnames";
 import Icon from "./Icon";
 

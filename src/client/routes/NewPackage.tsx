@@ -5,8 +5,8 @@ import { get, isEmpty } from "lodash/fp";
 import MainCard from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
 import PackageForm from "client/components/PackageForm";
-import { Package } from "client/components/PackageList";
 import Icon from "client/components/Icon";
+import { PackageData } from "client/types/Package";
 
 // The error messagse from 'Joi' are not quite a joy to parse. :(
 const parseError = (error: string) => {
@@ -73,11 +73,6 @@ type NewPackageProps = RouteComponentProps<{}>;
 
 type HandleSubmit = (
   setError: (error: Error) => void
-) => (data: Package) => void;
+) => (data: PackageData) => void;
 
 type MakeGeneralError = (message: string) => Error;
-
-type NewPackageData = {
-  tags: Array<string>;
-  tagsString: string;
-};

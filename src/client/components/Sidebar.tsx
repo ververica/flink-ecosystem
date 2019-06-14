@@ -6,11 +6,10 @@ import React, {
   useContext,
 } from "react";
 import { Link } from "@reach/router";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import cx from "classnames";
 import AnimateHeight from "react-animate-height";
 import logo from "client/assets/flink-logo.png";
-// import flinkIcon from "client/assets/flink-icon.svg";
 
 import { mediaLarge } from "client/helpers/styles";
 import { UserData } from "./UserDataProvider";
