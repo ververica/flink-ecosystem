@@ -13,7 +13,7 @@ import {
 } from "client/routes";
 import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
-import UserDataProvider from "./UserDataProvider";
+import Providers from "client/components/Providers";
 
 const Container = styled.div.attrs({
   className: "container min-vh-100 d-flex flex-column",
@@ -40,7 +40,7 @@ export default function App() {
   };
 
   return (
-    <UserDataProvider>
+    <Providers>
       <Container>
         <div className="row no-gutters w-100 flex-grow-1">
           <div className="col-lg-9 d-flex flex-column">
@@ -80,6 +80,6 @@ export default function App() {
           </p>
         </div>
       </Container>
-    </UserDataProvider>
+    </Providers>
   );
 }

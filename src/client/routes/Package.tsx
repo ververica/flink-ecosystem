@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useFetch from "fetch-suspense";
+
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
@@ -9,6 +9,7 @@ import ReactMarkdown from "react-markdown";
 import Votes from "client/components/Votes";
 import AddComment from "client/components/AddComment";
 import cx from "classnames";
+import useFetchData from "client/helpers/useFetchData";
 
 const Img = styled.img`
   object-fit: cover;
@@ -16,16 +17,11 @@ const Img = styled.img`
 `;
 
 export default function Package(props: Props) {
-  const [time, setTime] = useState(0);
   const [show, setShow] = useState(false);
 
-  const data = useFetch(
-    `/api/v1/packages/${props.package}?time=${time}`
-  ) as PackageData;
-
-  const refreshPackageData = () => {
-    setTime(Date.now());
-  };
+  const [data, refreshPackageData] = useFetchData(
+    `/api/v1/packages/${props.package}`
+  ) as [PackageData, () => void];
 
   const { package: pkg, comments } = data;
 
@@ -47,10 +43,10 @@ export default function Package(props: Props) {
           </button>
           <div className={cx("dropdown-menu dropdown-menu-right", { show })}>
             <a href="#edit" className="dropdown-item">
-              <i className="fal fa-edit mr-2" /> Edit
+              <i className="fal fa-fw fa-edit mr-2" /> Edit
             </a>
             <a href="#delete" className="dropdown-item">
-              <i className="fal fa-trash-alt mr-2" /> Delete
+              <i className="fal fa-fw fa-trash-alt mr-2" /> Delete
             </a>
           </div>
         </div>

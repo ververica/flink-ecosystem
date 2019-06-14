@@ -1,6 +1,5 @@
 import React, { ReactNode, useContext } from "react";
 import styled from "styled-components/macro";
-import { UserData } from "./UserDataProvider";
 
 const Card = styled.div.attrs({
   className: `card rounded-0`,
@@ -16,7 +15,6 @@ const Card = styled.div.attrs({
 `;
 
 export default function MainCard(props: MainCardProps) {
-  const { user } = useContext(UserData);
   return (
     <>
       <Card>

@@ -13,13 +13,14 @@ export default function Packages(props: Props) {
   const searchQuery = qs.parse(search.slice(1));
   const page = Number(searchQuery.page || 1);
 
-  const data = useFetchData(`/api/v1/packages?page=${page}&key=${key}`) as Data;
-
-  const packages = data.packages || [];
+  const [data] = useFetchData(`/api/v1/packages?page=${page}&key=${key}`) as [
+    PackagesData
+  ];
+  const { packages = [], count = 0 } = data;
 
   return (
     <>
-      <MainCard header={`Most Popular Packages (${data.count || 0})`}>
+      <MainCard header={`Most Popular Packages (${count})`}>
         <PackageList packages={packages} page={page} />
         <Pager page={page} total={data.totalPages} />
       </MainCard>
@@ -29,7 +30,7 @@ export default function Packages(props: Props) {
 
 type Props = RouteComponentProps;
 
-export type Data = {
+export type PackagesData = {
   packages: Array<Package>;
   count: number;
   totalPages: number;

@@ -4,8 +4,11 @@ import { UserData } from "client/components/UserDataProvider";
 
 export default function useFetchData(url: string) {
   const { user } = useContext(UserData);
-  const joiner = url.includes("?") ? "&" : "?";
   const [time, setTime] = useState(0);
+
+  const refreshData = () => {
+    setTime(Date.now());
+  };
 
   const firstRun = useRef(true);
   useEffect(() => {
@@ -14,9 +17,12 @@ export default function useFetchData(url: string) {
       return;
     }
 
-    setTime(Date.now());
+    refreshData();
   }, [user.login]);
 
-  const data = useFetch(url + joiner + `time=${time}`);
-  return data;
+  // This header is just so we can update a timestamp and refresh the request
+  const headers = { "X-Request-Time": `${time}` };
+
+  const data = useFetch(url, { headers });
+  return [data, refreshData];
 }
