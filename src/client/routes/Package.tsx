@@ -18,7 +18,7 @@ export default function Package(props: PackageProps) {
         data={data}
         refreshPackageData={refreshPackageData}
       />
-      <EditPackage path="edit" />
+      <EditPackage path="edit" data={data} />
     </Router>
   );
 }

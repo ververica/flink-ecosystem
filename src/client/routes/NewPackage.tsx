@@ -56,8 +56,8 @@ export default function NewPackage(props: NewPackageProps) {
       )}
 
       <PackageForm
-        onSubmit={onSubmit}
         error={error}
+        onSubmit={onSubmit}
         submitButton={submitButton}
       />
     </MainCard>

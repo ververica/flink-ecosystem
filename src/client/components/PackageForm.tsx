@@ -58,24 +58,33 @@ export default function PackageForm(props: PackageFormProps) {
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <InputField
-        id="name"
-        label="Package Name"
-        name="name"
-        onBlur={handleNameBlur}
-        onChange={handleInputChange}
-        placeholder="Package Name"
-        value={inputs.name}
-      />
-      <InputField
-        help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
-        id="slug"
-        label="Package ID"
-        name="slug"
-        onChange={handleInputChange}
-        placeholder="Package ID"
-        value={inputs.slug}
-      />
+      <div className="row">
+        <div className="col-md-8">
+          <InputField
+            id="name"
+            label="Package Name"
+            name="name"
+            onBlur={handleNameBlur}
+            onChange={handleInputChange}
+            placeholder="Package Name"
+            value={inputs.name}
+          />
+          <InputField
+            help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
+            id="slug"
+            label="Package ID"
+            name="slug"
+            onChange={handleInputChange}
+            placeholder="Package ID"
+            value={inputs.slug}
+          />
+        </div>
+        <div className="col-md-4">
+          <div className="form-group">
+            <label htmlFor="image">Image</label>
+          </div>
+        </div>
+      </div>
       <InputField
         id="description"
         label="Description"
