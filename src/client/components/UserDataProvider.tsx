@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, SyntheticEvent } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  SyntheticEvent,
+  ReactNode,
+} from "react";
 import axios from "axios";
 import cookies from "js-cookie";
 import useLocation from "client/helpers/useLocation";
@@ -15,7 +21,7 @@ const defaultState = {
 
 export const UserData = React.createContext(defaultState);
 
-export default function UserDataProvider(props: any) {
+export default function UserDataProvider(props: UserDataProviderProps) {
   const [user, setUser] = useState(defaultState.user);
   const [authWindow, setAuthWindow] = useState<Window | null>(null);
   const { location } = useLocation();
@@ -32,6 +38,7 @@ export default function UserDataProvider(props: any) {
     e.preventDefault();
     cookies.remove("github-token");
     setUser(defaultState.user);
+    props.onLogout();
   };
 
   useEffect(() => {
@@ -73,8 +80,13 @@ export default function UserDataProvider(props: any) {
   return <UserData.Provider value={value}>{props.children}</UserData.Provider>;
 }
 
-// type User = {
-//   login: string;
-//   avatar_url: string;
-//   id: number;
-// };
+UserDataProvider.defaultProps = {
+  onLogout: () => {},
+};
+
+type UserDataProviderProps = {
+  onLogout?: () => void;
+  children: ReactNode;
+} & DefaultProps;
+
+type DefaultProps = Readonly<typeof UserDataProvider.defaultProps>;

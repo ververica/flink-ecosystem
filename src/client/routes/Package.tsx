@@ -8,6 +8,7 @@ import Comment from "client/components/Comment";
 import ReactMarkdown from "react-markdown";
 import Votes from "client/components/Votes";
 import AddComment from "client/components/AddComment";
+import cx from "classnames";
 
 const Img = styled.img`
   object-fit: cover;
@@ -16,6 +17,7 @@ const Img = styled.img`
 
 export default function Package(props: Props) {
   const [time, setTime] = useState(0);
+  const [show, setShow] = useState(false);
 
   const data = useFetch(
     `/api/v1/packages/${props.package}?time=${time}`
@@ -29,8 +31,31 @@ export default function Package(props: Props) {
 
   if (!pkg) return null;
 
+  console.log("render");
   return (
-    <MainCard header={pkg.name}>
+    <MainCard
+      header={pkg.name}
+      options={
+        <div className={cx("dropdown", { show })}>
+          <button
+            className="btn btn-light dropdown-toggle btn-sm"
+            type="button"
+            aria-haspopup="true"
+            onClick={() => setShow(!show)}
+          >
+            <i className="fal fa-ellipsis-v mr-2" />
+          </button>
+          <div className={cx("dropdown-menu dropdown-menu-right", { show })}>
+            <a href="#edit" className="dropdown-item">
+              <i className="fal fa-edit mr-2" /> Edit
+            </a>
+            <a href="#delete" className="dropdown-item">
+              <i className="fal fa-trash-alt mr-2" /> Delete
+            </a>
+          </div>
+        </div>
+      }
+    >
       <div className="row">
         <div className="col-sm-3 order-last ">
           <div className="overflow-hidden d-flex justify-content-center">

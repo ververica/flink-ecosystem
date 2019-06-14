@@ -25,7 +25,7 @@ export default function Comment(props: AddCommentProps) {
       <Avatar src={props.avatar_url} alt={props.login} />
       <div className="media-body">
         <small className="text-muted">
-          {props.login} - {format(props.added, "DD.MM.YYYY HH:mma")}
+          {props.login} - {format(props.added, "MM-DD-YYYY HH:mma")}
         </small>
         <ReactMarkdown source={props.text} renderers={{ code, table }} />
       </div>

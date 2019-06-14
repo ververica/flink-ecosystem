@@ -44,6 +44,7 @@
     "react": "^16.8.6",
     "react-animate-height": "^2.0.9",
     "react-dom": "^16.8.6",
+    "react-ga": "^2.5.7",
     "react-markdown": "^4.0.8",
     "react-textarea-autosize": "^7.1.0",
     "styled-components": "^4.2.0",

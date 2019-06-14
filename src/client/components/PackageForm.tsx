@@ -122,6 +122,7 @@ export default function PackageForm(props: PackageFormProps) {
             value={inputs.repository}
           />
         </div>
+        {/* @TODO make "other" field for license */}
         <div className="col-md-4">
           <div className="form-group">
             <SelectField
@@ -157,6 +158,7 @@ export default function PackageForm(props: PackageFormProps) {
           <div className="form-group">
             <InputField
               // error={error}
+              help="Comma separated list (for now)"
               id="tags"
               label="Tags"
               name="tags"

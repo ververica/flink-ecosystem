@@ -10,9 +10,9 @@ const schema = Joi.object().keys({
   description: Joi.string().required(),
   readme: Joi.string().required(),
   website: Joi.string().required(),
-  repository: Joi.string().required(),
+  // at the momnent not required.
+  // repository: Joi.string().required(),
   category: Joi.string().required(),
-  // tags: Joi.array().items(Joi.string()),
   tags: Joi.string().required(),
   license: Joi.string().required(),
 });

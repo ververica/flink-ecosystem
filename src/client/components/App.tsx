@@ -13,7 +13,6 @@ import {
 } from "client/routes";
 import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
-
 import UserDataProvider from "./UserDataProvider";
 
 const Container = styled.div.attrs({
@@ -62,6 +61,7 @@ export default function App() {
           </div>
           <Sidebar />
         </div>
+        {/* @TODO add "contact us" */}
         <div className="row no-gutters text-center d-block py-4">
           <p>
             Copyright © 2014-2019{" "}
@@ -83,9 +83,3 @@ export default function App() {
     </UserDataProvider>
   );
 }
-
-type User = {
-  login: string;
-};
-
-type GetUserData = [User, boolean, (user: User | {}) => void, () => void];
