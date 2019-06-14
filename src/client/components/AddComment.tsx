@@ -5,7 +5,7 @@ import axios from "axios";
 import MarkdownEditor from "./MarkdownEditor";
 
 const Avatar = styled.img.attrs({
-  className: "mr-3",
+  className: "mr-3 pt-1",
 })`
   max-width: 32px;
 `;
@@ -37,25 +37,22 @@ export default function AddComment(props: AddCommentProps) {
       <div className="media">
         <Avatar src={user.avatar_url} alt={user.login} />
         <div className="media-body">
-          <div className="card">
-            <div className="card-body">
-              <MarkdownEditor
-                id="comment"
-                name="comment"
-                value={content}
-                placeholder="Add a new comment."
-                onChange={handleChange}
-              />
-              <div className="d-flex mt-2">
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  className="btn btn-primary btn-sm ml-auto"
-                >
-                  Add Comment
-                </button>
-              </div>
-            </div>
+          <MarkdownEditor
+            id="comment"
+            name="comment"
+            label="Add Comment"
+            onChange={handleChange}
+            placeholder="Add a new comment."
+            value={content}
+          />
+          <div className="d-flex mt-2">
+            <button
+              className="btn btn-primary btn-sm ml-auto"
+              onClick={handleSubmit}
+              type="button"
+            >
+              Add Comment
+            </button>
           </div>
         </div>
       </div>

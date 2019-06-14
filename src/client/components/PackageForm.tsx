@@ -85,14 +85,18 @@ export default function PackageForm(props: PackageFormProps) {
         value={inputs.description}
       />
       <div className="form-group">
-        <label htmlFor="readme">Readme</label>
         <MarkdownEditor
           id="readme"
           name="readme"
+          label="Readme"
           onChange={handleInputChange}
           placeholder="Readme"
           value={inputs.readme}
         />
+        <small id="markdown-help" className="form-text text-muted">
+          Supports{" "}
+          <a href="https://github.github.com/gfm/">Github Flavored Markdown</a>.
+        </small>
       </div>
 
       <div className="row">

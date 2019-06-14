@@ -12,13 +12,22 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
     e.preventDefault();
     setTab(newTab);
     if (newTab === "write") {
-      setTimeout(() => ref.current.focus());
+      const { scrollX, scrollY } = window;
+      setTimeout(() => {
+        ref.current.focus();
+        window.scrollTo(scrollX, scrollY);
+      });
     }
   };
 
   return (
     <>
       <ul className="nav nav-tabs">
+        <li>
+          <label className="p-2 mb-0 mr-2" htmlFor={props.id}>
+            {props.label}
+          </label>
+        </li>
         <li className="nav-item" onClick={changeTab("write")}>
           <span className={cx("nav-link", { active: tab === "write" })}>
             Write
@@ -40,11 +49,16 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
             placeholder={props.placeholder}
             onChange={props.onChange}
             minRows={4}
+            maxRows={30}
             name={props.name}
             onHeightChange={(height: number) => setMinHeight(height)}
           />
         </div>
-        <div hidden={tab === "write"} style={{ minHeight }}>
+        <div
+          hidden={tab === "write"}
+          style={{ minHeight: 110, padding: "0.375rem 0.75rem" }}
+          className="card"
+        >
           <ReactMarkdown source={props.value} />
         </div>
       </div>
@@ -54,8 +68,9 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
 
 type MarkdownEditorProps = {
   id: string;
-  value: string;
-  placeholder: string;
   name: string;
+  label: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder: string;
+  value: string;
 };
