@@ -4,6 +4,8 @@ import styled from "styled-components/macro";
 import { format } from "date-fns";
 import useScroll from "client/helpers/useScroll";
 import Votes from "client/components/Votes";
+import Icon from "./Icon";
+import { PackageData } from "client/types/Package";
 
 const Img = styled.img`
   object-fit: cover;
@@ -41,7 +43,7 @@ export default function PackageList(props: Props) {
                 />
                 <Link to={`/packages/${pkg.slug}`}>
                   <small className="text-muted">
-                    <i className="fal fa-comments mr-1" title="Comments" />
+                    <Icon name="comments" margin={1} title="Comments" />
                     {pkg.comments}
                   </small>
                 </Link>
@@ -56,25 +58,7 @@ export default function PackageList(props: Props) {
   );
 }
 
-export type Package = {
-  category: string;
-  comments: number;
-  description: string;
-  downvotes: number;
-  id: number;
-  license: string;
-  name: string;
-  readme: string;
-  repository: string;
-  slug: string;
-  tags: string;
-  updated: string;
-  upvotes: number;
-  vote: number;
-  website: string;
-};
-
 type Props = {
-  packages: Array<Package>;
+  packages: Array<PackageData>;
   page: number;
 };

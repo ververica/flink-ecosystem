@@ -6,6 +6,7 @@ import MainCard from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
 import PackageForm from "client/components/PackageForm";
 import { Package } from "client/components/PackageList";
+import Icon from "client/components/Icon";
 
 // The error messagse from 'Joi' are not quite a joy to parse. :(
 const parseError = (error: string) => {
@@ -39,6 +40,13 @@ export default function NewPackage(props: NewPackageProps) {
   const [error, setError] = useState({}) as [Error, () => void];
   const onSubmit = handleSubmit(setError);
 
+  const submitButton = (
+    <button className="btn btn-success" type="submit">
+      <Icon name="save" fw={false} />
+      Add Package
+    </button>
+  );
+
   return (
     <MainCard header="Add a new Package">
       {!isEmpty(error) && error.id === null && (
@@ -50,12 +58,7 @@ export default function NewPackage(props: NewPackageProps) {
       <PackageForm
         onSubmit={onSubmit}
         error={error}
-        submitButton={
-          <button className="btn btn-success" type="submit">
-            <i className="fal fa-save mr-2" />
-            Add Package
-          </button>
-        }
+        submitButton={submitButton}
       />
     </MainCard>
   );

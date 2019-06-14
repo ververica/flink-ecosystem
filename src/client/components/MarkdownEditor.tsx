@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 
 export default function MarkdownEditor(props: MarkdownEditorProps) {
   const [tab, setTab] = useState("write");
-  const [minHeight, setMinHeight] = useState(0);
+  // const [minHeight, setMinHeight] = useState(0);
   const ref = useRef() as any;
 
   const changeTab = (newTab: string) => (e: SyntheticEvent) => {
@@ -51,7 +51,7 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
             minRows={4}
             maxRows={30}
             name={props.name}
-            onHeightChange={(height: number) => setMinHeight(height)}
+            // onHeightChange={(height: number) => setMinHeight(height)}
           />
         </div>
         <div

@@ -14,6 +14,7 @@ import logo from "client/assets/flink-logo.png";
 
 import { mediaLarge } from "client/helpers/styles";
 import { UserData } from "./UserDataProvider";
+import Icon from "./Icon";
 
 const SidebarColumn = styled.div.attrs({
   className: "col-lg-3 order-first bg-light card",
@@ -93,15 +94,11 @@ const isActive = ({ isCurrent }: { isCurrent: boolean }) => {
   return { className: cx("nav-link", { active: isCurrent }) };
 };
 
-const Icon = (props: IconProps) => (
-  <i className={`fal fa-fw mr-2 fa-${props.icon}`} />
-);
-
 const NavItem: FunctionComponent<NavItemProps> = props => {
   return (
     <li className="nav-item">
       <Link to={props.to} getProps={isActive}>
-        <Icon icon={props.icon} />
+        <Icon name={props.icon} />
         {props.children}
       </Link>
     </li>
@@ -146,7 +143,7 @@ export default function Sidebar() {
           </NavTitle>
         </Link>
         <button className="btn btn-light btn-sm" onClick={toggleMain}>
-          <i className="fal fa-bars" />
+          <Icon name="bars" fw={false} margin={0} />
         </button>
       </TitleContainer>
 
@@ -158,7 +155,7 @@ export default function Sidebar() {
               href="#categories"
               onClick={toggleCategories}
             >
-              <Icon icon="tags" />
+              <Icon name="tags" />
               <span className="mr-auto">Categories</span>
               <Caret collapsed={subCollapsed} />
             </a>
@@ -185,7 +182,7 @@ export default function Sidebar() {
           {/* <NavItem to="/guide" icon="books">
             Guide
           </NavItem> */}
-          {user.login && (
+          {user.id > 0 && (
             <>
               <hr className="m-0" />
               <NavItem to="/new-package" icon="plus">
@@ -202,7 +199,7 @@ export default function Sidebar() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Icon icon="external-link-square" />
+              <Icon name="external-link-square" />
               Apache Flink
             </a>
           </li>

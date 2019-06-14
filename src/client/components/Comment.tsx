@@ -2,6 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components/macro";
 import { format } from "date-fns";
+import { CommentData } from "client/types/Package";
 
 const Avatar = styled.img.attrs({
   className: "mr-3",
@@ -33,9 +34,4 @@ export default function Comment(props: AddCommentProps) {
   );
 }
 
-type AddCommentProps = {
-  avatar_url: string;
-  login: string;
-  text: string;
-  added: string;
-};
+type AddCommentProps = CommentData;

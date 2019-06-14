@@ -11,6 +11,7 @@ import useLocation from "client/helpers/useLocation";
 
 const defaultState = {
   user: {
+    id: 0,
     login: "",
     avatar_url: "",
   },

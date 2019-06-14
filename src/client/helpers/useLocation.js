@@ -15,9 +15,8 @@ export default function useLocation() {
       const newState = Object.assign({}, initialState, { location });
       setState(newState);
     });
-    return () => {
-      removeListener();
-    };
+
+    return removeListener;
   }, [initialState]);
 
   return state;

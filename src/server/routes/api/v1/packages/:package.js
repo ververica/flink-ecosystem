@@ -31,7 +31,7 @@ export const get = [
         .leftJoin("vote", join => {
           join
             .on("package.id", "vote.package_id")
-            .on("vote.user_id", ctx.db.raw(ctx.state.user.id));
+            .on("vote.user_id", ctx.state.user.id);
         })
         .leftJoin("vote as upvote", join => {
           join.on("package.id", "upvote.package_id").on("upvote.vote", 1);
