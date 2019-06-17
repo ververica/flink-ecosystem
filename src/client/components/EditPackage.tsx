@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { UserData } from "./UserDataProvider";
-import { Redirect } from "@reach/router";
+import { Redirect, RouteComponentProps } from "@reach/router";
 import MainCard from "./MainCard";
 import PackageForm from "./PackageForm";
+import { PackageData, PackageResult } from "client/types/Package";
 
-export default function EditPackage(props: any) {
+export default function EditPackage(props: EditPackageProps) {
   const { user } = useContext(UserData);
   const [error, setError] = useState({}) as [Error, () => void];
 
@@ -23,6 +24,10 @@ export default function EditPackage(props: any) {
     </MainCard>
   );
 }
+
+type EditPackageProps = {
+  data: PackageResult;
+} & RouteComponentProps;
 
 type Error = {
   id: string;
