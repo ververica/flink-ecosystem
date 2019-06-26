@@ -34,6 +34,8 @@ const categories = [
   "Languages",
 ];
 
+export const DisabledFields = React.createContext([""]);
+
 export default function PackageForm(props: PackageFormProps) {
   const [inputs, setInputs] = useState(props.initialValues);
 
@@ -57,137 +59,143 @@ export default function PackageForm(props: PackageFormProps) {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <div className="row">
-        <div className="col-md-8">
-          <InputField
-            id="name"
-            label="Package Name"
-            name="name"
-            onBlur={handleNameBlur}
-            onChange={handleInputChange}
-            placeholder="Package Name"
-            value={inputs.name}
-          />
-          <InputField
-            help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
-            id="slug"
-            label="Package ID"
-            name="slug"
-            onChange={handleInputChange}
-            placeholder="Package ID"
-            value={inputs.slug}
-          />
-        </div>
-        <div className="col-md-4">
-          <div className="form-group">
-            <label htmlFor="image">Image</label>
+    <DisabledFields.Provider value={props.disabledFields}>
+      <form onSubmit={handleFormSubmit}>
+        <div className="row">
+          <div className="col-md-8">
+            <InputField
+              id="name"
+              label="Package Name"
+              name="name"
+              onBlur={handleNameBlur}
+              onChange={handleInputChange}
+              placeholder="Package Name"
+              value={inputs.name}
+            />
+            <InputField
+              help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
+              id="slug"
+              label="Package ID"
+              name="slug"
+              onChange={handleInputChange}
+              placeholder="Package ID"
+              value={inputs.slug}
+            />
+          </div>
+          <div className="col-md-4">
+            <div className="form-group">
+              <label htmlFor="image">Image</label>
+            </div>
           </div>
         </div>
-      </div>
-      <InputField
-        id="description"
-        label="Description"
-        name="description"
-        onChange={handleInputChange}
-        placeholder="Description"
-        value={inputs.description}
-      />
-      <div className="form-group">
-        <MarkdownEditor
-          id="readme"
-          name="readme"
-          label="Readme"
+        <InputField
+          id="description"
+          label="Description"
+          name="description"
           onChange={handleInputChange}
-          placeholder="Readme"
-          value={inputs.readme}
+          placeholder="Description"
+          value={inputs.description}
         />
-        <small id="markdown-help" className="form-text text-muted">
-          Supports{" "}
-          <a href="https://github.github.com/gfm/">Github Flavored Markdown</a>.
-        </small>
-      </div>
-
-      <div className="row">
-        <div className="col-md-4">
-          <InputField
-            // error={error}
-            id="website"
-            label="Website"
-            name="website"
+        <div className="form-group">
+          <MarkdownEditor
+            id="readme"
+            name="readme"
+            label="Readme"
             onChange={handleInputChange}
-            placeholder="Website"
-            value={inputs.website}
+            placeholder="Readme"
+            value={inputs.readme}
           />
+          <small id="markdown-help" className="form-text text-muted">
+            Supports{" "}
+            <a href="https://github.github.com/gfm/">
+              Github Flavored Markdown
+            </a>
+            .
+          </small>
         </div>
-        <div className="col-md-4">
-          <InputField
-            // error={error}
-            id="repository"
-            label="Repository"
-            name="repository"
-            onChange={handleInputChange}
-            placeholder="Repository"
-            value={inputs.repository}
-          />
-        </div>
-        {/* @TODO make "other" field for license */}
-        <div className="col-md-4">
-          <div className="form-group">
-            <SelectField
-              name="license"
-              id="license"
-              label="License"
-              // error={error}
-              placeholder="Select a License"
-              onChange={handleInputChange}
-              options={licenses}
-              value={inputs.license}
-            />
-          </div>
-        </div>
-      </div>
 
-      <div className="row">
-        <div className="col-auto">
-          <div className="form-group">
-            <SelectField
-              // error={error}
-              id="category"
-              label="Category"
-              name="category"
-              onChange={handleInputChange}
-              options={categories}
-              placeholder="Select a Category"
-              value={inputs.category}
-            />
-          </div>
-        </div>
-        <div className="col">
-          <div className="form-group">
+        <div className="row">
+          <div className="col-md-4">
             <InputField
               // error={error}
-              help="Comma separated list (for now)"
-              id="tags"
-              label="Tags"
-              name="tags"
+              id="website"
+              label="Website"
+              name="website"
               onChange={handleInputChange}
-              placeholder="Tags"
-              value={inputs.tags}
+              placeholder="Website"
+              value={inputs.website}
             />
           </div>
+          <div className="col-md-4">
+            <InputField
+              // error={error}
+              id="repository"
+              label="Repository"
+              name="repository"
+              onChange={handleInputChange}
+              placeholder="Repository"
+              value={inputs.repository}
+            />
+          </div>
+          {/* @TODO make "other" field for license */}
+          <div className="col-md-4">
+            <div className="form-group">
+              <SelectField
+                name="license"
+                id="license"
+                label="License"
+                // error={error}
+                placeholder="Select a License"
+                onChange={handleInputChange}
+                options={licenses}
+                value={inputs.license}
+              />
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="row">
-        <div className="col-auto ml-auto">{props.submitButton}</div>
-      </div>
-    </form>
+        <div className="row">
+          <div className="col-auto">
+            <div className="form-group">
+              <SelectField
+                // error={error}
+                id="category"
+                label="Category"
+                name="category"
+                onChange={handleInputChange}
+                options={categories}
+                placeholder="Select a Category"
+                value={inputs.category}
+              />
+            </div>
+          </div>
+          <div className="col">
+            <div className="form-group">
+              <InputField
+                // error={error}
+                help="Comma separated list (for now)"
+                id="tags"
+                label="Tags"
+                name="tags"
+                onChange={handleInputChange}
+                placeholder="Tags"
+                value={inputs.tags}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-auto ml-auto">{props.submitButton}</div>
+        </div>
+      </form>
+    </DisabledFields.Provider>
   );
 }
 
 PackageForm.defaultProps = {
   initialValues,
+  disabledFields: [""],
 };
 
 type FormError = {
@@ -200,6 +208,7 @@ type PackageFormProps = {
   onSubmit: (data: PackageData) => void;
   initialValues: PackageData;
   submitButton: React.ReactNode;
+  disabledFields: string[];
 };
 
 type ChangeEvent = React.ChangeEvent<

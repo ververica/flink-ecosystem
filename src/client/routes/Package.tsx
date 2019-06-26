@@ -5,26 +5,20 @@ import ViewPackage from "client/components/ViewPackage";
 import EditPackage from "client/components/EditPackage";
 
 import ErrorComponent from "client/components/ErrorComponent";
-import useAsyncData from "client/helpers/useAsyncData";
+import useFetchData from "client/helpers/useFetchData";
+import { PackageResult } from "client/types/Package";
 
 export default function Package(props: PackageProps) {
-  const { data, loading, error, refreshData } = useAsyncData(
-    `/api/v1/packages/${props.packageSlug}`,
-    { package: null, comments: [] }
-  );
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return (
-      <ErrorComponent message="An error occured loading the package data." />
-    );
-  }
+  const [data, refreshData] = useFetchData(
+    `/api/v1/packages/${props.packageSlug}`
+  ) as [PackageResult, () => void];
 
   if (!data.package) {
-    return null;
+    return (
+      <div className="container pr-0">
+        <ErrorComponent message="An error occured loading the package data." />
+      </div>
+    );
   }
 
   return (

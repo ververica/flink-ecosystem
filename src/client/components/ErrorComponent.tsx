@@ -2,10 +2,8 @@ import React from "react";
 
 export default function ErrorComponent(props: ErrorComponentProps) {
   return (
-    <div className="container pr-0">
-      <div className="alert alert-danger" role="alert">
-        {props.message}
-      </div>
+    <div className="alert alert-danger" role="alert" hidden={props.hidden}>
+      {props.message}
     </div>
   );
 }
@@ -16,4 +14,5 @@ ErrorComponent.defaultProps = {
 
 type ErrorComponentProps = {
   message: string;
+  hidden?: boolean;
 };

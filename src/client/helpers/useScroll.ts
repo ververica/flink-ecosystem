@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-type UseScroll = (page: number) => void;
+type UseScroll = (watcher: any) => void;
 
-const useScroll: UseScroll = page => {
+const useScroll: UseScroll = watcher => {
   useEffect(() => {
     try {
       // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
@@ -15,7 +15,7 @@ const useScroll: UseScroll = page => {
       // just a fallback for older browsers
       window.scrollTo(0, 0);
     }
-  }, [page]);
+  }, [watcher]);
 };
 
 export default useScroll;

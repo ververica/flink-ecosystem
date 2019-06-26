@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import Axios from "axios";
 import { get, isEmpty } from "lodash/fp";
 
 import MainCard from "client/components/MainCard";
@@ -23,7 +23,7 @@ const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 
 const handleSubmit: HandleSubmit = setError => async data => {
   try {
-    await axios.post("/api/v1/packages", data);
+    await Axios.post("/api/v1/packages", data);
   } catch (e) {
     switch (get("response.status", e)) {
       case 403:

@@ -17,6 +17,7 @@ export default function Packages(props: Props) {
   const [data] = useFetchData(`/api/v1/packages?page=${page}&key=${key}`) as [
     PackagesData
   ];
+
   const { packages = [], count = 0 } = data;
 
   return (

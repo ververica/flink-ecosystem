@@ -1,7 +1,10 @@
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, useContext } from "react";
 import cx from "classnames";
+import { DisabledFields } from "./PackageForm";
 
 export default function InputField(props: Props) {
+  const disabledFields = useContext(DisabledFields);
+
   return (
     <div className="form-group">
       <label htmlFor={props.id}>{props.label}</label>
@@ -10,6 +13,7 @@ export default function InputField(props: Props) {
         className={cx("form-control", {
           "is-invalid": props.error.id === props.id,
         })}
+        disabled={disabledFields.includes(props.name)}
         id={props.id}
         name={props.name}
         onBlur={props.onBlur}
@@ -29,6 +33,7 @@ export default function InputField(props: Props) {
 
 InputField.defaultProps = {
   error: {},
+  disabledFields: [""],
 };
 
 type Props = {
