@@ -22,7 +22,7 @@ export default function InputField(props: Props) {
         onChange={handleInputChange}
         placeholder={props.placeholder}
         type="text"
-        value={inputs[props.name]}
+        value={inputs[props.name] || ""}
       />
       {props.help && (
         <small id={`${props.id}-help`} className="form-text text-muted">

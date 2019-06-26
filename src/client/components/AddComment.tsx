@@ -3,6 +3,7 @@ import styled from "styled-components/macro";
 import { UserData } from "client/components/UserDataProvider";
 import axios from "axios";
 import MarkdownEditor from "./MarkdownEditor";
+import { FormChangeEvent } from "client/types/FormProvider";
 
 const Avatar = styled.img.attrs({
   className: "mr-3 pt-1",
@@ -14,7 +15,7 @@ export default function AddComment(props: AddCommentProps) {
   const { user } = useContext(UserData);
   const [content, setContent] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: FormChangeEvent) => {
     e.preventDefault();
     setContent(e.target.value);
   };

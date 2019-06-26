@@ -1,3 +1,5 @@
+import Joi from "@hapi/joi";
+import { packageSchema } from "server/routes/api/v1/packages";
 import checkGithub from "server/middleware/checkGithub";
 
 export const get = [
@@ -21,6 +23,7 @@ export const get = [
           "package.updated",
           "package.license",
           "package.category",
+          "package.tags",
           ctx.db.raw("ifnull(vote.vote, 0) as vote"),
           ctx.db.raw("count(distinct upvote.id) as upvotes"),
           ctx.db.raw("count(distinct downvote.id) as downvotes")
@@ -62,5 +65,23 @@ export const get = [
       console.log("broke");
       ctx.throw(500, err);
     }
+  },
+];
+export const post = [
+  checkGithub(),
+  async ctx => {
+    const { body } = ctx.request;
+    const validation = Joi.validate(body, packageSchema);
+    if (validation.error) ctx.throw(400, validation.error);
+
+    const { slug, ...rest } = body;
+    const result = await ctx
+      .db("package")
+      .update(rest)
+      .where({ slug })
+      .limit(1);
+
+    ctx.status = 200;
+    ctx.body = result;
   },
 ];

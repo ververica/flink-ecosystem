@@ -5,5 +5,8 @@ export type FormProviderProps = {
 };
 
 export type FormChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement
 >;

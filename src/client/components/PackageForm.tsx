@@ -6,7 +6,7 @@ import SelectField from "./SelectField";
 import { PackageData } from "client/types/Package";
 import { FormProviderProps, FormChangeEvent } from "client/types/FormProvider";
 
-const initialValues = {
+export const initialValues = {
   name: "",
   slug: "",
   description: "",
@@ -38,7 +38,7 @@ const categories = [
 export const FormProvider = React.createContext<FormProviderProps>({
   disabledFields: [],
   handleInputChange: () => {},
-  inputs: {},
+  inputs: initialValues,
 });
 
 export default function PackageForm(props: PackageFormProps) {
@@ -147,9 +147,7 @@ export default function PackageForm(props: PackageFormProps) {
                 label="License"
                 // error={error}
                 placeholder="Select a License"
-                onChange={handleInputChange}
                 options={licenses}
-                value={inputs.license}
               />
             </div>
           </div>
@@ -163,10 +161,8 @@ export default function PackageForm(props: PackageFormProps) {
                 id="category"
                 label="Category"
                 name="category"
-                onChange={handleInputChange}
                 options={categories}
                 placeholder="Select a Category"
-                value={inputs.category}
               />
             </div>
           </div>

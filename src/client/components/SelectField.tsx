@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import cx from "classnames";
+import { FormProvider } from "./PackageForm";
 
 export default function SelectField(props: SelectFieldProps) {
+  const { handleInputChange, inputs } = useContext(FormProvider);
+
   return (
     <>
       <label htmlFor={props.id}>{props.label}</label>
@@ -11,8 +14,8 @@ export default function SelectField(props: SelectFieldProps) {
         className={cx("form-control", {
           "is-invalid": props.error.id === props.id,
         })}
-        onChange={props.onChange}
-        value={props.value}
+        onChange={handleInputChange}
+        value={inputs[props.name]}
       >
         <option value="" disabled hidden>
           {props.placeholder}
@@ -36,10 +39,8 @@ type SelectFieldProps = {
   id: string;
   label: string;
   name: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: Array<string>;
   placeholder: string;
-  value: string;
 } & DefaultProps;
 
 type DefaultProps = Readonly<typeof SelectField.defaultProps>;

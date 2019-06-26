@@ -1,8 +1,8 @@
 import Joi from "@hapi/joi";
 
-import checkGithub from "../../../../middleware/checkGithub";
+import checkGithub from "server/middleware/checkGithub";
 
-const schema = Joi.object().keys({
+export const packageSchema = Joi.object().keys({
   name: Joi.string().required(),
   slug: Joi.string()
     .regex(/[a-z0-9-_]{2,}/)
@@ -10,8 +10,7 @@ const schema = Joi.object().keys({
   description: Joi.string().required(),
   readme: Joi.string().required(),
   website: Joi.string().required(),
-  // at the momnent not required.
-  // repository: Joi.string().required(),
+  repository: Joi.string(),
   category: Joi.string().required(),
   tags: Joi.string().required(),
   license: Joi.string().required(),
@@ -80,7 +79,7 @@ export const get = [
 export const post = [
   checkGithub({ required: true }),
   async ctx => {
-    const validation = Joi.validate(ctx.request.body, schema);
+    const validation = Joi.validate(ctx.request.body, packageSchema);
     if (validation.error) ctx.throw(400, validation.error);
 
     const result = await ctx.db("package").insert({
