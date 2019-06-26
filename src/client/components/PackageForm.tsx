@@ -4,6 +4,7 @@ import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
 import SelectField from "./SelectField";
 import { PackageData } from "client/types/Package";
+import { FormProviderProps, FormChangeEvent } from "client/types/FormProvider";
 
 const initialValues = {
   name: "",
@@ -34,12 +35,16 @@ const categories = [
   "Languages",
 ];
 
-export const DisabledFields = React.createContext([""]);
+export const FormProvider = React.createContext<FormProviderProps>({
+  disabledFields: [],
+  handleInputChange: () => {},
+  inputs: {},
+});
 
 export default function PackageForm(props: PackageFormProps) {
   const [inputs, setInputs] = useState(props.initialValues);
 
-  const handleInputChange = (e: ChangeEvent) => {
+  const handleInputChange = (e: FormChangeEvent) => {
     e.persist();
     setInputs(inputs => {
       return { ...inputs, [e.target.name]: e.target.value };
@@ -58,8 +63,14 @@ export default function PackageForm(props: PackageFormProps) {
     props.onSubmit(data);
   };
 
+  const formPoviderValue = {
+    disabledFields: props.disabledFields,
+    handleInputChange,
+    inputs,
+  };
+
   return (
-    <DisabledFields.Provider value={props.disabledFields}>
+    <FormProvider.Provider value={formPoviderValue}>
       <form onSubmit={handleFormSubmit}>
         <div className="row">
           <div className="col-md-8">
@@ -68,18 +79,14 @@ export default function PackageForm(props: PackageFormProps) {
               label="Package Name"
               name="name"
               onBlur={handleNameBlur}
-              onChange={handleInputChange}
               placeholder="Package Name"
-              value={inputs.name}
             />
             <InputField
               help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
               id="slug"
               label="Package ID"
               name="slug"
-              onChange={handleInputChange}
               placeholder="Package ID"
-              value={inputs.slug}
             />
           </div>
           <div className="col-md-4">
@@ -92,9 +99,7 @@ export default function PackageForm(props: PackageFormProps) {
           id="description"
           label="Description"
           name="description"
-          onChange={handleInputChange}
           placeholder="Description"
-          value={inputs.description}
         />
         <div className="form-group">
           <MarkdownEditor
@@ -121,9 +126,7 @@ export default function PackageForm(props: PackageFormProps) {
               id="website"
               label="Website"
               name="website"
-              onChange={handleInputChange}
               placeholder="Website"
-              value={inputs.website}
             />
           </div>
           <div className="col-md-4">
@@ -132,9 +135,7 @@ export default function PackageForm(props: PackageFormProps) {
               id="repository"
               label="Repository"
               name="repository"
-              onChange={handleInputChange}
               placeholder="Repository"
-              value={inputs.repository}
             />
           </div>
           {/* @TODO make "other" field for license */}
@@ -177,9 +178,7 @@ export default function PackageForm(props: PackageFormProps) {
                 id="tags"
                 label="Tags"
                 name="tags"
-                onChange={handleInputChange}
                 placeholder="Tags"
-                value={inputs.tags}
               />
             </div>
           </div>
@@ -189,13 +188,13 @@ export default function PackageForm(props: PackageFormProps) {
           <div className="col-auto ml-auto">{props.submitButton}</div>
         </div>
       </form>
-    </DisabledFields.Provider>
+    </FormProvider.Provider>
   );
 }
 
 PackageForm.defaultProps = {
   initialValues,
-  disabledFields: [""],
+  disabledFields: [],
 };
 
 type FormError = {
@@ -208,9 +207,5 @@ type PackageFormProps = {
   onSubmit: (data: PackageData) => void;
   initialValues: PackageData;
   submitButton: React.ReactNode;
-  disabledFields: string[];
+  disabledFields: FormProviderProps["disabledFields"];
 };
-
-type ChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
->;

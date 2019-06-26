@@ -19,7 +19,7 @@ const submitButton = (
 
 const handleSubmit: HandleSubmit = setError => async data => {
   try {
-    await Axios.post(`/api/v1/package/${data.slug}`);
+    await Axios.post(`/api/v1/package/${data.slug}`, data);
   } catch (e) {
     setError(e);
   }
@@ -38,9 +38,13 @@ export default function EditPackage(props: EditPackageProps) {
 
   return (
     <MainCard header={`Edit Package: ${props.package.name}`}>
-      <ErrorComponent message={error.toString()} hidden={isEmpty(error)} />
+      <ErrorComponent
+        message={error.toString()}
+        hidden={isEmpty(error)}
+        className="p-0"
+      />
       <PackageForm
-        disabledFields={["name", "slug"]}
+        disabledFields={["slug"]}
         error={error}
         initialValues={props.package}
         onSubmit={handleSubmit(setError)}
@@ -56,8 +60,7 @@ EditPackage.defaultProps = {
 
 type EditPackageProps = {
   package: PackageData;
-} & RouteComponentProps &
-  Readonly<typeof EditPackage.defaultProps>;
+} & RouteComponentProps;
 
 type Error = {
   id: string;

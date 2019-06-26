@@ -1,9 +1,11 @@
 import React, { SyntheticEvent, useContext } from "react";
 import cx from "classnames";
-import { DisabledFields } from "./PackageForm";
+import { FormProvider } from "./PackageForm";
 
 export default function InputField(props: Props) {
-  const disabledFields = useContext(DisabledFields);
+  const { disabledFields, handleInputChange, inputs } = useContext(
+    FormProvider
+  );
 
   return (
     <div className="form-group">
@@ -17,10 +19,10 @@ export default function InputField(props: Props) {
         id={props.id}
         name={props.name}
         onBlur={props.onBlur}
-        onChange={props.onChange}
+        onChange={handleInputChange}
         placeholder={props.placeholder}
         type="text"
-        value={props.value}
+        value={inputs[props.name]}
       />
       {props.help && (
         <small id={`${props.id}-help`} className="form-text text-muted">
@@ -33,7 +35,6 @@ export default function InputField(props: Props) {
 
 InputField.defaultProps = {
   error: {},
-  disabledFields: [""],
 };
 
 type Props = {
@@ -43,9 +44,5 @@ type Props = {
   label: string;
   name: string;
   onBlur?: (e: SyntheticEvent) => void;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
-  value: string | number;
-} & DefaultProps;
-
-type DefaultProps = Readonly<typeof InputField.defaultProps>;
+} & Readonly<typeof InputField.defaultProps>;

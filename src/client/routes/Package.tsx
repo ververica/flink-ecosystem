@@ -15,9 +15,10 @@ export default function Package(props: PackageProps) {
 
   if (!data.package) {
     return (
-      <div className="container pr-0">
-        <ErrorComponent message="An error occured loading the package data." />
-      </div>
+      <ErrorComponent
+        className="pr-0"
+        message="An error occured loading the package data."
+      />
     );
   }
 

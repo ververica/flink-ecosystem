@@ -8,6 +8,7 @@ import { RouteComponentProps } from "@reach/router";
 
 import useFetchData from "client/helpers/useFetchData";
 import { PackageData } from "client/types/Package";
+import ErrorComponent from "client/components/ErrorComponent";
 
 export default function Packages(props: Props) {
   const { search = "", key = 0 } = props.location || {};
@@ -17,6 +18,10 @@ export default function Packages(props: Props) {
   const [data] = useFetchData(`/api/v1/packages?page=${page}&key=${key}`) as [
     PackagesData
   ];
+
+  if (!data.packages) {
+    return <ErrorComponent className="pr-0" />;
+  }
 
   const { packages = [], count = 0 } = data;
 
