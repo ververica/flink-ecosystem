@@ -28,5 +28,5 @@ export type CommentData = {
 
 export type PackageResult = {
   package: PackageData;
-  comments: Array<CommentData>;
+  comments: CommentData[];
 };

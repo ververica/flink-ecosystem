@@ -3,7 +3,7 @@ import { UserData } from "./UserDataProvider";
 import { Redirect, RouteComponentProps } from "@reach/router";
 import MainCard from "./MainCard";
 import PackageForm from "./PackageForm";
-import { PackageData, PackageResult } from "client/types/Package";
+import { PackageData } from "client/types/Package";
 
 export default function EditPackage(props: EditPackageProps) {
   const { user } = useContext(UserData);
@@ -14,10 +14,10 @@ export default function EditPackage(props: EditPackageProps) {
   }
 
   return (
-    <MainCard header={`Edit Package: ${props.data.package.name}`}>
+    <MainCard header={`Edit Package: ${props.package.name}`}>
       <PackageForm
         error={error}
-        initialValues={props.data.package}
+        initialValues={props.package}
         onSubmit={() => {}}
         submitButton={null}
       />
@@ -25,9 +25,14 @@ export default function EditPackage(props: EditPackageProps) {
   );
 }
 
+EditPackage.defaultProps = {
+  package: {},
+};
+
 type EditPackageProps = {
-  data: PackageResult;
-} & RouteComponentProps;
+  package: PackageData;
+} & RouteComponentProps &
+  Readonly<typeof EditPackage.defaultProps>;
 
 type Error = {
   id: string;

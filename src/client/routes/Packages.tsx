@@ -32,7 +32,7 @@ export default function Packages(props: Props) {
 type Props = RouteComponentProps;
 
 export type PackagesData = {
-  packages: Array<PackageData>;
+  packages: PackageData[];
   count: number;
   totalPages: number;
 };

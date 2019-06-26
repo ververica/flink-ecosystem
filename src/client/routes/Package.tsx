@@ -3,27 +3,40 @@ import React from "react";
 import { RouteComponentProps, Router } from "@reach/router";
 import ViewPackage from "client/components/ViewPackage";
 import EditPackage from "client/components/EditPackage";
-import useFetchData from "client/helpers/useFetchData";
-import { PackageResult } from "client/types/Package";
+
+import ErrorComponent from "client/components/ErrorComponent";
+import useAsyncData from "client/helpers/useAsyncData";
 
 export default function Package(props: PackageProps) {
-  const [data, refreshPackageData] = useFetchData(
-    `/api/v1/packages/${props.package}`
-  ) as [PackageResult, () => void];
+  const { data, loading, error, refreshData } = useAsyncData(
+    `/api/v1/packages/${props.packageSlug}`,
+    { package: null, comments: [] }
+  );
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <ErrorComponent message="An error occured loading the package data." />
+    );
+  }
 
   return (
     <Router primary={false}>
       <ViewPackage
         default
-        data={data}
-        refreshPackageData={refreshPackageData}
+        package={data.package}
+        comments={data.comments}
+        refreshPackageData={refreshData}
       />
-      <EditPackage path="edit" data={data} />
+      <EditPackage path="edit" package={data.package} />
     </Router>
   );
 }
 
 type PackageProps = RouteComponentProps<{
-  package: string;
+  packageSlug: string;
 }> &
   RouteComponentProps;

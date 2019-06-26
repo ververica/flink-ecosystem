@@ -52,7 +52,7 @@ export default function App() {
               >
                 <Packages default />
                 <NewPackage path="/new-package" />
-                <Package path="/packages/:package/*" />
+                <Package path="/packages/:packageSlug/*" />
                 <Category path="/categories/:category" />
                 <Search path="/search/:searchQuery" />
                 <Guide path="/guide" />

@@ -24,6 +24,5 @@ export default function useFetchData(url: string) {
   const headers = { "X-Request-Time": `${time}` };
 
   const data = useFetch(url, { headers });
-  console.log(data);
   return [data, refreshData];
 }

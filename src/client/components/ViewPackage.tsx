@@ -21,7 +21,11 @@ const Img = styled.img`
 
 export default function ViewPackage(props: ViewPackageProps) {
   const { user } = useContext(UserData);
-  const { package: pkg, comments } = props.data;
+  const { package: pkg, comments } = props;
+
+  if (!pkg) {
+    return null;
+  }
 
   return (
     <MainCard
@@ -107,7 +111,12 @@ const PackageOptions = () => {
   );
 };
 
+ViewPackage.defaultProps = {
+  package: {},
+  comments: [],
+};
+
 type ViewPackageProps = {
-  data: PackageResult;
   refreshPackageData: () => void;
-} & RouteComponentProps;
+} & RouteComponentProps &
+  PackageResult;
