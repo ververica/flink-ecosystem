@@ -22,7 +22,7 @@ export default function PackageList(props: Props) {
     <>
       {props.packages.map(pkg => (
         <div className="row mb-3" key={pkg.slug}>
-          <div className="col-4 overflow-hidden d-flex align-items-center justify-content-center">
+          <div className="col-4 overflow-hidden d-flex align-items-start justify-content-center">
             <Link to={`/packages/${pkg.slug}`}>
               <Img src="https://lorempixel.com/640/480/city/" alt="something" />
             </Link>

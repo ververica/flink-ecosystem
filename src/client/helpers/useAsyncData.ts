@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback, useRef } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { UserData } from "client/components/UserDataProvider";
 import useTimeout from "@rooks/use-timeout";
 import Axios from "axios";
@@ -26,14 +26,7 @@ const useAsyncData: UseAsyncData = (url, initialData) => {
     clearTimeout();
   }, [url]);
 
-  const firstRun = useRef(true);
-
   useEffect(() => {
-    if (firstRun.current) {
-      firstRun.current = false;
-      return;
-    }
-
     getData();
   }, [user.login, getData]);
 
