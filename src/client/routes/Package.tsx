@@ -23,6 +23,10 @@ export default function Package(props: PackageProps) {
     );
   }
 
+  if (!data.package) {
+    return null;
+  }
+
   return (
     <Router primary={false}>
       <ViewPackage

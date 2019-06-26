@@ -23,12 +23,18 @@ const defaultState = {
 export const UserData = React.createContext(defaultState);
 
 export default function UserDataProvider(props: UserDataProviderProps) {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(defaultState.user);
   const [authWindow, setAuthWindow] = useState<Window | null>(null);
   const { location } = useLocation();
 
-  const refreshData = useCallback(() => {
-    axios.get("/api/v1/user").then(response => setUser(response.data));
+  const refreshData = useCallback(async () => {
+    try {
+      const response = await axios.get("/api/v1/user");
+      setUser(response.data);
+    } catch (e) {}
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -39,7 +45,6 @@ export default function UserDataProvider(props: UserDataProviderProps) {
     e.preventDefault();
     cookies.remove("github-token");
     setUser(defaultState.user);
-    props.onLogout();
   };
 
   useEffect(() => {
@@ -78,16 +83,13 @@ export default function UserDataProvider(props: UserDataProviderProps) {
     openGithubLogin,
   };
 
+  if (loading) {
+    return null;
+  }
+
   return <UserData.Provider value={value}>{props.children}</UserData.Provider>;
 }
 
-UserDataProvider.defaultProps = {
-  onLogout: () => {},
-};
-
 type UserDataProviderProps = {
-  onLogout?: () => void;
   children: ReactNode;
-} & DefaultProps;
-
-type DefaultProps = Readonly<typeof UserDataProvider.defaultProps>;
+};

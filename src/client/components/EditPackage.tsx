@@ -4,14 +4,24 @@ import { Redirect, RouteComponentProps } from "@reach/router";
 import MainCard from "./MainCard";
 import PackageForm from "./PackageForm";
 import { PackageData } from "client/types/Package";
+import Icon from "client/components/Icon";
 
 export default function EditPackage(props: EditPackageProps) {
   const { user } = useContext(UserData);
   const [error, setError] = useState({}) as [Error, () => void];
 
   if (user.id === 0) {
-    return <Redirect to={props.location.pathname.replace("/edit", "")} />;
+    return (
+      <Redirect to={props.location.pathname.replace("/edit", "")} noThrow />
+    );
   }
+
+  const submitButton = (
+    <button className="btn btn-success" type="submit">
+      <Icon name="save" fw={false} />
+      Save Package
+    </button>
+  );
 
   return (
     <MainCard header={`Edit Package: ${props.package.name}`}>
@@ -19,7 +29,7 @@ export default function EditPackage(props: EditPackageProps) {
         error={error}
         initialValues={props.package}
         onSubmit={() => {}}
-        submitButton={null}
+        submitButton={submitButton}
       />
     </MainCard>
   );
