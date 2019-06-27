@@ -11,8 +11,10 @@ import App from "./client/components/App";
 ReactDOM.render(<App />, document.getElementById("root"));
 
 // @TODO delete packages
+
 // @TODO edit comments
 // @TODO delete comments
+// @TODO allow free-form license entry
 
 // @TODO upload images
 

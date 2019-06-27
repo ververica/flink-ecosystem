@@ -14,6 +14,7 @@ import useOutsideClick from "client/helpers/useOutsideClick";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
 import Axios from "axios";
+import Modal from "./Modal";
 
 const Img = styled.img`
   object-fit: cover;
@@ -31,7 +32,11 @@ export default function ViewPackage(props: ViewPackageProps) {
   return (
     <MainCard
       header={pkg.name}
-      options={user.id === pkg.user_id && <PackageOptions slug={pkg.slug} />}
+      options={
+        user.id === pkg.user_id && (
+          <PackageOptions slug={pkg.slug} name={pkg.name} />
+        )
+      }
     >
       <div className="row">
         <div className="col-sm-3 order-last ">
@@ -82,6 +87,7 @@ export default function ViewPackage(props: ViewPackageProps) {
 
 const PackageOptions = (props: PackageOptionsProps) => {
   const [show, setShow] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   const ref = useOutsideClick(() => {
     if (show) setShow(false);
@@ -90,6 +96,8 @@ const PackageOptions = (props: PackageOptionsProps) => {
   const handleDelete = (slug: string) => async (e: SyntheticEvent) => {
     e.preventDefault();
     setShow(false);
+    setConfirm(false);
+
     try {
       await Axios.delete(`/api/v1/packages/${slug}`);
     } catch (e) {
@@ -98,31 +106,58 @@ const PackageOptions = (props: PackageOptionsProps) => {
   };
 
   return (
-    <div className={cx("dropdown", { show })}>
-      <button
-        className="btn btn-light dropdown-toggle btn-sm"
-        type="button"
-        aria-haspopup="true"
-        onClick={() => setShow(!show)}
-      >
-        <Icon name="ellipsis-v" margin={0} />
-      </button>
-      <div
-        className={cx("dropdown-menu dropdown-menu-right", { show })}
-        ref={ref}
-      >
-        <Link to="edit" className="dropdown-item">
-          <Icon name="edit" fw={false} /> Edit
-        </Link>
-        <a
-          href="#delete"
-          className="dropdown-item"
-          onClick={handleDelete(props.slug)}
+    <>
+      <div className={cx("dropdown", { show })}>
+        <button
+          className="btn btn-light dropdown-toggle btn-sm"
+          type="button"
+          aria-haspopup="true"
+          onClick={() => setShow(!show)}
         >
-          <Icon name="trash-alt" fw={false} /> Delete
-        </a>
+          <Icon name="ellipsis-v" margin={0} />
+        </button>
+        <div
+          className={cx("dropdown-menu dropdown-menu-right", { show })}
+          ref={ref}
+        >
+          <Link to="edit" className="dropdown-item">
+            <Icon name="edit" fw={false} /> Edit
+          </Link>
+          <a
+            href="#delete"
+            className="dropdown-item"
+            onClick={() => setConfirm(true)}
+          >
+            <Icon name="trash-alt" fw={false} /> Delete
+          </a>
+        </div>
       </div>
-    </div>
+      <Modal
+        open={confirm}
+        title="Are you sure?"
+        onModalHidden={() => setConfirm(false)}
+        actions={
+          <>
+            <button
+              className="btn btn-sm btn-default"
+              onClick={() => setConfirm(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-sm btn-danger"
+              onClick={handleDelete(props.slug)}
+            >
+              Delete
+            </button>
+          </>
+        }
+      >
+        Are you sure you want to delete the package "<code>{props.name}</code>".
+        You cannot undo this action, and the package id <kbd>{props.slug}</kbd>{" "}
+        will remain unavailable.
+      </Modal>
+    </>
   );
 };
 
@@ -138,4 +173,5 @@ type ViewPackageProps = {
 
 type PackageOptionsProps = {
   slug: string;
+  name: string;
 };

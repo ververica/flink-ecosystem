@@ -1,7 +1,14 @@
-import React, { SyntheticEvent, useContext } from "react";
+import React, {
+  SyntheticEvent,
+  useContext,
+  useState,
+  ChangeEvent,
+  useEffect,
+} from "react";
 import styled from "styled-components/macro";
 import useLocation from "client/helpers/useLocation";
 import { UserData } from "./UserDataProvider";
+import getFormData from "get-form-data";
 
 const SearchIcon = styled.small.attrs({
   className: "fal fa-search mr-2",
@@ -30,11 +37,31 @@ const WelcomeUser = () => {
   );
 };
 
-export default function Header(props: HeaderProps) {
-  const { location } = useLocation();
-  const searchQuery = (location.pathname.match(/^\/search\/(.*)/) || [])[1];
+export default function Header() {
+  const { location, navigate } = useLocation();
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const newQuery = location.pathname.includes("/search")
+      ? (location.pathname.match(/^\/search\/(.*)/) || [])[1]
+      : "";
+
+    setSearchQuery(newQuery);
+  }, [location.pathname]);
 
   const { user, openGithubLogin } = useContext(UserData);
+
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    const { searchQuery } = getFormData(e.target);
+    navigate(searchQuery ? `/search/${searchQuery}` : "/");
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSearchQuery(e.target.value);
+  };
 
   return (
     <nav className="navbar navbar-light pr-0 mb-4">
@@ -51,16 +78,12 @@ export default function Header(props: HeaderProps) {
           </small>
         </li>
       </ul>
-      <form className="form-inline my-lg-0" onSubmit={props.onSubmit}>
+      <form className="form-inline my-lg-0" onSubmit={handleSubmit}>
         <div className="position-relative d-flex align-items-center">
-          <SearchInput defaultValue={searchQuery} />
+          <SearchInput value={searchQuery} onChange={handleChange} />
           <SearchIcon />
         </div>
       </form>
     </nav>
   );
 }
-
-type HeaderProps = {
-  onSubmit: (e: SyntheticEvent) => void;
-};

@@ -12,7 +12,7 @@ import ErrorComponent from "client/components/ErrorComponent";
 import { ServerResponse } from "client/types/Server";
 
 export default function Packages(props: Props) {
-  const { search = "", key = 0 } = props.location || {};
+  const { search = "" } = props.location;
   const searchQuery = qs.parse(search.slice(1));
   const page = Number(searchQuery.page || 1);
 

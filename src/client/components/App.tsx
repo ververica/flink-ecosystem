@@ -1,6 +1,5 @@
-import React, { Suspense, SyntheticEvent } from "react";
-import { Router, navigate } from "@reach/router";
-import getFormData from "get-form-data";
+import React, { Suspense } from "react";
+import { Router } from "@reach/router";
 import styled from "styled-components/macro";
 
 import {
@@ -40,18 +39,12 @@ const RouterWrapper = styled(Router)`
 `;
 
 export default function App() {
-  const onSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    const { searchQuery } = getFormData(e.target);
-    navigate(searchQuery ? `/search/${searchQuery}` : "/");
-  };
-
   return (
     <Providers>
       <Container>
         <div className="row no-gutters w-100 flex-grow-1">
           <div className="col-lg-9 d-flex flex-column">
-            <Header onSubmit={onSubmit} />
+            <Header />
             <Suspense fallback={<Loader />}>
               <RouterWrapper primary={false}>
                 <Packages default />

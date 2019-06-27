@@ -4,6 +4,11 @@ import checkUser from "server/middleware/checkUser";
 
 exports.get = [
   checkUser({ required: false }),
+  async (ctx, next) => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return next();
+  },
+
   async ctx => {
     const slug = ctx.params.package;
     const deleted = 0;
