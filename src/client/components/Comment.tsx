@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { CommentData } from "client/types/Package";
 
 const Avatar = styled.img.attrs({
-  className: "mr-3",
+  className: "mr-3 mt-1",
 })`
   max-width: 32px;
 `;
@@ -22,7 +22,7 @@ const table = (table: any) => (
 
 export default function Comment(props: AddCommentProps) {
   return (
-    <div className="media">
+    <div className="media  pb-2">
       <Avatar src={props.avatar_url} alt={props.login} />
       <div className="media-body">
         <small className="text-muted">

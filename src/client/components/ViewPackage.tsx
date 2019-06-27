@@ -62,11 +62,7 @@ export default function ViewPackage(props: ViewPackageProps) {
         </big>
       </div>
       <hr />
-      <PackageComments
-        pkg={pkg}
-        comments={comments}
-        refreshPackageData={props.refreshPackageData}
-      />
+      <PackageComments pkg={pkg} comments={comments} />
     </MainCard>
   );
 }
@@ -76,7 +72,4 @@ ViewPackage.defaultProps = {
   comments: [],
 };
 
-type ViewPackageProps = {
-  refreshPackageData: () => void;
-} & RouteComponentProps &
-  PackageResult;
+type ViewPackageProps = RouteComponentProps & PackageResult;

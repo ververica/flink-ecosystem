@@ -93,7 +93,7 @@ exports.post = [
   },
 ];
 
-exports.delete = [
+exports.deletee = [
   checkUser(),
   async ctx => {
     const result = await ctx

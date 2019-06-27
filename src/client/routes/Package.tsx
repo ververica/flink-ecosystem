@@ -10,9 +10,9 @@ import { PackageResult } from "client/types/Package";
 import { ServerResponse } from "client/types/Server";
 
 export default function Package(props: PackageProps) {
-  const [data, refreshData] = useFetchData(
-    `/api/v1/packages/${props.packageSlug}`
-  ) as [ServerResponse<PackageResult>, RefreshData];
+  const [data] = useFetchData(`/api/v1/packages/${props.packageSlug}`) as [
+    ServerResponse<PackageResult>
+  ];
 
   if (data.status === "error") {
     return <ErrorComponent className="pr-0" message={data.message} />;
@@ -20,12 +20,7 @@ export default function Package(props: PackageProps) {
 
   return (
     <Router primary={false}>
-      <ViewPackage
-        default
-        package={data.package}
-        comments={data.comments}
-        refreshPackageData={refreshData}
-      />
+      <ViewPackage default package={data.package} comments={data.comments} />
       <EditPackage path="edit" package={data.package} />
     </Router>
   );

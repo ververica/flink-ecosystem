@@ -11,7 +11,6 @@ export default function useLocation() {
 
   useEffect(() => {
     const removeListener = history.listen(params => {
-      console.log("history");
       const { location } = params;
       const newState = Object.assign({}, initialState, { location });
       setState(newState);

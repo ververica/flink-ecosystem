@@ -20,10 +20,10 @@ export default function PackageOptions(props: PackageOptionsProps) {
     try {
       await Axios.delete(`/api/v1/packages/${slug}`);
       setShowDropdown(false);
-      setConfirm(false);
     } catch (e) {
-      console.log("it broke: ", e);
+      // @TODO show toast for broken request
     }
+    setConfirm(false);
   };
 
   const handleDeleteClick = (e: SyntheticEvent) => {
