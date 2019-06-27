@@ -10,9 +10,12 @@ import cx from "classnames";
 import Icon from "./Icon";
 
 const VoteContainer = styled.small.attrs<VoteContainerProps>(props => ({
-  className: cx("mr-4", { "text-muted": !props.voted }),
+  className: cx({ "text-muted": !props.voted }),
 }))<VoteContainerProps>`
   cursor: pointer;
+  & + & {
+    margin-left: 24px;
+  }
 `;
 
 const useVotes: UseVotes = ({ vote, upvotes, downvotes }) => {

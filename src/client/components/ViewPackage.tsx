@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, SyntheticEvent } from "react";
 
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
@@ -13,6 +13,7 @@ import Icon from "client/components/Icon";
 import useOutsideClick from "client/helpers/useOutsideClick";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
+import Axios from "axios";
 
 const Img = styled.img`
   object-fit: cover;
@@ -30,7 +31,7 @@ export default function ViewPackage(props: ViewPackageProps) {
   return (
     <MainCard
       header={pkg.name}
-      options={user.id === pkg.user_id && <PackageOptions />}
+      options={user.id === pkg.user_id && <PackageOptions slug={pkg.slug} />}
     >
       <div className="row">
         <div className="col-sm-3 order-last ">
@@ -79,12 +80,22 @@ export default function ViewPackage(props: ViewPackageProps) {
   );
 }
 
-const PackageOptions = () => {
+const PackageOptions = (props: PackageOptionsProps) => {
   const [show, setShow] = useState(false);
 
   const ref = useOutsideClick(() => {
     if (show) setShow(false);
   });
+
+  const handleDelete = (slug: string) => async (e: SyntheticEvent) => {
+    e.preventDefault();
+    setShow(false);
+    try {
+      await Axios.delete(`/api/v1/packages/${slug}`);
+    } catch (e) {
+      console.log("it broke: ", e);
+    }
+  };
 
   return (
     <div className={cx("dropdown", { show })}>
@@ -103,7 +114,11 @@ const PackageOptions = () => {
         <Link to="edit" className="dropdown-item">
           <Icon name="edit" fw={false} /> Edit
         </Link>
-        <a href="#delete" className="dropdown-item">
+        <a
+          href="#delete"
+          className="dropdown-item"
+          onClick={handleDelete(props.slug)}
+        >
           <Icon name="trash-alt" fw={false} /> Delete
         </a>
       </div>
@@ -120,3 +135,7 @@ type ViewPackageProps = {
   refreshPackageData: () => void;
 } & RouteComponentProps &
   PackageResult;
+
+type PackageOptionsProps = {
+  slug: string;
+};

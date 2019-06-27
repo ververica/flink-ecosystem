@@ -4,11 +4,6 @@ import checkUser from "server/middleware/checkUser";
 
 exports.get = [
   checkUser({ required: false }),
-  async (ctx, next) => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    return next();
-  },
-
   async ctx => {
     const slug = ctx.params.package;
     const deleted = 0;
@@ -94,14 +89,19 @@ exports.post = [
       .limit(1);
 
     ctx.status = 200;
-    ctx.body = result;
+    ctx.body = { result };
   },
 ];
 
 exports.delete = [
   checkUser(),
   async ctx => {
-    //do stuff
-    ctx.body = {};
+    const result = await ctx
+      .db("package")
+      .update({ deleted: 1 })
+      .where({ slug: ctx.params.package })
+      .limit(1);
+
+    ctx.body = { result };
   },
 ];

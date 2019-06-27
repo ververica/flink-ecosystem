@@ -41,7 +41,7 @@ export default function PackageList(props: Props) {
                   upvotes={pkg.upvotes}
                   downvotes={pkg.downvotes}
                 />
-                <Link to={`/packages/${pkg.slug}`}>
+                <Link to={`/packages/${pkg.slug}`} className="ml-4">
                   <small className="text-muted">
                     <Icon name="comments" margin={1} title="Comments" />
                     {pkg.comments}
