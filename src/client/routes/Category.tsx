@@ -9,7 +9,8 @@ import { ServerResponse } from "client/types/Server";
 export default function Category(props: Props) {
   const { key = 0 } = props.location || {};
   const [data] = useFetchData(
-    `/api/v1/packages?category=${props.category}&key=${key}`
+    `/api/v1/packages?category=${props.category}`,
+    props.location.key
   ) as [ServerResponse<PackagesData>, RefreshData];
 
   const { packages = [], count = 0 } = data;

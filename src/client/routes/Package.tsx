@@ -11,7 +11,8 @@ import { ServerResponse } from "client/types/Server";
 
 export default function Package(props: PackageProps) {
   const [data, refreshData] = useFetchData(
-    `/api/v1/packages/${props.packageSlug}`
+    `/api/v1/packages/${props.packageSlug}`,
+    props.location.key
   ) as [ServerResponse<PackageResult>, RefreshData];
 
   if (data.status === "error") {

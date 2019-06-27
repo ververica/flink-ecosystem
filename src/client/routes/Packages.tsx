@@ -16,10 +16,10 @@ export default function Packages(props: Props) {
   const searchQuery = qs.parse(search.slice(1));
   const page = Number(searchQuery.page || 1);
 
-  const [data] = useFetchData(`/api/v1/packages?page=${page}&key=${key}`) as [
-    ServerResponse<PackagesData>,
-    RefreshData
-  ];
+  const [data] = useFetchData(
+    `/api/v1/packages?page=${page}`,
+    props.location.key
+  ) as [ServerResponse<PackagesData>, RefreshData];
 
   if (!data.packages) {
     return <ErrorComponent className="pr-0" />;
