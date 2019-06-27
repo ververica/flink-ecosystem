@@ -2,7 +2,7 @@ import { useState, useContext, useEffect, useRef } from "react";
 import useFetch from "fetch-suspense";
 import { UserData } from "client/components/UserDataProvider";
 
-export default function useFetchData(url: string, key: string) {
+export default function useFetchData(url: string, key: string = "") {
   const { user } = useContext(UserData);
   const [time, setTime] = useState(0);
 
@@ -21,7 +21,10 @@ export default function useFetchData(url: string, key: string) {
   }, [user.login]);
 
   // This header is just so we can update a timestamp and refresh the request
-  const headers = { "X-Request-Time": time.toString(), "X-Location-Key": key };
+  const headers = {
+    "X-Request-Time": time.toString(),
+    "X-Location-Key": key,
+  };
 
   const result = useFetch(url, { headers });
 
