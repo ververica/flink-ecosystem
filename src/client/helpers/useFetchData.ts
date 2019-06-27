@@ -6,7 +6,7 @@ export default function useFetchData(url: string) {
   const { user } = useContext(UserData);
   const [time, setTime] = useState(0);
 
-  const refreshData = () => {
+  const refreshData: RefreshData = () => {
     setTime(Date.now());
   };
 
@@ -23,6 +23,18 @@ export default function useFetchData(url: string) {
   // This header is just so we can update a timestamp and refresh the request
   const headers = { "X-Request-Time": `${time}` };
 
-  const data = useFetch(url, { headers });
-  return [data, refreshData];
+  const result = useFetch(url, { headers });
+
+  if (typeof result === "string") {
+    const error = {
+      status: "error",
+      message: result,
+    };
+
+    return [error, refreshData];
+  }
+
+  return [result, refreshData];
 }
+
+export type RefreshData = () => void;

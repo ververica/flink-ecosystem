@@ -39,22 +39,19 @@ export default function EditPackage(props: EditPackageProps) {
     );
   }
 
+  const header = (
+    <>
+      Edit Package:{" "}
+      <Link to={`/packages/${props.package.slug}`}>{props.package.name}</Link>
+    </>
+  );
+
   return (
-    <MainCard
-      header={
-        <>
-          Edit Package:{" "}
-          <Link to={`/packages/${props.package.slug}`}>
-            {props.package.name}
-          </Link>
-        </>
-      }
-    >
-      <ErrorComponent
-        message={error.toString()}
-        hidden={isEmpty(error)}
-        className="p-0"
-      />
+    <MainCard header={header}>
+      {!isEmpty(error) && (
+        <ErrorComponent message={error.toString()} className="p-0" />
+      )}
+
       <PackageForm
         disabledFields={["slug"]}
         error={error}

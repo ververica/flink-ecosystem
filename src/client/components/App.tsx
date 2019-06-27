@@ -14,6 +14,7 @@ import {
 import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
 import Providers from "client/components/Providers";
+import Loader from "./Loader";
 
 const Container = styled.div.attrs({
   className: "container min-vh-100 d-flex flex-column",
@@ -32,6 +33,12 @@ const Container = styled.div.attrs({
   }
 `;
 
+const RouterWrapper = styled(Router)`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+`;
+
 export default function App() {
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -45,18 +52,15 @@ export default function App() {
         <div className="row no-gutters w-100 flex-grow-1">
           <div className="col-lg-9 d-flex flex-column">
             <Header onSubmit={onSubmit} />
-            <Suspense fallback="Loading... ">
-              <Router
-                primary={false}
-                className="flex-grow-1 d-flex flex-column"
-              >
+            <Suspense fallback={<Loader />}>
+              <RouterWrapper primary={false}>
                 <Packages default />
                 <NewPackage path="/new-package" />
                 <Package path="/packages/:packageSlug/*" />
                 <Category path="/categories/:category" />
                 <Search path="/search/:searchQuery" />
                 <Guide path="/guide" />
-              </Router>
+              </RouterWrapper>
             </Suspense>
           </div>
           <Sidebar />

@@ -4,7 +4,15 @@ import checkUser from "server/middleware/checkUser";
 
 exports.get = [
   checkUser({ required: false }),
+  async (ctx, next) => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    return next();
+  },
+
   async ctx => {
+    const slug = ctx.params.package;
+    const deleted = 0;
+
     try {
       const pkg = await ctx
         .db("package")
@@ -40,7 +48,7 @@ exports.get = [
         .leftJoin("vote as downvote", join => {
           join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
         })
-        .where({ slug: ctx.params.package })
+        .where({ slug, deleted })
         .first();
 
       const comments = await ctx
@@ -53,12 +61,12 @@ exports.get = [
           "user.avatar_url",
           "user.login"
         )
-        .where({ slug: ctx.params.package })
+        .where({ slug, deleted })
         .join("comment", "comment.package_id", "package.id")
         .leftJoin("user", "comment.user_id", "user.id");
 
       if (pkg.id === null) {
-        ctx.throw(404, "package not found");
+        ctx.throw(404, "package not found.");
       }
 
       ctx.body = {

@@ -69,7 +69,7 @@ type Error = {
   message: string;
 };
 
-type NewPackageProps = RouteComponentProps<{}>;
+type NewPackageProps = RouteComponentProps;
 
 type HandleSubmit = (
   setError: (error: Error) => void

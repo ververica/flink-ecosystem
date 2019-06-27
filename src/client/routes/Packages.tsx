@@ -6,9 +6,10 @@ import Pager from "client/components/Pager";
 import PackageList from "client/components/PackageList";
 import { RouteComponentProps } from "@reach/router";
 
-import useFetchData from "client/helpers/useFetchData";
+import useFetchData, { RefreshData } from "client/helpers/useFetchData";
 import { PackageData } from "client/types/Package";
 import ErrorComponent from "client/components/ErrorComponent";
+import { ServerResponse } from "client/types/Server";
 
 export default function Packages(props: Props) {
   const { search = "", key = 0 } = props.location || {};
@@ -16,7 +17,8 @@ export default function Packages(props: Props) {
   const page = Number(searchQuery.page || 1);
 
   const [data] = useFetchData(`/api/v1/packages?page=${page}&key=${key}`) as [
-    PackagesData
+    ServerResponse<PackagesData>,
+    RefreshData
   ];
 
   if (!data.packages) {
