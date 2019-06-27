@@ -1,3 +1,3 @@
-import checkGithub from "../../../middleware/checkGithub";
+import checkUser from "server/middleware/checkUser";
 
-export const get = [checkGithub(), ctx => (ctx.body = ctx.state.user)];
+exports.get = [checkUser(), ctx => (ctx.body = ctx.state.user)];

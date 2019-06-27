@@ -1,9 +1,9 @@
 import Joi from "@hapi/joi";
 import { packageSchema } from "server/routes/api/v1/packages";
-import checkGithub from "server/middleware/checkGithub";
+import checkUser from "server/middleware/checkUser";
 
-export const get = [
-  checkGithub({ required: false }),
+exports.get = [
+  checkUser({ required: false }),
   async ctx => {
     try {
       const pkg = await ctx
@@ -57,18 +57,22 @@ export const get = [
         .join("comment", "comment.package_id", "package.id")
         .leftJoin("user", "comment.user_id", "user.id");
 
+      if (pkg.id === null) {
+        ctx.throw(404, "package not found");
+      }
+
       ctx.body = {
         package: pkg,
         comments,
       };
     } catch (err) {
-      console.log("broke");
       ctx.throw(500, err);
     }
   },
 ];
-export const post = [
-  checkGithub(),
+
+exports.post = [
+  checkUser(),
   async ctx => {
     const { body } = ctx.request;
     const validation = Joi.validate(body, packageSchema);
@@ -77,11 +81,19 @@ export const post = [
     const { slug, ...rest } = body;
     const result = await ctx
       .db("package")
-      .update(rest)
+      .update({ ...rest, updated: ctx.db.raw("now()") })
       .where({ slug })
       .limit(1);
 
     ctx.status = 200;
     ctx.body = result;
+  },
+];
+
+exports.delete = [
+  checkUser(),
+  async ctx => {
+    //do stuff
+    ctx.body = {};
   },
 ];

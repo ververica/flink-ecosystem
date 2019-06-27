@@ -1,7 +1,7 @@
 import qs from "querystring";
 import axios from "axios";
 
-export const get = async ctx => {
+exports.get = async ctx => {
   const { code, state } = qs.decode(ctx.request.querystring);
 
   // We saved the crypto value in a cookie when we made the request, check to

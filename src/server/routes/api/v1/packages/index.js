@@ -1,6 +1,6 @@
 import Joi from "@hapi/joi";
 
-import checkGithub from "server/middleware/checkGithub";
+import checkUser from "server/middleware/checkUser";
 
 export const packageSchema = Joi.object().keys({
   name: Joi.string().required(),
@@ -16,8 +16,8 @@ export const packageSchema = Joi.object().keys({
   license: Joi.string().required(),
 });
 
-export const get = [
-  checkGithub({ required: false }),
+exports.get = [
+  checkUser({ required: false }),
   async ctx => {
     const { category, page = 1 } = ctx.request.query;
 
@@ -76,8 +76,8 @@ export const get = [
   },
 ];
 
-export const post = [
-  checkGithub({ required: true }),
+exports.post = [
+  checkUser({ required: true }),
   async ctx => {
     const validation = Joi.validate(ctx.request.body, packageSchema);
     if (validation.error) ctx.throw(400, validation.error);

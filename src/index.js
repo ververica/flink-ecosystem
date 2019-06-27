@@ -10,7 +10,6 @@ import App from "./client/components/App";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
-// @TODO edit packages
 // @TODO delete packages
 // @TODO edit comments
 // @TODO delete comments

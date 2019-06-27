@@ -1,7 +1,7 @@
-import checkGithub from "server/middleware/checkGithub";
+import checkUser from "server/middleware/checkUser";
 
-export const post = [
-  checkGithub(),
+exports.post = [
+  checkUser(),
   async ctx => {
     const { package_id, text } = ctx.request.body;
     try {
