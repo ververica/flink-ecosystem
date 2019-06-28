@@ -55,8 +55,12 @@ const useModal = (props: ModalProps) => {
       modalRef.current === e.target &&
       e.propertyName === "opacity"
     ) {
-      setTimeout(() => setModalDisplay("none"));
-      props.onModalHidden();
+      // React wil batch the updates, so make sure we finish the animation
+      // before setting the modal display, and calling props.onModalHidden
+      setTimeout(() => {
+        setModalDisplay("none");
+        props.onModalHidden();
+      });
     }
   };
 

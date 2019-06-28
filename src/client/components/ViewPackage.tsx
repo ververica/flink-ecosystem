@@ -9,7 +9,7 @@ import Icon from "client/components/Icon";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
 import PackageOptions from "./PackageOptions";
-import PackageComments from "./PackageComments";
+import Comments from "./Comments";
 
 const Img = styled.img`
   object-fit: cover;
@@ -62,7 +62,7 @@ export default function ViewPackage(props: ViewPackageProps) {
         </big>
       </div>
       <hr />
-      <PackageComments pkg={pkg} comments={comments} />
+      <Comments pkg={pkg} comments={comments} />
     </MainCard>
   );
 }

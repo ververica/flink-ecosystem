@@ -105,7 +105,7 @@ const NavItem: FunctionComponent<NavItemProps> = props => {
 };
 
 export default function Sidebar() {
-  const [mainCollapsed, setMainCollapsed] = useState(false);
+  const [mainCollapsed, setMainCollapsed] = useState(true);
   const [subCollapsed, setSubCollapsed] = useState(false);
 
   const { user } = useContext(UserData);

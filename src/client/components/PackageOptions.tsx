@@ -14,22 +14,22 @@ export default function PackageOptions(props: PackageOptionsProps) {
     if (showDropdown) setShowDropdown(false);
   });
 
-  const handleDelete = (slug: string) => async (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    try {
-      await Axios.delete(`/api/v1/packages/${slug}`);
-      setShowDropdown(false);
-    } catch (e) {
-      // @TODO show toast for broken request
-    }
-    setConfirm(false);
-  };
-
   const handleDeleteClick = (e: SyntheticEvent) => {
     e.preventDefault();
     setConfirm(true);
     setShowDropdown(false);
+  };
+
+  const handleDelete = (slug: string) => async (e: SyntheticEvent) => {
+    e.preventDefault();
+    setShowDropdown(false);
+
+    try {
+      await Axios.delete(`/api/v1/packages/${slug}`);
+    } catch (e) {
+      // @TODO show toast for broken request
+    }
+    setConfirm(false);
   };
 
   return (

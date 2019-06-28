@@ -43,7 +43,7 @@ exports.get = [
         .leftJoin("vote as downvote", join => {
           join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
         })
-        .where({ slug, deleted })
+        .where({ slug, "package.deleted": deleted })
         .first();
 
       const comments = await ctx
@@ -56,7 +56,7 @@ exports.get = [
           "user.avatar_url",
           "user.login"
         )
-        .where({ slug, deleted })
+        .where({ slug, "package.deleted": deleted, "comment.deleted": deleted })
         .join("comment", "comment.package_id", "package.id")
         .leftJoin("user", "comment.user_id", "user.id");
 
