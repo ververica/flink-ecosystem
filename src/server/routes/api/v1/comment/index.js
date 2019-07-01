@@ -4,12 +4,14 @@ exports.post = [
   checkUser(),
   async ctx => {
     const { package_id, text } = ctx.request.body;
+
     try {
       const [id] = await ctx.db("comment").insert({
         package_id,
         text,
-        added: ctx.db.raw("NOW()"),
         user_id: ctx.state.user.id,
+        added: ctx.db.raw("now()"),
+        updated: ctx.db.raw("now()"),
       });
 
       const comment = await ctx

@@ -45,6 +45,7 @@ export default function Comment(props: CommentProps) {
     setEditing(true);
   };
 
+  // any errors thrown here are caught inside CommentForm
   const handleEdit = (id: CommentData["id"]) => async (text: string) => {
     await Axios.post(`/api/v1/comment/${id}`, { text });
     setText(text);

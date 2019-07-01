@@ -14,19 +14,16 @@ const Avatar = styled.img.attrs({
 export default function AddComment(props: AddCommentProps) {
   const { user } = useContext(UserData);
 
+  // any errors thrown here are caught inside CommentForm
   const handleSubmit = async (text: string) => {
     const data = { package_id: props.id, text };
 
-    try {
-      const response = await axios.post<CommentData>("/api/v1/comment", data);
-      props.addComment({
-        ...response.data,
-        avatar_url: user.avatar_url,
-        login: user.login,
-      });
-    } catch (e) {
-      console.error("it borke", e);
-    }
+    const response = await axios.post<CommentData>("/api/v1/comment", data);
+    props.addComment({
+      ...response.data,
+      avatar_url: user.avatar_url,
+      login: user.login,
+    });
   };
 
   return (

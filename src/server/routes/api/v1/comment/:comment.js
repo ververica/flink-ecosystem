@@ -4,7 +4,7 @@ exports.delete = [
   checkUser(),
   async ctx => {
     const { id } = ctx.params;
-    const { user_id } = ctx.state;
+    const user_id = ctx.state.user.id;
 
     await ctx
       .db("comment")
@@ -19,15 +19,15 @@ exports.delete = [
 exports.post = [
   checkUser(),
   async ctx => {
-    const { id } = ctx.params;
+    const id = ctx.params.comment;
     const { text } = ctx.request.body;
-    const { id: user_id } = ctx.state.user;
+    const user_id = ctx.state.user.id;
 
     console.log({ id, text, user_id });
 
     await ctx
       .db("comment")
-      .update({ text })
+      .update({ text, updated: ctx.db.raw("now()") })
       .where({ id, user_id })
       .limit(1);
 
