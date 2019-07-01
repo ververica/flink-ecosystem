@@ -14,6 +14,7 @@ import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
 import Providers from "client/components/Providers";
 import Loader from "./Loader";
+import { mediaLarge } from "client/helpers/styles";
 
 const Container = styled.div.attrs({
   className: "container min-vh-100 d-flex flex-column",
@@ -32,6 +33,16 @@ const Container = styled.div.attrs({
   }
 `;
 
+const LayoutWrapper = styled.div.attrs({
+  className: "row no-gutters w-100 flex-grow-1",
+})`
+  flex-direction: column;
+
+  @media ${mediaLarge} {
+    flex-direction: row;
+  }
+`;
+
 const RouterWrapper = styled(Router)`
   display: flex;
   flex-grow: 1;
@@ -42,7 +53,7 @@ export default function App() {
   return (
     <Providers>
       <Container>
-        <div className="row no-gutters w-100 flex-grow-1">
+        <LayoutWrapper>
           <div className="col-lg-9 d-flex flex-column">
             <Header />
             <Suspense fallback={<Loader />}>
@@ -57,7 +68,7 @@ export default function App() {
             </Suspense>
           </div>
           <Sidebar />
-        </div>
+        </LayoutWrapper>
         {/* @TODO add "contact us" */}
         <div className="row no-gutters text-center d-block py-4">
           <p>

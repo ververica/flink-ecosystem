@@ -20,6 +20,7 @@ const SidebarColumn = styled.div.attrs({
 })`
   border-radius: 0;
   border-top: 0;
+  flex-grow: 0;
 
   /* subnav items */
   li li a {
