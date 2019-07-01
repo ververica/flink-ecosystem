@@ -1,6 +1,7 @@
 import Joi from "@hapi/joi";
 import { packageSchema } from "server/routes/api/v1/packages";
 import checkUser from "server/middleware/checkUser";
+import { selectVotes, joinVotes } from "server/helpers/votes";
 
 exports.get = [
   checkUser({ required: false }),
@@ -8,58 +9,52 @@ exports.get = [
     const slug = ctx.params.package;
     const deleted = 0;
 
-    try {
-      const pkg = await ctx
-        .db("package")
-        .select(
-          "package.id",
-          "package.slug",
-          "package.name",
-          "user.login as owner",
-          "user.id as user_id",
-          "package.description",
-          "package.readme",
-          "package.image",
-          "package.website",
-          "package.repository",
-          "package.added",
-          "package.updated",
-          "package.license",
-          "package.category",
-          "package.tags",
-          ctx.db.raw("ifnull(vote.vote, 0) as vote"),
-          ctx.db.raw("count(distinct upvote.id) as upvotes"),
-          ctx.db.raw("count(distinct downvote.id) as downvotes")
-        )
-        .leftJoin("user", "package.user_id", "user.id")
-        .leftJoin("vote", join => {
-          join
-            .on("package.id", "vote.package_id")
-            .on("vote.user_id", ctx.state.user.id);
-        })
-        .leftJoin("vote as upvote", join => {
-          join.on("package.id", "upvote.package_id").on("upvote.vote", 1);
-        })
-        .leftJoin("vote as downvote", join => {
-          join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
-        })
-        .where({ slug, "package.deleted": deleted })
-        .first();
+    const packageQuery = ctx
+      .db("package")
+      .select(
+        "package.id",
+        "package.slug",
+        "package.name",
+        "user.login as owner",
+        "user.id as user_id",
+        "package.description",
+        "package.readme",
+        "package.image",
+        "package.website",
+        "package.repository",
+        "package.added",
+        "package.updated",
+        "package.license",
+        "package.category",
+        "package.tags",
+        ...selectVotes(ctx)
+      )
+      .leftJoin("user", "package.user_id", "user.id")
+      .where({ slug, "package.deleted": deleted })
+      .first();
 
-      const comments = await ctx
-        .db("package")
-        .select(
-          "comment.added",
-          "comment.updated",
-          "comment.text",
-          "comment.id",
-          "user.id as user_id",
-          "user.avatar_url",
-          "user.login"
-        )
-        .where({ slug, "package.deleted": deleted, "comment.deleted": deleted })
-        .join("comment", "comment.package_id", "package.id")
-        .leftJoin("user", "comment.user_id", "user.id");
+    const finalPackageQuery = joinVotes(packageQuery, ctx.state.user.id);
+
+    const commentsQuery = ctx
+      .db("package")
+      .select(
+        "comment.added",
+        "comment.updated",
+        "comment.text",
+        "comment.id",
+        "user.id as user_id",
+        "user.avatar_url",
+        "user.login"
+      )
+      .where({ slug, "package.deleted": deleted, "comment.deleted": deleted })
+      .join("comment", "comment.package_id", "package.id")
+      .leftJoin("user", "comment.user_id", "user.id");
+
+    try {
+      const [pkg, comments] = await Promise.all([
+        finalPackageQuery,
+        commentsQuery,
+      ]);
 
       if (pkg.id === null) {
         ctx.throw(404, "package not found.");
