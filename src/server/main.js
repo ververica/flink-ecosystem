@@ -30,7 +30,7 @@ const db = knex({
     host: "127.0.0.1",
     user: "root",
     password: "test",
-    database: "flink-ecosystem",
+    database: "flink_ecosystem",
   },
 });
 
