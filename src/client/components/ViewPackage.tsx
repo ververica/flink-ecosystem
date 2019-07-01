@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, Link } from "@reach/router";
 import ReactMarkdown from "react-markdown";
 import Votes from "client/components/Votes";
 import Icon from "client/components/Icon";
@@ -10,6 +10,7 @@ import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
 import PackageOptions from "./PackageOptions";
 import Comments from "./Comments";
+import Tags from "./Tags";
 
 const Img = styled.img`
   object-fit: cover;
@@ -65,6 +66,7 @@ export default function ViewPackage(props: ViewPackageProps) {
           />
         </big>
       </div>
+      <Tags tags={pkg.tags} />
       <hr />
       <Comments pkg={pkg} comments={comments} />
     </MainCard>

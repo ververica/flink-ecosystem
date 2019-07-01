@@ -123,7 +123,6 @@ export default function Sidebar() {
   useEffect(() => {
     const handleResize = () => {
       const { matches } = window.matchMedia(mediaLarge);
-      console.log(matches);
       setMainCollapsed(!matches);
     };
 
@@ -185,15 +184,19 @@ export default function Sidebar() {
           </NavItem> */}
           {user.id > 0 && (
             <>
-              <hr className="m-0" />
+              <li className="nav-item">
+                <hr className="m-0" />
+              </li>
               <NavItem to="/new-package" icon="plus">
                 Add a Package
               </NavItem>
-              <hr className="m-0" />
+              <li className="nav-item">
+                <hr className="m-0" />
+              </li>
             </>
           )}
 
-          <li className="nav-item">
+          <li className="nav-item mt-4">
             <a
               className="nav-link "
               href="https://flink.apache.org/"

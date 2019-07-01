@@ -41,7 +41,7 @@ export default function PackageOptions(props: PackageOptionsProps) {
           aria-haspopup="true"
           onClick={() => setShowDropdown(!showDropdown)}
         >
-          <Icon name="ellipsis-v" margin={0} />
+          <Icon name="tools" margin={0} />
         </button>
         <div
           className={cx("dropdown-menu dropdown-menu-right", {

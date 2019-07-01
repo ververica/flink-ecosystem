@@ -23,7 +23,7 @@ export default function InputField(props: Props) {
         onBlur={props.onBlur}
         onChange={handleInputChange}
         placeholder={props.placeholder}
-        type="text"
+        type={props.type}
         value={inputs[props.name] || ""}
       />
       {props.help && (
@@ -38,6 +38,7 @@ export default function InputField(props: Props) {
 
 InputField.defaultProps = {
   error: {},
+  type: "text",
 };
 
 type Props = {
@@ -47,4 +48,5 @@ type Props = {
   name: string;
   onBlur?: (e: SyntheticEvent) => void;
   placeholder: string;
+  type: string;
 } & Readonly<typeof InputField.defaultProps>;

@@ -14,14 +14,14 @@ ReactDOM.render(<App />, document.getElementById("root"));
 // @TODO package data not refreshing (sometimes)
 // @TODO hyperlinks for readme and homepage (and validation on form)
 // @TODO fix redirect to new package on success
-
 // @TODO add spacer and divider above apache link
-// @TODO upload images
-// @TODO allow free-form license entry
 // @TODO show tags, link to search
 // @TODO change edit button
+
+// @TODO upload images
+// @TODO allow free-form license entry
 // @TODO error handling (for mysql errors)
-// @TODO truncage descriptions
+// @TODO truncate descriptions
 
 // @TODO search
 

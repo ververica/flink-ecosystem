@@ -174,6 +174,7 @@ export default function PackageForm(props: PackageFormProps) {
               label="Website"
               name="website"
               placeholder="Website"
+              type="url"
             />
           </div>
           <div className="col-md-4">
@@ -182,6 +183,7 @@ export default function PackageForm(props: PackageFormProps) {
               label="Repository"
               name="repository"
               placeholder="Repository"
+              type="url"
             />
           </div>
           {/* @TODO make "other" field for license */}
