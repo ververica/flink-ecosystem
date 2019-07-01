@@ -12,7 +12,7 @@ export const packageSchema = Joi.object().keys({
   website: Joi.string().required(),
   repository: Joi.string(),
   category: Joi.string().required(),
-  tags: Joi.string().required(),
+  tags: Joi.string(),
   license: Joi.string().required(),
 });
 

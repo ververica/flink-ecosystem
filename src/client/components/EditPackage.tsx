@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { UserData } from "./UserDataProvider";
 import { Redirect, RouteComponentProps, Link } from "@reach/router";
 import MainCard from "./MainCard";

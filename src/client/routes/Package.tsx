@@ -10,9 +10,10 @@ import { PackageResult } from "client/types/Package";
 import { ServerResponse } from "client/types/Server";
 
 export default function Package(props: PackageProps) {
-  const [data] = useFetchData(`/api/v1/packages/${props.packageSlug}`) as [
-    ServerResponse<PackageResult>
-  ];
+  const [data] = useFetchData(
+    `/api/v1/packages/${props.packageSlug}`,
+    props.location.key
+  ) as [ServerResponse<PackageResult>];
 
   if (data.status === "error") {
     return <ErrorComponent className="pr-0" message={data.message} />;

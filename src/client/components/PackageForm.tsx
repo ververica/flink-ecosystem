@@ -10,8 +10,8 @@ import {
   FormError,
 } from "client/types/FormProvider";
 import { get, isEmpty } from "lodash/fp";
-import useScroll from "client/helpers/useScroll";
 import ErrorComponent from "./ErrorComponent";
+import useLocation from "client/helpers/useLocation";
 
 export const initialValues = {
   name: "",
@@ -65,6 +65,7 @@ const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 export default function PackageForm(props: PackageFormProps) {
   const [inputs, setInputs] = useState(props.initialValues);
   const [error, setError] = useState<FormError>({});
+  const { navigate } = useLocation();
 
   const isGenericError = !isEmpty(error) && error.id === "";
 
@@ -87,6 +88,7 @@ export default function PackageForm(props: PackageFormProps) {
 
     try {
       await props.handleSubmit(data);
+      navigate(`/packages/${data.slug}`);
     } catch (e) {
       console.log("error");
       switch (get("response.status", e)) {
@@ -154,7 +156,11 @@ export default function PackageForm(props: PackageFormProps) {
           />
           <small id="markdown-help" className="form-text text-muted">
             Supports{" "}
-            <a href="https://github.github.com/gfm/">
+            <a
+              href="https://github.github.com/gfm/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Github Flavored Markdown
             </a>
             .

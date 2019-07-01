@@ -44,10 +44,14 @@ export default function ViewPackage(props: ViewPackageProps) {
       <div className="row mt-3 justify-content-between">
         <div className="col-auto">
           <Icon name="home" />
-          {pkg.website}
+          <a href={pkg.website} target="_blank" rel="noopener noreferrer">
+            {pkg.website}
+          </a>
           <br />
           <Icon name="github" type="brand" />
-          {pkg.repository}
+          <a href={pkg.repository} target="_blank" rel="noopener noreferrer">
+            {pkg.repository}
+          </a>
         </div>
 
         <div className="col-auto">License: {pkg.license}</div>

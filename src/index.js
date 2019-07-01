@@ -10,13 +10,22 @@ import App from "./client/components/App";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
+// @TODO fix GFM link
+// @TODO package data not refreshing (sometimes)
+// @TODO hyperlinks for readme and homepage (and validation on form)
+// @TODO fix redirect to new package on success
+
+// @TODO add spacer and divider above apache link
 // @TODO upload images
-// @TODO redirect to new package on success
 // @TODO allow free-form license entry
-// @TODO error handling
+// @TODO show tags, link to search
+// @TODO change edit button
+// @TODO error handling (for mysql errors)
+// @TODO truncage descriptions
+
+// @TODO search
 
 // @TODO share with team
-// @TODO search
 
 // @TODO admins (v2)
 // (list of github usernames that can always delete)
