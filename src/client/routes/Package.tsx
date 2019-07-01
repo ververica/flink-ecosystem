@@ -5,7 +5,7 @@ import ViewPackage from "client/components/ViewPackage";
 import EditPackage from "client/components/EditPackage";
 
 import ErrorComponent from "client/components/ErrorComponent";
-import useFetchData, { RefreshData } from "client/helpers/useFetchData";
+import useFetchData from "client/helpers/useFetchData";
 import { PackageResult } from "client/types/Package";
 import { ServerResponse } from "client/types/Server";
 

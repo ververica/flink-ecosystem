@@ -35,13 +35,23 @@ const table = (table: any) => (
 
 export default function Comment(props: CommentProps) {
   const { user } = useContext(UserData);
-  const [showEdit, setShowEdit] = useState(false);
+  const [editing, setEditing] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [text, setText] = useState(props.text);
 
   const handleEditClick = (e: SyntheticEvent) => {
     e.preventDefault();
-    setShowEdit(true);
+    setEditing(true);
+  };
+
+  const handleEdit = (id: CommentData["id"]) => async (text: string) => {
+    await Axios.post(`/api/v1/comment/${id}`, { text });
+    setText(text);
+
+    // setTimeout so this happens *after* then `handleSubmit` function inside
+    // CommentForm finishes.
+    setTimeout(() => setEditing(false));
   };
 
   const handleDeleteClick = (e: SyntheticEvent) => {
@@ -69,7 +79,7 @@ export default function Comment(props: CommentProps) {
     }
   };
 
-  const actions = (
+  const commentActions = (
     <small>
       [
       <a href="#delete" onClick={handleDeleteClick}>
@@ -83,6 +93,23 @@ export default function Comment(props: CommentProps) {
     </small>
   );
 
+  const modalActions = (
+    <>
+      <button
+        className="btn btn-sm btn-default"
+        onClick={() => setConfirm(false)}
+      >
+        Cancel
+      </button>
+      <button
+        className="btn btn-sm btn-danger"
+        onClick={handleDelete(props.id)}
+      >
+        Delete
+      </button>
+    </>
+  );
+
   return (
     <>
       <Media>
@@ -93,12 +120,16 @@ export default function Comment(props: CommentProps) {
               <strong>{props.login}</strong>{" "}
               {format(props.added, "MM-DD-YYYY HH:mma")}
             </span>
-            {props.user_id === user.id && actions}
+            {props.user_id === user.id && commentActions}
           </small>
-          {showEdit ? (
-            <CommentForm />
+          {editing ? (
+            <CommentForm
+              handleSubmit={handleEdit(props.id)}
+              buttonText="Save Changes"
+              initialValue={text}
+            />
           ) : (
-            <ReactMarkdown source={props.text} renderers={{ code, table }} />
+            <ReactMarkdown source={text} renderers={{ code, table }} />
           )}
         </div>
       </Media>
@@ -106,22 +137,7 @@ export default function Comment(props: CommentProps) {
         open={confirm}
         title="Are you sure?"
         onModalHidden={handleModalHidden}
-        actions={
-          <>
-            <button
-              className="btn btn-sm btn-default"
-              onClick={() => setConfirm(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className="btn btn-sm btn-danger"
-              onClick={handleDelete(props.id)}
-            >
-              Delete
-            </button>
-          </>
-        }
+        actions={modalActions}
       >
         Are you sure you want to delete your comment? You cannot undo this
         action.

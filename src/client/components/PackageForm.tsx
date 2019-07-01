@@ -60,7 +60,7 @@ export default function PackageForm(props: PackageFormProps) {
   const handleFormSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const data = { ...inputs };
-    props.onSubmit(data);
+    props.handleSubmit(data);
   };
 
   const formPoviderValue = {
@@ -200,7 +200,7 @@ type FormError = {
 
 type PackageFormProps = {
   error: FormError;
-  onSubmit: (data: PackageData) => void;
+  handleSubmit: (data: PackageData) => void;
   initialValues: PackageData;
   submitButton: React.ReactNode;
   disabledFields: FormProviderProps["disabledFields"];

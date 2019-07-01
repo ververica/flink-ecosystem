@@ -123,9 +123,11 @@ export default function Sidebar() {
   useEffect(() => {
     const handleResize = () => {
       const { matches } = window.matchMedia(mediaLarge);
+      console.log(matches);
       setMainCollapsed(!matches);
     };
 
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

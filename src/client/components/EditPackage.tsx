@@ -56,7 +56,7 @@ export default function EditPackage(props: EditPackageProps) {
         disabledFields={["slug"]}
         error={error}
         initialValues={props.package}
-        onSubmit={handleSubmit(setError)}
+        handleSubmit={handleSubmit(setError)}
         submitButton={submitButton}
       />
     </MainCard>

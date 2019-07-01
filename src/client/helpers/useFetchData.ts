@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import useFetch from "fetch-suspense";
 import { UserData } from "client/components/UserDataProvider";
-import { ServerResponse } from "client/types/Server";
 
 export default function useFetchData(url: string, key: string = "") {
   const { user } = useContext(UserData);
