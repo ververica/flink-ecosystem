@@ -6,6 +6,7 @@ import useScroll from "client/helpers/useScroll";
 import Votes from "client/components/Votes";
 import Icon from "./Icon";
 import { PackageData } from "client/types/Package";
+import Dotdotdot from "react-dotdotdot";
 
 const Img = styled.img`
   object-fit: cover;
@@ -31,7 +32,9 @@ export default function PackageList(props: Props) {
             <h5 className="card-title">
               <Link to={`/packages/${pkg.slug}`}>{pkg.name}</Link>
             </h5>
-            <div className="card-text">{pkg.description}</div>
+            <Dotdotdot className="card-text" clamp={5}>
+              {pkg.description}
+            </Dotdotdot>
             <div className="card-text mt-2 d-flex justify-content-between">
               <span>
                 <Votes

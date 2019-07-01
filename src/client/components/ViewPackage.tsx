@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
-import { RouteComponentProps, Link } from "@reach/router";
+import { RouteComponentProps } from "@reach/router";
 import ReactMarkdown from "react-markdown";
 import Votes from "client/components/Votes";
 import Icon from "client/components/Icon";
@@ -39,6 +39,8 @@ export default function ViewPackage(props: ViewPackageProps) {
           </div>
         </div>
         <div className="col-sm-9">
+          <div className="text-muted mb-3">{pkg.description}</div>
+          <hr />
           <ReactMarkdown source={pkg.readme} />
         </div>
       </div>
