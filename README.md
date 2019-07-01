@@ -15,6 +15,8 @@ https://docs.google.com/document/d/12oCItoLbKrLGuwEUFcCfigezIR2hW3925j1hh3kGp4A/
 You will need a github `client_id` and `secret` to use any part of this project
 that requires authentication.
 
+You will also need docker to run mysql.
+
 ### Running the dev server
 
 - Clone the repo
