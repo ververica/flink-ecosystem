@@ -4,8 +4,16 @@ import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
 import SelectField from "./SelectField";
 import { PackageData } from "client/types/Package";
+import {
+  FormProviderProps,
+  FormChangeEvent,
+  FormError,
+} from "client/types/FormProvider";
+import { get, isEmpty } from "lodash/fp";
+import useScroll from "client/helpers/useScroll";
+import ErrorComponent from "./ErrorComponent";
 
-const initialValues = {
+export const initialValues = {
   name: "",
   slug: "",
   description: "",
@@ -34,10 +42,33 @@ const categories = [
   "Languages",
 ];
 
+export const FormProvider = React.createContext<FormProviderProps>({
+  disabledFields: [],
+  handleInputChange: () => {},
+  inputs: initialValues,
+  error: {},
+});
+
+// The error messagse from 'Joi' are not quite a joy to parse. :(
+const parseError = (error: string) => {
+  const firstBracket = error.indexOf("[");
+  const lastBracket = error.lastIndexOf("]");
+  const message = error.slice(firstBracket + 1, lastBracket) || "";
+  const match = message.match(/"(.*?)"/) || [];
+  const id = match[1];
+
+  return { id, message };
+};
+
+const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
+
 export default function PackageForm(props: PackageFormProps) {
   const [inputs, setInputs] = useState(props.initialValues);
+  const [error, setError] = useState<FormError>({});
 
-  const handleInputChange = (e: ChangeEvent) => {
+  const isGenericError = !isEmpty(error) && error.id === "";
+
+  const handleInputChange = (e: FormChangeEvent) => {
     e.persist();
     setInputs(inputs => {
       return { ...inputs, [e.target.name]: e.target.value };
@@ -50,158 +81,160 @@ export default function PackageForm(props: PackageFormProps) {
     }
   };
 
-  const handleFormSubmit = (e: SyntheticEvent) => {
+  const handleFormSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     const data = { ...inputs };
-    props.onSubmit(data);
+
+    try {
+      await props.handleSubmit(data);
+    } catch (e) {
+      console.log("error");
+      switch (get("response.status", e)) {
+        case 403:
+          return setError(makeGeneralError("You are not logged in!"));
+        case 400:
+          return setError(parseError(e.response.data.message));
+        default:
+          return setError(makeGeneralError("An unknown error has occurred"));
+      }
+    }
+  };
+
+  const formPoviderValue = {
+    disabledFields: props.disabledFields,
+    handleInputChange,
+    inputs,
+    error,
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <div className="row">
-        <div className="col-md-8">
-          <InputField
-            id="name"
-            label="Package Name"
-            name="name"
-            onBlur={handleNameBlur}
-            onChange={handleInputChange}
-            placeholder="Package Name"
-            value={inputs.name}
-          />
-          <InputField
-            help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
-            id="slug"
-            label="Package ID"
-            name="slug"
-            onChange={handleInputChange}
-            placeholder="Package ID"
-            value={inputs.slug}
-          />
-        </div>
-        <div className="col-md-4">
-          <div className="form-group">
-            <label htmlFor="image">Image</label>
-          </div>
-        </div>
-      </div>
-      <InputField
-        id="description"
-        label="Description"
-        name="description"
-        onChange={handleInputChange}
-        placeholder="Description"
-        value={inputs.description}
-      />
-      <div className="form-group">
-        <MarkdownEditor
-          id="readme"
-          name="readme"
-          label="Readme"
-          onChange={handleInputChange}
-          placeholder="Readme"
-          value={inputs.readme}
-        />
-        <small id="markdown-help" className="form-text text-muted">
-          Supports{" "}
-          <a href="https://github.github.com/gfm/">Github Flavored Markdown</a>.
-        </small>
-      </div>
+    <FormProvider.Provider value={formPoviderValue}>
+      <form onSubmit={handleFormSubmit}>
+        {isGenericError && (
+          <ErrorComponent message={error.message} className="p-0" />
+        )}
 
-      <div className="row">
-        <div className="col-md-4">
-          <InputField
-            // error={error}
-            id="website"
-            label="Website"
-            name="website"
-            onChange={handleInputChange}
-            placeholder="Website"
-            value={inputs.website}
-          />
-        </div>
-        <div className="col-md-4">
-          <InputField
-            // error={error}
-            id="repository"
-            label="Repository"
-            name="repository"
-            onChange={handleInputChange}
-            placeholder="Repository"
-            value={inputs.repository}
-          />
-        </div>
-        {/* @TODO make "other" field for license */}
-        <div className="col-md-4">
-          <div className="form-group">
-            <SelectField
-              name="license"
-              id="license"
-              label="License"
-              // error={error}
-              placeholder="Select a License"
-              onChange={handleInputChange}
-              options={licenses}
-              value={inputs.license}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-auto">
-          <div className="form-group">
-            <SelectField
-              // error={error}
-              id="category"
-              label="Category"
-              name="category"
-              onChange={handleInputChange}
-              options={categories}
-              placeholder="Select a Category"
-              value={inputs.category}
-            />
-          </div>
-        </div>
-        <div className="col">
-          <div className="form-group">
+        <div className="row">
+          <div className="col-md-8">
             <InputField
-              // error={error}
-              help="Comma separated list (for now)"
-              id="tags"
-              label="Tags"
-              name="tags"
-              onChange={handleInputChange}
-              placeholder="Tags"
-              value={inputs.tags}
+              id="name"
+              label="Package Name"
+              name="name"
+              onBlur={handleNameBlur}
+              placeholder="Package Name"
+            />
+            <InputField
+              help="A unique URL Friendly name for your package. [a-z0-9-_]{2,}"
+              id="slug"
+              label="Package ID"
+              name="slug"
+              placeholder="Package ID"
             />
           </div>
+          <div className="col-md-4">
+            <div className="form-group">
+              <label htmlFor="image">Image</label>
+            </div>
+          </div>
         </div>
-      </div>
+        <InputField
+          id="description"
+          label="Description"
+          name="description"
+          placeholder="Description"
+        />
+        <div className="form-group">
+          <MarkdownEditor
+            id="readme"
+            name="readme"
+            label="Readme"
+            onChange={handleInputChange}
+            placeholder="Readme"
+            value={inputs.readme}
+          />
+          <small id="markdown-help" className="form-text text-muted">
+            Supports{" "}
+            <a href="https://github.github.com/gfm/">
+              Github Flavored Markdown
+            </a>
+            .
+          </small>
+        </div>
 
-      <div className="row">
-        <div className="col-auto ml-auto">{props.submitButton}</div>
-      </div>
-    </form>
+        <div className="row">
+          <div className="col-md-4">
+            <InputField
+              id="website"
+              label="Website"
+              name="website"
+              placeholder="Website"
+            />
+          </div>
+          <div className="col-md-4">
+            <InputField
+              id="repository"
+              label="Repository"
+              name="repository"
+              placeholder="Repository"
+            />
+          </div>
+          {/* @TODO make "other" field for license */}
+          <div className="col-md-4">
+            <div className="form-group">
+              <SelectField
+                name="license"
+                id="license"
+                label="License"
+                placeholder="Select a License"
+                options={licenses}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-auto">
+            <div className="form-group">
+              <SelectField
+                id="category"
+                label="Category"
+                name="category"
+                options={categories}
+                placeholder="Select a Category"
+              />
+            </div>
+          </div>
+          <div className="col">
+            <div className="form-group">
+              <InputField
+                help="Comma separated list (for now)"
+                id="tags"
+                label="Tags"
+                name="tags"
+                placeholder="Tags"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-auto ml-auto">{props.submitButton}</div>
+        </div>
+      </form>
+    </FormProvider.Provider>
   );
 }
 
 PackageForm.defaultProps = {
   initialValues,
-};
-
-type FormError = {
-  id: string;
-  message: string;
+  disabledFields: [],
 };
 
 type PackageFormProps = {
-  error: FormError;
-  onSubmit: (data: PackageData) => void;
+  handleSubmit: (data: PackageData) => void;
   initialValues: PackageData;
   submitButton: React.ReactNode;
+  disabledFields: FormProviderProps["disabledFields"];
 };
 
-type ChangeEvent = React.ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
->;
+type MakeGeneralError = (message: string) => FormError;

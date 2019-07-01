@@ -6,7 +6,7 @@ import { RouteComponentProps } from "@reach/router";
 export default function Search(props: Props) {
   return (
     <MainCard header={`Search results for "${props.searchQuery}"`}>
-      {null}
+      nothing is here
     </MainCard>
   );
 }

@@ -4,7 +4,7 @@ const defaultOptions = {
   required: true,
 };
 
-export default function checkGithub(options = defaultOptions) {
+export default function checkUser(options = defaultOptions) {
   return async (ctx, next) => {
     // set user.id to 0 so it's always available even if there is no user.
     ctx.state.user = {

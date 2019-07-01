@@ -1,7 +1,7 @@
 import qs from "querystring";
 import crypto from "crypto";
 
-export const get = ctx => {
+exports.get = ctx => {
   const params = {
     client_id: process.env.GITHUB_CLIENT,
     redirect_uri: `${ctx.request.origin}/auth/callback`,

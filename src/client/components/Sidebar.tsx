@@ -105,7 +105,7 @@ const NavItem: FunctionComponent<NavItemProps> = props => {
 };
 
 export default function Sidebar() {
-  const [mainCollapsed, setMainCollapsed] = useState(false);
+  const [mainCollapsed, setMainCollapsed] = useState(true);
   const [subCollapsed, setSubCollapsed] = useState(false);
 
   const { user } = useContext(UserData);
@@ -123,9 +123,11 @@ export default function Sidebar() {
   useEffect(() => {
     const handleResize = () => {
       const { matches } = window.matchMedia(mediaLarge);
+      console.log(matches);
       setMainCollapsed(!matches);
     };
 
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

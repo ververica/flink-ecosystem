@@ -1,6 +1,5 @@
-import React, { Suspense, SyntheticEvent } from "react";
-import { Router, navigate } from "@reach/router";
-import getFormData from "get-form-data";
+import React, { Suspense } from "react";
+import { Router } from "@reach/router";
 import styled from "styled-components/macro";
 
 import {
@@ -14,6 +13,7 @@ import {
 import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
 import Providers from "client/components/Providers";
+import Loader from "./Loader";
 
 const Container = styled.div.attrs({
   className: "container min-vh-100 d-flex flex-column",
@@ -32,31 +32,28 @@ const Container = styled.div.attrs({
   }
 `;
 
-export default function App() {
-  const onSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
-    const { searchQuery } = getFormData(e.target);
-    navigate(searchQuery ? `/search/${searchQuery}` : "/");
-  };
+const RouterWrapper = styled(Router)`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+`;
 
+export default function App() {
   return (
     <Providers>
       <Container>
         <div className="row no-gutters w-100 flex-grow-1">
           <div className="col-lg-9 d-flex flex-column">
-            <Header onSubmit={onSubmit} />
-            <Suspense fallback="Loading... ">
-              <Router
-                primary={false}
-                className="flex-grow-1 d-flex flex-column"
-              >
+            <Header />
+            <Suspense fallback={<Loader />}>
+              <RouterWrapper primary={false}>
                 <Packages default />
                 <NewPackage path="/new-package" />
-                <Package path="/packages/:package/*" />
+                <Package path="/packages/:packageSlug/*" />
                 <Category path="/categories/:category" />
                 <Search path="/search/:searchQuery" />
                 <Guide path="/guide" />
-              </Router>
+              </RouterWrapper>
             </Suspense>
           </div>
           <Sidebar />

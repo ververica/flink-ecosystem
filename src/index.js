@@ -10,14 +10,13 @@ import App from "./client/components/App";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
-// @TODO edit packages
-// @TODO delete packages
-// @TODO edit comments
-// @TODO delete comments
-
 // @TODO upload images
+// @TODO redirect to new package on success
+// @TODO allow free-form license entry
+// @TODO error handling
 
 // @TODO share with team
+// @TODO search
 
 // @TODO admins (v2)
 // (list of github usernames that can always delete)

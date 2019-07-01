@@ -1,18 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
-import { RouteComponentProps, Link } from "@reach/router";
-import Comment from "client/components/Comment";
+import { RouteComponentProps } from "@reach/router";
 import ReactMarkdown from "react-markdown";
 import Votes from "client/components/Votes";
-import AddComment from "client/components/AddComment";
-import cx from "classnames";
-
 import Icon from "client/components/Icon";
-import useOutsideClick from "client/helpers/useOutsideClick";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
+import PackageOptions from "./PackageOptions";
+import Comments from "./Comments";
 
 const Img = styled.img`
   object-fit: cover;
@@ -21,13 +18,19 @@ const Img = styled.img`
 
 export default function ViewPackage(props: ViewPackageProps) {
   const { user } = useContext(UserData);
-  const { package: pkg, comments } = props.data;
+  const { package: pkg, comments } = props;
+
+  if (!pkg) {
+    return null;
+  }
+
+  const packageOptions =
+    user.id === pkg.user_id ? (
+      <PackageOptions slug={pkg.slug} name={pkg.name} />
+    ) : null;
 
   return (
-    <MainCard
-      header={pkg.name}
-      options={user.id === pkg.user_id && <PackageOptions />}
-    >
+    <MainCard header={pkg.name} options={packageOptions}>
       <div className="row">
         <div className="col-sm-3 order-last ">
           <div className="overflow-hidden d-flex justify-content-center">
@@ -59,55 +62,14 @@ export default function ViewPackage(props: ViewPackageProps) {
         </big>
       </div>
       <hr />
-      {user.id > 0 && (
-        <AddComment
-          slug={pkg.slug}
-          id={pkg.id}
-          refreshPackageData={props.refreshPackageData}
-        />
-      )}
-      {comments.length ? (
-        comments.map(comment => <Comment {...comment} key={comment.id} />)
-      ) : (
-        <h3>No comments</h3>
-      )}
+      <Comments pkg={pkg} comments={comments} />
     </MainCard>
   );
 }
 
-const PackageOptions = () => {
-  const [show, setShow] = useState(false);
-
-  const ref = useOutsideClick(() => {
-    if (show) setShow(false);
-  });
-
-  return (
-    <div className={cx("dropdown", { show })}>
-      <button
-        className="btn btn-light dropdown-toggle btn-sm"
-        type="button"
-        aria-haspopup="true"
-        onClick={() => setShow(!show)}
-      >
-        <Icon name="ellipsis-v" margin={0} />
-      </button>
-      <div
-        className={cx("dropdown-menu dropdown-menu-right", { show })}
-        ref={ref}
-      >
-        <Link to="edit" className="dropdown-item">
-          <Icon name="edit" fw={false} /> Edit
-        </Link>
-        <a href="#delete" className="dropdown-item">
-          <Icon name="trash-alt" fw={false} /> Delete
-        </a>
-      </div>
-    </div>
-  );
+ViewPackage.defaultProps = {
+  package: {},
+  comments: [],
 };
 
-type ViewPackageProps = {
-  data: PackageResult;
-  refreshPackageData: () => void;
-} & RouteComponentProps;
+type ViewPackageProps = RouteComponentProps & PackageResult;

@@ -1,8 +1,8 @@
 import Joi from "@hapi/joi";
 
-import checkGithub from "../../../../middleware/checkGithub";
+import checkUser from "server/middleware/checkUser";
 
-const schema = Joi.object().keys({
+export const packageSchema = Joi.object().keys({
   name: Joi.string().required(),
   slug: Joi.string()
     .regex(/[a-z0-9-_]{2,}/)
@@ -10,15 +10,14 @@ const schema = Joi.object().keys({
   description: Joi.string().required(),
   readme: Joi.string().required(),
   website: Joi.string().required(),
-  // at the momnent not required.
-  // repository: Joi.string().required(),
+  repository: Joi.string(),
   category: Joi.string().required(),
   tags: Joi.string().required(),
   license: Joi.string().required(),
 });
 
-export const get = [
-  checkGithub({ required: false }),
+exports.get = [
+  checkUser({ required: false }),
   async ctx => {
     const { category, page = 1 } = ctx.request.query;
 
@@ -51,6 +50,7 @@ export const get = [
         join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
       })
       .leftJoin("comment", "package.id", "comment.package_id")
+      .where({ "package.deleted": 0 })
       .groupBy("package.id")
       .limit(limit)
       .offset(offset)
@@ -77,10 +77,10 @@ export const get = [
   },
 ];
 
-export const post = [
-  checkGithub({ required: true }),
+exports.post = [
+  checkUser(),
   async ctx => {
-    const validation = Joi.validate(ctx.request.body, schema);
+    const validation = Joi.validate(ctx.request.body, packageSchema);
     if (validation.error) ctx.throw(400, validation.error);
 
     const result = await ctx.db("package").insert({

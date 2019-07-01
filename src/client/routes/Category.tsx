@@ -3,13 +3,15 @@ import MainCard from "client/components/MainCard";
 import PackageList from "client/components/PackageList";
 import { RouteComponentProps } from "@reach/router";
 import { PackagesData } from "./Packages";
-import useFetchData from "client/helpers/useFetchData";
+import useFetchData, { RefreshData } from "client/helpers/useFetchData";
+import { ServerResponse } from "client/types/Server";
 
 export default function Category(props: Props) {
-  const { key = 0 } = props.location || {};
   const [data] = useFetchData(
-    `/api/v1/packages?category=${props.category}&key=${key}`
-  ) as [PackagesData];
+    `/api/v1/packages?category=${props.category}`,
+    props.location.key
+  ) as [ServerResponse<PackagesData>, RefreshData];
+
   const { packages = [], count = 0 } = data;
 
   return (

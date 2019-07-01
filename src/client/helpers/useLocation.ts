@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { globalHistory } from "@reach/router";
+import { navigate, history } from "client/components/Providers";
 
 export default function useLocation() {
   const initialState = {
-    location: globalHistory.location,
-    navigate: globalHistory.navigate,
+    location: history.location,
+    navigate,
   };
 
   const [state, setState] = useState(initialState);
 
   useEffect(() => {
-    const removeListener = globalHistory.listen(params => {
+    const removeListener = history.listen(params => {
       const { location } = params;
       const newState = Object.assign({}, initialState, { location });
       setState(newState);

@@ -24,9 +24,10 @@ export type CommentData = {
   id: number;
   text: string;
   user_id: number;
+  updated: string;
 };
 
 export type PackageResult = {
   package: PackageData;
-  comments: Array<CommentData>;
+  comments: CommentData[];
 };

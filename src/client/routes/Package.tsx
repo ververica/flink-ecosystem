@@ -3,27 +3,29 @@ import React from "react";
 import { RouteComponentProps, Router } from "@reach/router";
 import ViewPackage from "client/components/ViewPackage";
 import EditPackage from "client/components/EditPackage";
+
+import ErrorComponent from "client/components/ErrorComponent";
 import useFetchData from "client/helpers/useFetchData";
 import { PackageResult } from "client/types/Package";
+import { ServerResponse } from "client/types/Server";
 
 export default function Package(props: PackageProps) {
-  const [data, refreshPackageData] = useFetchData(
-    `/api/v1/packages/${props.package}`
-  ) as [PackageResult, () => void];
+  const [data] = useFetchData(`/api/v1/packages/${props.packageSlug}`) as [
+    ServerResponse<PackageResult>
+  ];
+
+  if (data.status === "error") {
+    return <ErrorComponent className="pr-0" message={data.message} />;
+  }
 
   return (
     <Router primary={false}>
-      <ViewPackage
-        default
-        data={data}
-        refreshPackageData={refreshPackageData}
-      />
-      <EditPackage path="edit" data={data} />
+      <ViewPackage default package={data.package} comments={data.comments} />
+      <EditPackage path="edit" package={data.package} />
     </Router>
   );
 }
 
 type PackageProps = RouteComponentProps<{
-  package: string;
-}> &
-  RouteComponentProps;
+  packageSlug: string;
+}>;

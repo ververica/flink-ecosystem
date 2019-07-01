@@ -20,6 +20,7 @@ const indexFile = fs.readFileSync(path.resolve("./build/index.html"), {
   encoding: "utf8",
 });
 
+router.get("/api/*", ctx => ctx.throw(404));
 router.get("*", ctx => (ctx.body = indexFile));
 
 const db = knex({
