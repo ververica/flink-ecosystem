@@ -1,6 +1,7 @@
 import Joi from "@hapi/joi";
 
 import checkUser from "server/middleware/checkUser";
+import { selectVotes, joinVotes } from "server/helpers/votes";
 
 export const packageSchema = Joi.object().keys({
   name: Joi.string().required(),
@@ -33,22 +34,9 @@ exports.get = [
         "package.slug",
         "package.description",
         "package.updated",
-        ctx.db.raw("ifnull(vote.vote, 0) as vote"),
-        ctx.db.raw("count(distinct upvote.id) as upvotes"),
-        ctx.db.raw("count(distinct downvote.id) as downvotes"),
-        ctx.db.raw("count(distinct comment.id) as comments")
+        ctx.db.raw("count(distinct comment.id) as comments"),
+        ...selectVotes(ctx)
       )
-      .leftJoin("vote", join => {
-        join
-          .on("package.id", "vote.package_id")
-          .on("vote.user_id", ctx.state.user.id);
-      })
-      .leftJoin("vote as upvote", join => {
-        join.on("package.id", "upvote.package_id").on("upvote.vote", 1);
-      })
-      .leftJoin("vote as downvote", join => {
-        join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
-      })
       .leftJoin("comment", "package.id", "comment.package_id")
       .where({ "package.deleted": 0 })
       .groupBy("package.id")
@@ -56,20 +44,22 @@ exports.get = [
       .offset(offset)
       .orderBy("package.added", "desc");
 
+    const finalPackagesQuery = joinVotes(packagesQuery, ctx.state.user.id);
+
     const countQuery = ctx
       .db("package")
       .count("* as count")
       .first();
 
     if (category) {
-      packagesQuery.where({ category });
+      finalPackagesQuery.where({ category });
       countQuery.where({ category });
     }
 
-    console.log("packages query: ", packagesQuery.toString());
-
-    const packages = await packagesQuery;
-    const { count } = await countQuery;
+    const [packages, { count }] = await Promise.all([
+      finalPackagesQuery,
+      countQuery,
+    ]);
 
     // + 1 pecause pages are 1 indexed, not 0 indexed.
     const totalPages = ((count / limit) | 0) + 1;
