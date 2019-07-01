@@ -3,9 +3,11 @@ import cx from "classnames";
 import { FormProvider } from "./PackageForm";
 
 export default function InputField(props: Props) {
-  const { disabledFields, handleInputChange, inputs } = useContext(
+  const { disabledFields, handleInputChange, inputs, error } = useContext(
     FormProvider
   );
+
+  const inputHasError = error.id === props.id;
 
   return (
     <div className="form-group">
@@ -13,7 +15,7 @@ export default function InputField(props: Props) {
       <input
         aria-describedby={`${props.id}-help`}
         className={cx("form-control", {
-          "is-invalid": props.error.id === props.id,
+          "is-invalid": inputHasError,
         })}
         disabled={disabledFields.includes(props.name)}
         id={props.id}
@@ -29,6 +31,7 @@ export default function InputField(props: Props) {
           {props.help}
         </small>
       )}
+      {inputHasError && <div className="invalid-feedback">{error.message}</div>}
     </div>
   );
 }
@@ -38,7 +41,6 @@ InputField.defaultProps = {
 };
 
 type Props = {
-  error?: { id: string };
   help?: string;
   id: string;
   label: string;

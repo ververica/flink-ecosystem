@@ -6,9 +6,7 @@ import PackageForm from "./PackageForm";
 import { PackageData } from "client/types/Package";
 import Icon from "client/components/Icon";
 import Axios from "axios";
-import ErrorComponent from "./ErrorComponent";
-import { isEmpty, pick } from "lodash/fp";
-import useScroll from "client/helpers/useScroll";
+import { pick } from "lodash/fp";
 import { initialValues } from "client/components/PackageForm";
 
 const pickFields = pick(Object.keys(initialValues));
@@ -20,18 +18,12 @@ const submitButton = (
   </button>
 );
 
-const handleSubmit: HandleSubmit = setError => async data => {
-  try {
-    await Axios.post(`/api/v1/packages/${data.slug}`, pickFields(data));
-  } catch (e) {
-    setError(e);
-  }
+const handleSubmit: HandleSubmit = async data => {
+  await Axios.post(`/api/v1/packages/${data.slug}`, pickFields(data));
 };
 
 export default function EditPackage(props: EditPackageProps) {
   const { user } = useContext(UserData);
-  const [error, setError] = useState({}) as [Error, () => void];
-  useScroll(error);
 
   if (user.id === 0) {
     return (
@@ -48,15 +40,10 @@ export default function EditPackage(props: EditPackageProps) {
 
   return (
     <MainCard header={header}>
-      {!isEmpty(error) && (
-        <ErrorComponent message={error.toString()} className="p-0" />
-      )}
-
       <PackageForm
         disabledFields={["slug"]}
-        error={error}
         initialValues={props.package}
-        handleSubmit={handleSubmit(setError)}
+        handleSubmit={handleSubmit}
         submitButton={submitButton}
       />
     </MainCard>
@@ -76,6 +63,4 @@ type Error = {
   message: string;
 };
 
-type HandleSubmit = (
-  setError: (error: Error) => void
-) => (data: PackageData) => void;
+type HandleSubmit = (data: PackageData) => void;

@@ -50,7 +50,7 @@ exports.get = [
         join.on("package.id", "downvote.package_id").on("downvote.vote", -1);
       })
       .leftJoin("comment", "package.id", "comment.package_id")
-      .where({ deleted: 0 })
+      .where({ "package.deleted": 0 })
       .groupBy("package.id")
       .limit(limit)
       .offset(offset)

@@ -4,7 +4,14 @@ import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
 import SelectField from "./SelectField";
 import { PackageData } from "client/types/Package";
-import { FormProviderProps, FormChangeEvent } from "client/types/FormProvider";
+import {
+  FormProviderProps,
+  FormChangeEvent,
+  FormError,
+} from "client/types/FormProvider";
+import { get, isEmpty } from "lodash/fp";
+import useScroll from "client/helpers/useScroll";
+import ErrorComponent from "./ErrorComponent";
 
 export const initialValues = {
   name: "",
@@ -39,10 +46,27 @@ export const FormProvider = React.createContext<FormProviderProps>({
   disabledFields: [],
   handleInputChange: () => {},
   inputs: initialValues,
+  error: {},
 });
+
+// The error messagse from 'Joi' are not quite a joy to parse. :(
+const parseError = (error: string) => {
+  const firstBracket = error.indexOf("[");
+  const lastBracket = error.lastIndexOf("]");
+  const message = error.slice(firstBracket + 1, lastBracket) || "";
+  const match = message.match(/"(.*?)"/) || [];
+  const id = match[1];
+
+  return { id, message };
+};
+
+const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 
 export default function PackageForm(props: PackageFormProps) {
   const [inputs, setInputs] = useState(props.initialValues);
+  const [error, setError] = useState<FormError>({});
+
+  const isGenericError = !isEmpty(error) && error.id === "";
 
   const handleInputChange = (e: FormChangeEvent) => {
     e.persist();
@@ -57,21 +81,39 @@ export default function PackageForm(props: PackageFormProps) {
     }
   };
 
-  const handleFormSubmit = (e: SyntheticEvent) => {
+  const handleFormSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     const data = { ...inputs };
-    props.handleSubmit(data);
+
+    try {
+      await props.handleSubmit(data);
+    } catch (e) {
+      console.log("error");
+      switch (get("response.status", e)) {
+        case 403:
+          return setError(makeGeneralError("You are not logged in!"));
+        case 400:
+          return setError(parseError(e.response.data.message));
+        default:
+          return setError(makeGeneralError("An unknown error has occurred"));
+      }
+    }
   };
 
   const formPoviderValue = {
     disabledFields: props.disabledFields,
     handleInputChange,
     inputs,
+    error,
   };
 
   return (
     <FormProvider.Provider value={formPoviderValue}>
       <form onSubmit={handleFormSubmit}>
+        {isGenericError && (
+          <ErrorComponent message={error.message} className="p-0" />
+        )}
+
         <div className="row">
           <div className="col-md-8">
             <InputField
@@ -122,7 +164,6 @@ export default function PackageForm(props: PackageFormProps) {
         <div className="row">
           <div className="col-md-4">
             <InputField
-              // error={error}
               id="website"
               label="Website"
               name="website"
@@ -131,7 +172,6 @@ export default function PackageForm(props: PackageFormProps) {
           </div>
           <div className="col-md-4">
             <InputField
-              // error={error}
               id="repository"
               label="Repository"
               name="repository"
@@ -145,7 +185,6 @@ export default function PackageForm(props: PackageFormProps) {
                 name="license"
                 id="license"
                 label="License"
-                // error={error}
                 placeholder="Select a License"
                 options={licenses}
               />
@@ -157,7 +196,6 @@ export default function PackageForm(props: PackageFormProps) {
           <div className="col-auto">
             <div className="form-group">
               <SelectField
-                // error={error}
                 id="category"
                 label="Category"
                 name="category"
@@ -169,7 +207,6 @@ export default function PackageForm(props: PackageFormProps) {
           <div className="col">
             <div className="form-group">
               <InputField
-                // error={error}
                 help="Comma separated list (for now)"
                 id="tags"
                 label="Tags"
@@ -193,15 +230,11 @@ PackageForm.defaultProps = {
   disabledFields: [],
 };
 
-type FormError = {
-  id: string;
-  message: string;
-};
-
 type PackageFormProps = {
-  error: FormError;
   handleSubmit: (data: PackageData) => void;
   initialValues: PackageData;
   submitButton: React.ReactNode;
   disabledFields: FormProviderProps["disabledFields"];
 };
+
+type MakeGeneralError = (message: string) => FormError;
