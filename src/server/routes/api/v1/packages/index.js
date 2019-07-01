@@ -78,7 +78,7 @@ exports.get = [
 ];
 
 exports.post = [
-  checkUser({ required: true }),
+  checkUser(),
   async ctx => {
     const validation = Joi.validate(ctx.request.body, packageSchema);
     if (validation.error) ctx.throw(400, validation.error);

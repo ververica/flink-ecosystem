@@ -23,8 +23,6 @@ exports.post = [
     const { text } = ctx.request.body;
     const user_id = ctx.state.user.id;
 
-    console.log({ id, text, user_id });
-
     await ctx
       .db("comment")
       .update({ text, updated: ctx.db.raw("now()") })

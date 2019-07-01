@@ -18,7 +18,7 @@ export default function AddComment(props: AddCommentProps) {
   const handleSubmit = async (text: string) => {
     const data = { package_id: props.id, text };
 
-    const response = await axios.post<CommentData>("/api/v1/comment", data);
+    const response = await axios.post<CommentData>("/api/v1/comments", data);
     props.addComment({
       ...response.data,
       avatar_url: user.avatar_url,

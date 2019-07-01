@@ -47,7 +47,7 @@ export default function Comment(props: CommentProps) {
 
   // any errors thrown here are caught inside CommentForm
   const handleEdit = (id: CommentData["id"]) => async (text: string) => {
-    await Axios.post(`/api/v1/comment/${id}`, { text });
+    await Axios.post(`/api/v1/comments/${id}`, { text });
     setText(text);
 
     // setTimeout so this happens *after* then `handleSubmit` function inside
@@ -64,7 +64,7 @@ export default function Comment(props: CommentProps) {
     e.preventDefault();
 
     try {
-      await Axios.delete(`/api/v1/comment/${id}`);
+      await Axios.delete(`/api/v1/comments/${id}`);
       setDeleted(true);
     } catch (e) {}
 
@@ -119,7 +119,8 @@ export default function Comment(props: CommentProps) {
           <small className="d-flex justify-content-between text-muted">
             <span>
               <strong>{props.login}</strong>{" "}
-              {format(props.added, "MM-DD-YYYY HH:mma")}
+              {format(props.added, "MM-DD-YYYY HH:mma")}{" "}
+              {props.added !== props.updated && <small>(edited)</small>}
             </span>
             {props.user_id === user.id && commentActions}
           </small>

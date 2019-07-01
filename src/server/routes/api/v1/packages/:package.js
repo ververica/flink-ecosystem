@@ -50,6 +50,7 @@ exports.get = [
         .db("package")
         .select(
           "comment.added",
+          "comment.updated",
           "comment.text",
           "comment.id",
           "user.id as user_id",
