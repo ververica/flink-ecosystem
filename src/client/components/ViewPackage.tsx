@@ -13,8 +13,9 @@ import Comments from "./Comments";
 import Tags from "./Tags";
 
 const Img = styled.img`
-  object-fit: cover;
-  max-height: 150px;
+  object-fit: contain;
+  max-height: 100%;
+  width: 100%;
 `;
 
 export default function ViewPackage(props: ViewPackageProps) {
@@ -33,13 +34,15 @@ export default function ViewPackage(props: ViewPackageProps) {
   return (
     <MainCard header={pkg.name} options={packageOptions}>
       <div className="row">
-        <div className="col-sm-3 order-last ">
-          <div className="overflow-hidden d-flex justify-content-center">
-            <Img src={`/api/v1/upload?id=${pkg.image_id}`} alt={pkg.name} />
+        <div className="col">
+          <div className="row text-muted">
+            <div className="col-md-3">
+              <div className="overflow-hidden d-flex justify-content-center float-left">
+                <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
+              </div>
+            </div>
+            <div className="col-md-9">{pkg.description}</div>
           </div>
-        </div>
-        <div className="col-sm-9">
-          <div className="text-muted mb-3">{pkg.description}</div>
           <hr />
           <ReactMarkdown source={pkg.readme} />
         </div>
