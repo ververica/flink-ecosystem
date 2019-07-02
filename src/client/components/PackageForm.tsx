@@ -9,7 +9,7 @@ import {
   FormChangeEvent,
   FormError,
 } from "client/types/FormProvider";
-import { get, isEmpty } from "lodash/fp";
+import { get, isEmpty, pick } from "lodash/fp";
 import ErrorComponent from "./ErrorComponent";
 import useLocation from "client/helpers/useLocation";
 import ImageField from "./ImageField";
@@ -37,7 +37,7 @@ export const initialValues = {
   license: "",
   category: "",
   tags: "",
-  image_id: undefined,
+  image_id: 0,
 };
 
 const licenses = [
@@ -56,6 +56,8 @@ const categories = [
   "machine learning",
   "languages",
 ];
+
+const pickFields = pick(Object.keys(initialValues));
 
 export const FormProvider = React.createContext<FormProviderProps>({
   disabledFields: [],
@@ -88,11 +90,11 @@ export default function PackageForm(props: PackageFormProps) {
 
   const handleFormSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const data = { ...inputs };
+    const data = pickFields(inputs) as PackageData;
 
     try {
-      if (data.image) {
-        const result = await Axios.post("/api/v1/upload-image", data.image, {
+      if (inputs.image) {
+        const result = await Axios.post("/api/v1/upload-image", inputs.image, {
           headers: { "X-Previous-Image": data.image_id },
         });
 
