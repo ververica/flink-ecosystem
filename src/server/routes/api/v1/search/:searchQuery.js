@@ -14,10 +14,12 @@ exports.get = [
 
     const baseSearchQuery = ctx
       .db("package")
-      .where("name", "like", sqlSearch)
+      .orWhere("name", "like", sqlSearch)
       .orWhere("description", "like", sqlSearch)
       .orWhere("readme", "like", sqlSearch)
-      .orWhere("tags", "like", sqlSearch);
+      .orWhere("tags", "like", sqlSearch)
+      .orWhere("category", "like", sqlSearch)
+      .groupBy("package.id");
 
     const packagesQuery = baseSearchQuery
       .clone()
