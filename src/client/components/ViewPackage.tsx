@@ -35,7 +35,7 @@ export default function ViewPackage(props: ViewPackageProps) {
       <div className="row">
         <div className="col-sm-3 order-last ">
           <div className="overflow-hidden d-flex justify-content-center">
-            <Img src="https://lorempixel.com/640/480/city/" alt="something" />
+            <Img src={`/api/v1/upload?id=${pkg.image_id}`} alt={pkg.name} />
           </div>
         </div>
         <div className="col-sm-9">

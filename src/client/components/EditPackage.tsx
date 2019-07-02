@@ -18,10 +18,6 @@ const submitButton = (
   </button>
 );
 
-const handleSubmit: HandleSubmit = async data => {
-  await Axios.post(`/api/v1/packages/${data.slug}`, pickFields(data));
-};
-
 export default function EditPackage(props: EditPackageProps) {
   const { user } = useContext(UserData);
 
@@ -30,6 +26,10 @@ export default function EditPackage(props: EditPackageProps) {
       <Redirect to={props.location.pathname.replace("/edit", "")} noThrow />
     );
   }
+
+  const handleSubmit: HandleSubmit = async data => {
+    await Axios.post(`/api/v1/packages/${data.slug}`, pickFields(data));
+  };
 
   const header = (
     <>

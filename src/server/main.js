@@ -3,7 +3,7 @@ import FileRouter from "koa-file-router";
 import Router from "koa-router";
 import serve from "koa-static";
 import cors from "kcors";
-import bodyParser from "koa-bodyparser";
+import koaBody from "koa-body";
 import knex from "knex";
 
 import path from "path";
@@ -46,7 +46,7 @@ const db = knex({
 
 const middleware = [
   cors(),
-  bodyParser(),
+  koaBody({ multipart: true }),
   (ctx, next) => {
     ctx.db = db;
     return next();
