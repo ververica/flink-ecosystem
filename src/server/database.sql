@@ -16,7 +16,7 @@ CREATE TABLE `package` (
     `user_id` int(11) NOT NULL,
     `description` longtext NOT NULL,
     `readme` longtext NOT NULL,
-    `image_id` int(11) DEFAULT NULL,
+    `image_id` int(11) NOT NULL DEFAULT 0,
     `website` varchar(255) NOT NULL DEFAULT '',
     `repository` varchar(255) NOT NULL DEFAULT '',
     `license` varchar(255) NOT NULL DEFAULT '',

@@ -14,8 +14,12 @@ export const packageSchema = Joi.object().keys({
   repository: Joi.string(),
   license: Joi.string().required(),
   category: Joi.string().required(),
-  tags: Joi.string(),
-  image_id: Joi.number(),
+  tags: Joi.string()
+    .allow("")
+    .optional(),
+  image_id: Joi.number()
+    .allow(0)
+    .optional(),
 });
 
 // The error messagse from Joi are not quite a "joy" to parse. :(
