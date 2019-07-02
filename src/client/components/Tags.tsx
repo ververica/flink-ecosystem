@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@reach/router";
 
 export default function Tags(props: TagsProps) {
+  const { category } = props;
   return (
     <>
       <hr />
@@ -9,12 +10,15 @@ export default function Tags(props: TagsProps) {
         <div className="col">
           <span>Tags: </span>
           <big>
-            <Link to={`/categories/${props.category}`} className="mr-2">
-              <span className="badge badge-light">{props.category}</span>
+            <Link to={`/categories/${category}`} className="mr-2">
+              <span className="badge badge-light">{category}</span>
             </Link>
             {props.tags
               .split(",")
               .map(tag => tag.trim())
+              .filter(
+                tag => tag.toLocaleLowerCase() !== category.toLocaleLowerCase()
+              )
               .map((tag, i) => {
                 const uriTag = encodeURIComponent(tag);
                 return (
