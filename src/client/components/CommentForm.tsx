@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from "react";
+import React, { useState, SyntheticEvent, ReactNode } from "react";
 import MarkdownEditor from "./MarkdownEditor";
 import { FormChangeEvent } from "client/types/FormProvider";
 
@@ -28,11 +28,12 @@ export default function CommentForm(props: CommentFormProps) {
         placeholder="Add a new comment."
         value={content}
       />
-      <div className="d-flex mt-2">
+      <div className="d-flex mt-2 justify-content-end">
+        {props.cancelButton}
         <button
-          className="btn btn-primary btn-sm ml-auto"
+          className="btn btn-primary btn-sm ml-2"
           onClick={handleSubmit}
-          type="button"
+          type="submit"
         >
           {props.buttonText}
         </button>
@@ -45,4 +46,5 @@ type CommentFormProps = {
   initialValue?: string;
   buttonText: string;
   handleSubmit: (content: string) => void;
+  cancelButton?: ReactNode;
 };

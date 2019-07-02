@@ -111,6 +111,12 @@ export default function Comment(props: CommentProps) {
     </>
   );
 
+  const cancelButton = (
+    <button className="btn btn-sm ml-auto" onClick={() => setEditing(false)}>
+      cancel
+    </button>
+  );
+
   return (
     <>
       <Media>
@@ -129,6 +135,7 @@ export default function Comment(props: CommentProps) {
               handleSubmit={handleEdit(props.id)}
               buttonText="Save Changes"
               initialValue={text}
+              cancelButton={cancelButton}
             />
           ) : (
             <ReactMarkdown source={text} renderers={{ code, table }} />
