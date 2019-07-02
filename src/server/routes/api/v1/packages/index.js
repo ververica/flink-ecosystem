@@ -18,6 +18,17 @@ export const packageSchema = Joi.object().keys({
   image_id: Joi.number(),
 });
 
+// The error messagse from Joi are not quite a "joy" to parse. :(
+const parseError = error => {
+  const firstBracket = error.indexOf("[");
+  const lastBracket = error.lastIndexOf("]");
+  const message = error.slice(firstBracket + 1, lastBracket) || "";
+  const match = message.match(/"(.*?)"/) || [];
+  const id = match[1];
+
+  return { id, message };
+};
+
 exports.get = [
   checkUser({ required: false }),
   async ctx => {
@@ -73,7 +84,7 @@ exports.post = [
   checkUser(),
   async ctx => {
     const validation = Joi.validate(ctx.request.body, packageSchema);
-    if (validation.error) ctx.throw(400, validation.error);
+    if (validation.error) ctx.throw(400, parseError(validation.error.message));
 
     const result = await ctx.db("package").insert({
       ...ctx.request.body,

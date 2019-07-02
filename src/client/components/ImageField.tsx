@@ -20,6 +20,8 @@ const ImageCard = styled.div`
 
 export default function ImageUpload() {
   const { inputs, error } = useContext(FormProvider);
+  const [imageError, setImageError] = useState(error);
+
   const [thumbnail, setThumbnail] = useState(() => {
     if (inputs.image_id) {
       return `http://localhost:3000/api/v1/images/${inputs.slug}`;
@@ -37,9 +39,16 @@ export default function ImageUpload() {
     ([firstThumbnail]) => {
       const data = new FormData();
       data.append("image", firstThumbnail);
-      inputs["image"] = data;
 
-      setThumbnail(URL.createObjectURL(firstThumbnail));
+      try {
+        setThumbnail(URL.createObjectURL(firstThumbnail));
+        inputs.image = data;
+      } catch (e) {
+        setImageError({
+          id: "image",
+          message: "filetype not supported",
+        });
+      }
     },
     [inputs]
   );
@@ -56,7 +65,7 @@ export default function ImageUpload() {
       <ImageCard
         {...getRootProps()}
         className={cx("card form-control", {
-          "is-invalid": error.id === "image",
+          "is-invalid": imageError.id === "image",
         })}
       >
         <div className="card-body d-flex flex-column justify-content-center">
@@ -64,7 +73,7 @@ export default function ImageUpload() {
           {thumbnail ? (
             <Image src={thumbnail} />
           ) : isDragActive ? (
-            <p>Drop your image here ...</p>
+            <p>Drop your image here.</p>
           ) : (
             <p>Drag 'n' drop an image, or click to select one.</p>
           )}
@@ -73,7 +82,7 @@ export default function ImageUpload() {
       <small className="form-text text-muted">
         Supported image types: gif/png/jpg
       </small>
-      <div className="invalid-feedback">{error.message}</div>
+      <div className="invalid-feedback">{imageError.message}</div>
     </div>
   );
 }

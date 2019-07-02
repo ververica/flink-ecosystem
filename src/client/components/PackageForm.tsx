@@ -64,17 +64,6 @@ export const FormProvider = React.createContext<FormProviderProps>({
   error: {},
 });
 
-// The error messagse from 'Joi' are not quite a joy to parse. :(
-const parseError = (error: string) => {
-  const firstBracket = error.indexOf("[");
-  const lastBracket = error.lastIndexOf("]");
-  const message = error.slice(firstBracket + 1, lastBracket) || "";
-  const match = message.match(/"(.*?)"/) || [];
-  const id = match[1];
-
-  return { id, message };
-};
-
 const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 
 export default function PackageForm(props: PackageFormProps) {
@@ -118,8 +107,6 @@ export default function PackageForm(props: PackageFormProps) {
         case 403:
           return setError(makeGeneralError("You are not logged in!"));
         case 400:
-          return setError(parseError(e.response.data.message));
-        case 500:
           return setError(e.response.data);
         default:
           return setError(makeGeneralError("An unknown error has occurred"));
