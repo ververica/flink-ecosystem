@@ -15,6 +15,7 @@ export const packageSchema = Joi.object().keys({
   category: Joi.string().required(),
   tags: Joi.string(),
   license: Joi.string().required(),
+  image_id: Joi.number(),
 });
 
 exports.get = [

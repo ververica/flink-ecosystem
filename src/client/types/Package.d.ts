@@ -15,6 +15,8 @@ export type PackageData = {
   user_id: number;
   vote: number;
   website: string;
+  image?: any;
+  image_id: number;
 };
 
 export type CommentData = {

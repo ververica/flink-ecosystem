@@ -20,7 +20,7 @@ exports.get = [
         "user.id as user_id",
         "package.description",
         "package.readme",
-        "package.image",
+        "package.image_id",
         "package.website",
         "package.repository",
         "package.added",

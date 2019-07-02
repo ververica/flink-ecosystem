@@ -12,6 +12,20 @@ import {
 import { get, isEmpty } from "lodash/fp";
 import ErrorComponent from "./ErrorComponent";
 import useLocation from "client/helpers/useLocation";
+import ImageField from "./ImageField";
+import { mediaLarge } from "client/helpers/styles";
+import styled from "styled-components";
+import Axios from "axios";
+
+const ImageColumn = styled.div.attrs({
+  className: "col-md-4",
+})`
+  @media ${mediaLarge} {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
+`;
 
 export const initialValues = {
   name: "",
@@ -23,6 +37,7 @@ export const initialValues = {
   license: "",
   category: "",
   tags: "",
+  image_id: undefined,
 };
 
 const licenses = [
@@ -86,6 +101,14 @@ export default function PackageForm(props: PackageFormProps) {
     e.preventDefault();
     const data = { ...inputs };
 
+    if (data.image) {
+      const result = await Axios.post("/api/v1/upload", data.image, {
+        headers: { "X-Previous-Image": data.image_id },
+      });
+
+      data.image_id = result.data.image_id;
+    }
+
     try {
       await props.handleSubmit(data);
       navigate(`/packages/${data.slug}`);
@@ -133,11 +156,9 @@ export default function PackageForm(props: PackageFormProps) {
               placeholder="Package ID"
             />
           </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label htmlFor="image">Image</label>
-            </div>
-          </div>
+          <ImageColumn>
+            <ImageField />
+          </ImageColumn>
         </div>
         <InputField
           id="description"
