@@ -35,6 +35,7 @@ exports.get = [
         "package.slug",
         "package.description",
         "package.updated",
+        "package.image_id",
         ctx.db.raw("count(distinct comment.id) as comments"),
         ...selectVotes(ctx)
       )
