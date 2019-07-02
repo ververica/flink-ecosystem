@@ -27,13 +27,6 @@ export default function PackageList(props: Props) {
     <>
       {props.packages.map(pkg => (
         <div className="row mb-3" key={pkg.slug}>
-          {pkg.image_id && (
-            <div className="col-md-3 overflow-hidden d-flex align-items-start justify-content-center">
-              <Link to={`/packages/${pkg.slug}`}>
-                <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
-              </Link>
-            </div>
-          )}
           <div className="col">
             <h5 className="card-title">
               <Link to={`/packages/${pkg.slug}`}>{pkg.name}</Link>
@@ -61,6 +54,13 @@ export default function PackageList(props: Props) {
               <small>Last Updated: {format(pkg.updated, "MM/DD/YYYY")}</small>
             </div>
           </div>
+          {pkg.image_id && (
+            <div className="col-md-3 overflow-hidden d-flex align-items-start justify-content-center">
+              <Link to={`/packages/${pkg.slug}`}>
+                <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
+              </Link>
+            </div>
+          )}
         </div>
       ))}
     </>
