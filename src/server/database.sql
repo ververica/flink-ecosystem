@@ -16,7 +16,7 @@ CREATE TABLE `package` (
     `user_id` int(11) NOT NULL,
     `description` longtext NOT NULL,
     `readme` longtext NOT NULL,
-    `image` blob DEFAULT NULL,
+    `image_id` int(11) DEFAULT NULL,
     `website` varchar(255) NOT NULL DEFAULT '',
     `repository` varchar(255) NOT NULL DEFAULT '',
     `license` varchar(255) NOT NULL DEFAULT '',
@@ -43,4 +43,10 @@ CREATE TABLE `vote` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `user_id` (`user_id`, `package_id`),
     KEY `package_id` (`package_id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 28 DEFAULT CHARSET = utf8mb4;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 DEFAULT CHARSET = utf8mb4;CREATE TABLE `image` (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `file_type` varchar(11) DEFAULT NULL,
+    `file_size` int(11) DEFAULT NULL,
+    `file` mediumblob DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 18 DEFAULT CHARSET = utf8mb4;
