@@ -19,9 +19,9 @@ exports.post = async ctx => {
 
     ctx.body = { image_id, removed };
   } catch (e) {
-    ctx.throw(500, {
+    ctx.throw(400, {
       id: "image",
-      message: "invalid",
+      message: "there was a problem uploading your image.",
     });
   }
 };
