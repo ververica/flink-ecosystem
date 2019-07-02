@@ -6,10 +6,6 @@ import PackageForm from "./PackageForm";
 import { PackageData } from "client/types/Package";
 import Icon from "client/components/Icon";
 import Axios from "axios";
-import { pick } from "lodash/fp";
-import { initialValues } from "client/components/PackageForm";
-
-const pickFields = pick(Object.keys(initialValues));
 
 const submitButton = (
   <button className="btn btn-success" type="submit">
@@ -28,7 +24,7 @@ export default function EditPackage(props: EditPackageProps) {
   }
 
   const handleSubmit: HandleSubmit = async data => {
-    await Axios.post(`/api/v1/packages/${data.slug}`, pickFields(data));
+    await Axios.post(`/api/v1/packages/${data.slug}`, data);
   };
 
   const header = (
