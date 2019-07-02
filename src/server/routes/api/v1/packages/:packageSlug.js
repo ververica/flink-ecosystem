@@ -2,11 +2,12 @@ import Joi from "@hapi/joi";
 import { packageSchema } from "server/routes/api/v1/packages";
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
+import { omit } from "lodash/fp";
 
 exports.get = [
   checkUser({ required: false }),
   async ctx => {
-    const slug = ctx.params.package;
+    const slug = ctx.params.packageSlug;
     const deleted = 0;
 
     const packageQuery = ctx
@@ -74,13 +75,14 @@ exports.post = [
   checkUser(),
   async ctx => {
     const { body } = ctx.request;
+    const slug = ctx.params.packageSlug;
     const validation = Joi.validate(body, packageSchema);
     if (validation.error) ctx.throw(400, validation.error);
 
-    const { slug, ...rest } = body;
+    const data = omit(["slug"], body);
     const result = await ctx
       .db("package")
-      .update({ ...rest, updated: ctx.db.raw("now()") })
+      .update({ ...data, updated: ctx.db.raw("now()") })
       .where({ slug })
       .limit(1);
 
