@@ -71,7 +71,7 @@ export default function ViewPackage(props: ViewPackageProps) {
           />
         </big>
       </div>
-      <Tags tags={pkg.tags} />
+      <Tags tags={pkg.tags} category={pkg.category} />
       <hr />
       <Comments pkg={pkg} comments={comments} />
     </MainCard>

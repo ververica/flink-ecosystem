@@ -9,6 +9,9 @@ export default function Tags(props: TagsProps) {
         <div className="col">
           <span>Tags: </span>
           <big>
+            <Link to={`/categories/${props.category}`} className="mr-2">
+              <span className="badge badge-light">{props.category}</span>
+            </Link>
             {props.tags
               .split(",")
               .map(tag => tag.trim())
@@ -29,4 +32,5 @@ export default function Tags(props: TagsProps) {
 
 type TagsProps = {
   tags: string;
+  category: string;
 };
