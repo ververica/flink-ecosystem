@@ -16,10 +16,20 @@ const app = new Koa();
 const fileRouter = new FileRouter("./src/server/routes");
 const router = new Router();
 
-const indexFile = fs.readFileSync(path.resolve("./build/index.html"), {
+// For devel, we serve the index file out of /public/index.html.  This fill
+// will not load the app, or do anything useful, it will just spit out a blank
+// page.  But in devel, we actually load the app from the webpack-dev-server, so
+// there is no need for this file to do anything.
+const indexFilePath =
+  process.env.NODE_ENV === "production"
+    ? "./build/index.html"
+    : "./public/index.html";
+
+const indexFile = fs.readFileSync(path.resolve(indexFilePath), {
   encoding: "utf8",
 });
 
+// 404's for /api routes that don't exist, and the webapp for everythign else
 router.get("/api/*", ctx => ctx.throw(404));
 router.get("*", ctx => (ctx.body = indexFile));
 
@@ -27,9 +37,9 @@ const db = knex({
   client: "mysql",
   pool: { min: 0 },
   connection: {
-    host: "127.0.0.1",
-    user: "root",
-    password: "test",
+    host: process.env.MYSQL_HOST || "127.0.0.1",
+    user: process.env.MYSQL_USER || "root",
+    password: process.env.MYSQL_PASSWORD || "test",
     database: "flink_ecosystem",
   },
 });
