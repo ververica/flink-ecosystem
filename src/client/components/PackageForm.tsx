@@ -119,6 +119,8 @@ export default function PackageForm(props: PackageFormProps) {
           return setError(makeGeneralError("You are not logged in!"));
         case 400:
           return setError(parseError(e.response.data.message));
+        case 500:
+          return setError(e.response.data);
         default:
           return setError(makeGeneralError("An unknown error has occurred"));
       }
@@ -209,40 +211,34 @@ export default function PackageForm(props: PackageFormProps) {
           </div>
           {/* @TODO make "other" field for license */}
           <div className="col-md-4">
-            <div className="form-group">
-              <SelectField
-                name="license"
-                id="license"
-                label="License"
-                placeholder="Select a License"
-                options={licenses}
-              />
-            </div>
+            <SelectField
+              name="license"
+              id="license"
+              label="License"
+              placeholder="Select a License"
+              options={licenses}
+            />
           </div>
         </div>
 
         <div className="row">
           <div className="col-auto">
-            <div className="form-group">
-              <SelectField
-                id="category"
-                label="Category"
-                name="category"
-                options={categories}
-                placeholder="Select a Category"
-              />
-            </div>
+            <SelectField
+              id="category"
+              label="Category"
+              name="category"
+              options={categories}
+              placeholder="Select a Category"
+            />
           </div>
           <div className="col">
-            <div className="form-group">
-              <InputField
-                help="Comma separated list (for now)"
-                id="tags"
-                label="Tags"
-                name="tags"
-                placeholder="Tags"
-              />
-            </div>
+            <InputField
+              help="Comma separated list (for now)"
+              id="tags"
+              label="Tags"
+              name="tags"
+              placeholder="Tags"
+            />
           </div>
         </div>
 
