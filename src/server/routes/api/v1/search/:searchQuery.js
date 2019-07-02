@@ -43,6 +43,13 @@ exports.get = [
 
     // + 1 pecause pages are 1 indexed, not 0 indexed.
     const totalPages = ((count / limit) | 0) + 1;
+
+    // if there are no search results, it will return a single package with
+    // null for everyting. We just throw it off the array.
+    if (packages[0].id === null) {
+      packages.shift();
+    }
+
     ctx.body = { packages, count, totalPages };
   },
 ];

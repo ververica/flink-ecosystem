@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Footer() {
-  // @TODO add "contact us"
+  // @TODO add "contact us" #12
   return (
     <div className="row no-gutters text-center d-block py-4">
       <p>
