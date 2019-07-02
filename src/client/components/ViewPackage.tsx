@@ -36,12 +36,14 @@ export default function ViewPackage(props: ViewPackageProps) {
       <div className="row">
         <div className="col">
           <div className="row text-muted">
-            <div className="col-md-9">{pkg.description}</div>
-            <div className="col-md-3">
-              <div className="overflow-hidden d-flex justify-content-center float-left">
-                <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
+            <div className="col">{pkg.description}</div>
+            {pkg.image_id && (
+              <div className="col-md-3">
+                <div className="overflow-hidden d-flex justify-content-center float-left">
+                  <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <hr />
           <ReactMarkdown source={pkg.readme} />

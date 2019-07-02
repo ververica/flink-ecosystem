@@ -50,11 +50,11 @@ const licenses = [
 ];
 
 const categories = [
-  "Connectors",
-  "Metrics",
-  "Tools",
-  "Machine Learning",
-  "Languages",
+  "connectors",
+  "metrics",
+  "tools",
+  "machine learning",
+  "languages",
 ];
 
 export const FormProvider = React.createContext<FormProviderProps>({

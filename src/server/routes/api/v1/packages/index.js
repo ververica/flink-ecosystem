@@ -29,6 +29,9 @@ const parseError = error => {
   return { id, message };
 };
 
+const addCategory = (query, category) =>
+  query.orWhere({ category }).orWhere("tags", "like", `%${category}%`);
+
 exports.get = [
   checkUser({ required: false }),
   async ctx => {
@@ -65,8 +68,8 @@ exports.get = [
       .first();
 
     if (category) {
-      finalPackagesQuery.where({ category });
-      countQuery.where({ category });
+      addCategory(finalPackagesQuery, category);
+      addCategory(countQuery, category);
     }
 
     const [packages, { count }] = await Promise.all([
