@@ -5,10 +5,12 @@ import Axios from "axios";
 import Modal from "./Modal";
 import Icon from "./Icon";
 import { Link } from "@reach/router";
+import useLocation from "client/helpers/useLocation";
 
 export default function PackageOptions(props: PackageOptionsProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const { navigate } = useLocation();
 
   const ref = useOutsideClick(() => {
     if (showDropdown) setShowDropdown(false);
@@ -26,6 +28,7 @@ export default function PackageOptions(props: PackageOptionsProps) {
 
     try {
       await Axios.delete(`/api/v1/packages/${slug}`);
+      navigate("/");
     } catch (e) {
       // @TODO show toast for broken request
     }

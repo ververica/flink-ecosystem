@@ -91,13 +91,13 @@ exports.post = [
   },
 ];
 
-exports.deletee = [
+exports.delete = [
   checkUser(),
   async ctx => {
     const result = await ctx
       .db("package")
       .update({ deleted: 1 })
-      .where({ slug: ctx.params.package })
+      .where({ slug: ctx.params.packageSlug })
       .limit(1);
 
     ctx.body = { result };
