@@ -17,6 +17,10 @@ const Img = styled.img`
 export default function PackageList(props: Props) {
   useScroll(props.page);
 
+  if (!props.packages.length) {
+    return <h3>No packages found</h3>;
+  }
+
   // Typescript can't return an array with out wrapping it in a fragment. :(
   // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356#issuecomment-336384210
   return (

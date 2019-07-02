@@ -39,7 +39,6 @@ const WelcomeUser = () => {
 
 export default function Header() {
   const { location, navigate } = useLocation();
-
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export default function Header() {
       ? (location.pathname.match(/^\/search\/(.*)/) || [])[1]
       : "";
 
-    setSearchQuery(newQuery);
+    setSearchQuery(decodeURIComponent(newQuery));
   }, [location.pathname]);
 
   const { user, openGithubLogin } = useContext(UserData);
