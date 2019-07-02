@@ -18,16 +18,3 @@ exports.post = async ctx => {
 
   ctx.body = { image_id, removed };
 };
-
-exports.get = async ctx => {
-  const { id } = ctx.request.query;
-
-  const image = await ctx
-    .db("image")
-    .select("*")
-    .where({ id })
-    .first();
-
-  ctx.response.set("Content-Type", image.type);
-  ctx.body = image.file;
-};

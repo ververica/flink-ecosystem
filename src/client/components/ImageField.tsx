@@ -6,7 +6,7 @@ import styled from "styled-components";
 const Image = styled.img`
   object-fit: contain;
   max-width: 100%;
-  max-height: 100%;
+  max-height: 200px;
 `;
 
 export default function ImageUpload() {
@@ -14,7 +14,7 @@ export default function ImageUpload() {
   const [thumbnail, setThumbnail] = useState(() => {
     if (inputs.image_id) {
       return {
-        preview: `http://localhost:3000/api/v1/upload?id=${inputs.image_id}`,
+        preview: `http://localhost:3000/api/v1/images/${inputs.image_id}`,
       };
     }
   });

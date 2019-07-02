@@ -101,15 +101,15 @@ export default function PackageForm(props: PackageFormProps) {
     e.preventDefault();
     const data = { ...inputs };
 
-    if (data.image) {
-      const result = await Axios.post("/api/v1/upload", data.image, {
-        headers: { "X-Previous-Image": data.image_id },
-      });
-
-      data.image_id = result.data.image_id;
-    }
-
     try {
+      if (data.image) {
+        const result = await Axios.post("/api/v1/upload-image", data.image, {
+          headers: { "X-Previous-Image": data.image_id },
+        });
+
+        data.image_id = result.data.image_id;
+      }
+
       await props.handleSubmit(data);
       navigate(`/packages/${data.slug}`);
     } catch (e) {
