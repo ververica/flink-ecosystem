@@ -12,9 +12,9 @@ export const packageSchema = Joi.object().keys({
   readme: Joi.string().required(),
   website: Joi.string().required(),
   repository: Joi.string(),
+  license: Joi.string().required(),
   category: Joi.string().required(),
   tags: Joi.string(),
-  license: Joi.string().required(),
   image_id: Joi.number(),
 });
 
