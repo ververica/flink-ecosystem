@@ -14,9 +14,8 @@ ReactDOM.render(<App />, document.getElementById("root"));
 // @TODO allow free-form license entry
 // @TODO error handling (for mysql errors)
 
-// @TODO search
-
 // @TODO share with team
+// @TODO fix travis build
 
 // @TODO admins (v2)
 // (list of github usernames that can always delete)
