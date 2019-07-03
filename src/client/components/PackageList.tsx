@@ -25,50 +25,56 @@ export default function PackageList(props: Props) {
   // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356#issuecomment-336384210
   return (
     <>
-      {props.packages.map(pkg => (
-        <React.Fragment key={pkg.slug}>
-          <div className="row">
-            <div className="col">
-              <h5 className="card-title">
-                <Link to={`/packages/${pkg.slug}`}>{pkg.name}</Link>
-              </h5>
-              <Dotdotdot className="card-text" clamp={5}>
-                {pkg.description}
-              </Dotdotdot>
-            </div>
-            {pkg.image_id && (
-              <div className="col-md-3 overflow-hidden d-flex align-items-start justify-content-center">
-                <Link to={`/packages/${pkg.slug}`}>
-                  <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
-                </Link>
-              </div>
-            )}
+      {props.packages.map(pkg => {
+        const packageImage = pkg.image_id ? (
+          <div className="col-md-3 overflow-hidden d-flex align-items-start justify-content-center">
+            <Link to={`/packages/${pkg.slug}`}>
+              <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
+            </Link>
           </div>
-          <div className="row mb-3">
-            <div className="col">
-              <div className="card-text mt-1 d-flex justify-content-between">
-                <span>
-                  <Votes
-                    id={pkg.id}
-                    vote={pkg.vote}
-                    slug={pkg.slug}
-                    upvotes={pkg.upvotes}
-                    downvotes={pkg.downvotes}
-                  />
-                  <Link to={`/packages/${pkg.slug}`} className="ml-4">
-                    <small className="text-muted">
-                      <Icon name="comments" margin={1} title="Comments" />
-                      {pkg.comments}
-                    </small>
-                  </Link>
-                </span>
+        ) : null;
 
-                <small>Last Updated: {format(pkg.updated, "MM/DD/YYYY")}</small>
+        return (
+          <React.Fragment key={pkg.slug}>
+            <div className="row">
+              <div className="col">
+                <h5 className="card-title">
+                  <Link to={`/packages/${pkg.slug}`}>{pkg.name}</Link>
+                </h5>
+                <Dotdotdot className="card-text" clamp={5}>
+                  {pkg.description}
+                </Dotdotdot>
+              </div>
+              {packageImage}
+            </div>
+            <div className="row mb-3">
+              <div className="col">
+                <div className="card-text mt-1 d-flex justify-content-between">
+                  <span>
+                    <Votes
+                      id={pkg.id}
+                      vote={pkg.vote}
+                      slug={pkg.slug}
+                      upvotes={pkg.upvotes}
+                      downvotes={pkg.downvotes}
+                    />
+                    <Link to={`/packages/${pkg.slug}`} className="ml-4">
+                      <small className="text-muted">
+                        <Icon name="comments" margin={1} title="Comments" />
+                        {pkg.comments}
+                      </small>
+                    </Link>
+                  </span>
+
+                  <small>
+                    Last Updated: {format(pkg.updated, "MM/DD/YYYY")}
+                  </small>
+                </div>
               </div>
             </div>
-          </div>
-        </React.Fragment>
-      ))}
+          </React.Fragment>
+        );
+      })}
     </>
   );
 }
