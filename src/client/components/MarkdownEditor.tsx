@@ -1,7 +1,7 @@
 import React, { useState, SyntheticEvent, useRef, ChangeEvent } from "react";
 import cx from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
-import ReactMarkdown from "react-markdown";
+import MarkdownViewer from "./MarkdownViewer";
 
 export default function MarkdownEditor(props: MarkdownEditorProps) {
   const [tab, setTab] = useState("write");
@@ -59,7 +59,7 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
           style={{ minHeight: 110, padding: "0.375rem 0.75rem" }}
           className="card"
         >
-          <ReactMarkdown source={props.value} />
+          <MarkdownViewer source={props.value} />
         </div>
       </div>
     </>

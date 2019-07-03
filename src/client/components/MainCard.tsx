@@ -26,9 +26,7 @@ export default function MainCard(props: MainCardProps) {
         </div>
       </Card>
       <Card>
-        <div className={cx("card-body markdown", props.bodyClass)}>
-          {props.children}
-        </div>
+        <div className={cx("card-body", props.bodyClass)}>{props.children}</div>
       </Card>
     </>
   );

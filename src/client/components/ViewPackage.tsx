@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
-import ReactMarkdown from "react-markdown";
 import Votes from "client/components/Votes";
 import Icon from "client/components/Icon";
 import { UserData } from "client/components/UserDataProvider";
@@ -11,6 +10,7 @@ import { PackageResult } from "client/types/Package";
 import PackageOptions from "./PackageOptions";
 import Comments from "./Comments";
 import Tags from "./Tags";
+import MarkdownViewer from "./MarkdownViewer";
 
 const Img = styled.img`
   object-fit: contain;
@@ -31,22 +31,24 @@ export default function ViewPackage(props: ViewPackageProps) {
       <PackageOptions slug={pkg.slug} name={pkg.name} />
     ) : null;
 
+  const packageImage = pkg.image_id ? (
+    <div className="col-md-3">
+      <div className="overflow-hidden d-flex justify-content-center float-left">
+        <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
+      </div>
+    </div>
+  ) : null;
+
   return (
     <MainCard header={pkg.name} options={packageOptions}>
       <div className="row">
         <div className="col">
           <div className="row text-muted">
             <div className="col">{pkg.description}</div>
-            {pkg.image_id && (
-              <div className="col-md-3">
-                <div className="overflow-hidden d-flex justify-content-center float-left">
-                  <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
-                </div>
-              </div>
-            )}
+            {packageImage}
           </div>
           <hr />
-          <ReactMarkdown source={pkg.readme} />
+          <MarkdownViewer source={pkg.readme} />
         </div>
       </div>
       <div className="row mt-3 justify-content-between">

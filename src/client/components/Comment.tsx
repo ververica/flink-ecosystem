@@ -1,5 +1,4 @@
 import React, { useContext, useState, SyntheticEvent } from "react";
-import ReactMarkdown from "react-markdown";
 import styled from "styled-components/macro";
 import { format } from "date-fns";
 import { CommentData } from "client/types/Package";
@@ -7,9 +6,10 @@ import { UserData } from "./UserDataProvider";
 import CommentForm from "./CommentForm";
 import Axios from "axios";
 import Modal from "./Modal";
+import MarkdownViewer from "./MarkdownViewer";
 
 const Avatar = styled.img.attrs({
-  className: "mr-3 mt-1",
+  className: "mr-2 mt-1",
 })`
   max-width: 32px;
   max-height: 32px;
@@ -22,16 +22,6 @@ const Media = styled.li.attrs({
   padding: 0.25rem;
   margin-bottom: 0.5rem;
 `;
-
-const code = (props: any) => (
-  <pre className="pre-scrollable">
-    <code>{props.value}</code>
-  </pre>
-);
-
-const table = (table: any) => (
-  <table className="table table-bordered table-sm">{table.children}</table>
-);
 
 export default function Comment(props: CommentProps) {
   const { user } = useContext(UserData);
@@ -120,26 +110,30 @@ export default function Comment(props: CommentProps) {
   return (
     <>
       <Media>
-        <Avatar src={props.avatar_url} alt={props.login} />
-        <div className="media-body">
-          <small className="d-flex justify-content-between text-muted">
-            <span>
-              <strong>{props.login}</strong>{" "}
-              {format(props.added, "MM-DD-YYYY HH:mma")}{" "}
-              {props.added !== props.updated && <small>(edited)</small>}
-            </span>
-            {props.user_id === user.id && commentActions}
-          </small>
-          {editing ? (
-            <CommentForm
-              handleSubmit={handleEdit(props.id)}
-              buttonText="Save Changes"
-              initialValue={text}
-              cancelButton={cancelButton}
-            />
-          ) : (
-            <ReactMarkdown source={text} renderers={{ code, table }} />
-          )}
+        <div className="row no-gutters mw-100 flex-nowrap">
+          <div className="col-auto">
+            <Avatar src={props.avatar_url} alt={props.login} />
+          </div>
+          <div className="col overflow-hidden">
+            <small className="d-flex justify-content-between text-muted">
+              <span>
+                <strong>{props.login}</strong>{" "}
+                {format(props.added, "MM-DD-YYYY HH:mma")}{" "}
+                {props.added !== props.updated && <small>(edited)</small>}
+              </span>
+              {props.user_id === user.id && commentActions}
+            </small>
+            {editing ? (
+              <CommentForm
+                handleSubmit={handleEdit(props.id)}
+                buttonText="Save Changes"
+                initialValue={text}
+                cancelButton={cancelButton}
+              />
+            ) : (
+              <MarkdownViewer source={text} />
+            )}
+          </div>
         </div>
       </Media>
       <Modal
