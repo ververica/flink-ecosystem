@@ -110,7 +110,7 @@ export default function Comment(props: CommentProps) {
   return (
     <>
       <Media>
-        <div className="row no-gutters mw-100 flex-nowrap">
+        <div className="row no-gutters mw-100 w-100 flex-nowrap">
           <div className="col-auto">
             <Avatar src={props.avatar_url} alt={props.login} />
           </div>
