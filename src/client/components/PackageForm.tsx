@@ -16,6 +16,7 @@ import ImageField from "./ImageField";
 import { mediaLarge } from "client/helpers/styles";
 import styled from "styled-components";
 import Axios from "axios";
+import LicenseField from "./LicenseField";
 
 const ImageColumn = styled.div.attrs({
   className: "col-md-4",
@@ -39,15 +40,6 @@ export const initialValues = {
   tags: "",
   image_id: 0,
 };
-
-const licenses = [
-  "MIT License",
-  "GPLv3",
-  "BSD License",
-  "LGPL",
-  "Apache 2.0",
-  "Eclipse License",
-];
 
 const categories = [
   "connectors",
@@ -201,13 +193,7 @@ export default function PackageForm(props: PackageFormProps) {
           </div>
           {/* @TODO make "other" field for license */}
           <div className="col-md-4">
-            <SelectField
-              name="license"
-              id="license"
-              label="License"
-              placeholder="Select a License"
-              options={licenses}
-            />
+            <LicenseField />
           </div>
         </div>
 

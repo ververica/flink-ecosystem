@@ -6,6 +6,16 @@ export default function SelectField(props: SelectFieldProps) {
   const { handleInputChange, inputs, error } = useContext(FormProvider);
   const inputHasError = error.id === props.id;
 
+  // If there is a custom handleChange event passed into the element, use that
+  // instead of the default one from the form provider.
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (props.handleChange) {
+      props.handleChange(e);
+    } else {
+      handleInputChange(e);
+    }
+  };
+
   return (
     <div className="form-group">
       <label htmlFor={props.id}>{props.label}</label>
@@ -15,7 +25,7 @@ export default function SelectField(props: SelectFieldProps) {
         className={cx("custom-select", {
           "is-invalid": inputHasError,
         })}
-        onChange={handleInputChange}
+        onChange={handleSelectChange}
         value={inputs[props.name]}
       >
         <option value="" disabled hidden>
@@ -39,6 +49,7 @@ export default function SelectField(props: SelectFieldProps) {
 
 SelectField.defaultProps = {
   error: {},
+  handleChange: (e: any) => {},
 };
 
 type SelectFieldProps = {
@@ -49,6 +60,7 @@ type SelectFieldProps = {
   name: string;
   options: string[];
   placeholder: string;
+  handleChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 } & DefaultProps;
 
 type DefaultProps = Readonly<typeof SelectField.defaultProps>;

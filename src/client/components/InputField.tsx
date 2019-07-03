@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useContext } from "react";
+import React, { SyntheticEvent, useContext, MutableRefObject } from "react";
 import cx from "classnames";
 import { FormProvider } from "./PackageForm";
 
@@ -13,6 +13,7 @@ export default function InputField(props: Props) {
     <div className="form-group">
       <label htmlFor={props.id}>{props.label}</label>
       <input
+        ref={props.inputRef}
         aria-describedby={`${props.id}-help`}
         className={cx("form-control", {
           "is-invalid": inputHasError,
@@ -38,17 +39,17 @@ export default function InputField(props: Props) {
 }
 
 InputField.defaultProps = {
-  error: {},
   type: "text",
 };
 
 type Props = {
   help?: string;
   id: string;
+  inputRef?: MutableRefObject<HTMLInputElement>;
   label: string;
   name: string;
   onBlur?: (e: SyntheticEvent) => void;
   pattern?: string;
-  placeholder: string;
-  type: string;
-} & Readonly<typeof InputField.defaultProps>;
+  placeholder?: string;
+  type?: string;
+};
