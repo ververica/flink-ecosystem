@@ -73,7 +73,7 @@ export default function PackageForm(props: PackageFormProps) {
   const [error, setError] = useState<FormError>({});
   const { navigate } = useLocation();
 
-  const isGenericError = !isEmpty(error) && error.id === "";
+  const isGenericError = !isEmpty(error) && !error.id;
 
   const handleInputChange = (e: FormChangeEvent) => {
     e.persist();

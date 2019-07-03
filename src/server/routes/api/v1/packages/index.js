@@ -93,13 +93,27 @@ exports.post = [
     const validation = Joi.validate(ctx.request.body, packageSchema);
     if (validation.error) ctx.throw(400, parseError(validation.error.message));
 
-    const result = await ctx.db("package").insert({
-      ...ctx.request.body,
-      user_id: ctx.state.user.id,
-      added: ctx.db.raw("now()"),
-      updated: ctx.db.raw("now()"),
-    });
+    try {
+      const result = await ctx.db("package").insert({
+        ...ctx.request.body,
+        user_id: ctx.state.user.id,
+        added: ctx.db.raw("now()"),
+        updated: ctx.db.raw("now()"),
+      });
 
-    ctx.body = { result };
+      ctx.body = { result };
+    } catch (e) {
+      switch (e.code) {
+        case "ER_DUP_ENTRY":
+          return ctx.throw(400, {
+            id: "slug",
+            message: `the package id "${
+              ctx.request.body.slug
+            }" is already in use`,
+          });
+        default:
+          return ctx.throw(500, { message: "an unknown error has occured" });
+      }
+    }
   },
 ];
