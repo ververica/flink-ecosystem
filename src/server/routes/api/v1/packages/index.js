@@ -34,7 +34,7 @@ const parseError = error => {
 };
 
 const addCategory = (query, category) =>
-  query.orWhere({ category }).orWhere("tags", "like", `%${category}%`);
+  query.andWhere({ category }).orWhere("tags", "like", `%${category}%`);
 
 exports.get = [
   checkUser({ required: false }),
