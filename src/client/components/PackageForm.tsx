@@ -53,7 +53,7 @@ const categories = [
   "connectors",
   "metrics",
   "tools",
-  "machine learning",
+  "machine-learning",
   "languages",
 ];
 
