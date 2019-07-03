@@ -29,12 +29,7 @@ export default function PackageComments(props: CommentsProps) {
             />
           ))}
         </ul>
-      ) : (
-        <>
-          <h3>No comments</h3>
-          <hr />
-        </>
-      )}
+      ) : null}
 
       {user.id > 0 && (
         <AddComment slug={pkg.slug} id={pkg.id} addComment={addComment} />

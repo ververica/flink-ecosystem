@@ -3,7 +3,7 @@ import checkUser from "server/middleware/checkUser";
 exports.delete = [
   checkUser(),
   async ctx => {
-    const { id } = ctx.params;
+    const id = ctx.params.comment;
     const user_id = ctx.state.user.id;
 
     await ctx
