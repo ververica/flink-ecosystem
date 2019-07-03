@@ -6,7 +6,7 @@ import { selectVotes, joinVotes } from "server/helpers/votes";
 export const packageSchema = Joi.object().keys({
   name: Joi.string().required(),
   slug: Joi.string()
-    .regex(/[a-z0-9-_]{2,}/)
+    .regex(/^[a-z0-9-_]{2,}$/)
     .required(),
   description: Joi.string().required(),
   readme: Joi.string().required(),

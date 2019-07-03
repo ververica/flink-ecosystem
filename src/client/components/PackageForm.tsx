@@ -145,6 +145,7 @@ export default function PackageForm(props: PackageFormProps) {
               label="Package ID"
               name="slug"
               placeholder="Package ID"
+              pattern="^[a-z0-9-_]{2,}$"
             />
           </div>
           <ImageColumn>

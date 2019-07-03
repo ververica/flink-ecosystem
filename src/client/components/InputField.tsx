@@ -22,6 +22,7 @@ export default function InputField(props: Props) {
         name={props.name}
         onBlur={props.onBlur}
         onChange={handleInputChange}
+        pattern={props.pattern}
         placeholder={props.placeholder}
         type={props.type}
         value={inputs[props.name] || ""}
@@ -47,6 +48,7 @@ type Props = {
   label: string;
   name: string;
   onBlur?: (e: SyntheticEvent) => void;
+  pattern?: string;
   placeholder: string;
   type: string;
 } & Readonly<typeof InputField.defaultProps>;
