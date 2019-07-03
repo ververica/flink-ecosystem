@@ -70,6 +70,7 @@ exports.get = [
 
     const countQuery = ctx
       .db("package")
+      .where({ deleted: 0 })
       .count("* as count")
       .first();
 

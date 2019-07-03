@@ -19,6 +19,7 @@ exports.get = [
       .orWhere("readme", "like", sqlSearch)
       .orWhere("tags", "like", sqlSearch)
       .orWhere("category", "like", sqlSearch)
+      .andWhere("package.deleted", 0)
       .groupBy("package.id");
 
     const packagesQuery = baseSearchQuery
