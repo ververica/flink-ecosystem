@@ -49,7 +49,6 @@ export default function SelectField(props: SelectFieldProps) {
 
 SelectField.defaultProps = {
   error: {},
-  handleChange: (e: any) => {},
 };
 
 type SelectFieldProps = {

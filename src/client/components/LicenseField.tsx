@@ -21,7 +21,6 @@ export default function LicenseField() {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === "Other...") {
       e.target.value = "";
-      handleInputChange(e);
       setShowFreeformField(true);
       setTimeout(() => {
         if (ref.current) {
@@ -29,6 +28,7 @@ export default function LicenseField() {
         }
       });
     }
+    handleInputChange(e);
   };
 
   const basicProps = {
