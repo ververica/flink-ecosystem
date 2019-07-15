@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import cx from "classnames";
 
 const iconTypes: IconTypes = {
@@ -13,10 +13,11 @@ export default function Icon(props: IconProps) {
 
   return (
     <i
-      className={cx(name, margin, type, {
+      className={cx(name, margin, type, props.className, {
         "fa-fw": props.fw,
       })}
       title={props.title}
+      onClick={props.onClick}
     />
   );
 }
@@ -32,9 +33,11 @@ type IconTypes = {
 };
 
 type IconProps = {
+  className?: string;
   fw?: boolean;
   margin?: number;
   name: string;
-  type?: string;
+  onClick?: (e: SyntheticEvent) => void;
   title?: string;
+  type?: string;
 } & Readonly<typeof Icon.defaultProps>;

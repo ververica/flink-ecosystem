@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent } from "react";
 import InputField from "./InputField";
 import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
@@ -17,6 +17,16 @@ import { mediaLarge } from "client/helpers/styles";
 import styled from "styled-components";
 import Axios from "axios";
 import LicenseField from "./LicenseField";
+import Icon from "./Icon";
+
+const StyledIcon = styled(Icon).attrs({
+  name: "redo",
+})`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+`;
 
 const ImageColumn = styled.div.attrs({
   className: "col-md-4",
@@ -69,15 +79,19 @@ export default function PackageForm(props: PackageFormProps) {
 
   const handleInputChange = (e: FormChangeEvent) => {
     e.persist();
-    setInputs(inputs => {
-      return { ...inputs, [e.target.name]: e.target.value };
-    });
+    setInputs(inputs => ({ ...inputs, [e.target.name]: e.target.value }));
   };
 
-  const handleNameBlur = (e: SyntheticEvent) => {
-    if (inputs.name && !inputs.slug) {
-      setInputs(inputs => ({ ...inputs, slug: slugify(inputs.name) }));
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleInputChange(e);
+    if (slugify(inputs.name) === inputs.slug) {
+      setInputs(inputs => ({ ...inputs, slug: slugify(e.target.value) }));
     }
+  };
+
+  const handleRedoClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+    setInputs(inputs => ({ ...inputs, slug: slugify(inputs.name) }));
   };
 
   const handleFormSubmit = async (e: SyntheticEvent) => {
@@ -115,6 +129,8 @@ export default function PackageForm(props: PackageFormProps) {
     error,
   };
 
+  const slugHelp = <StyledIcon onClick={handleRedoClick} />;
+
   return (
     <FormProvider.Provider value={formPoviderValue}>
       <form onSubmit={handleFormSubmit}>
@@ -128,7 +144,7 @@ export default function PackageForm(props: PackageFormProps) {
               id="name"
               label="Package Name"
               name="name"
-              onBlur={handleNameBlur}
+              handleChange={handleNameChange}
               placeholder="Package Name"
             />
             <InputField
@@ -138,6 +154,7 @@ export default function PackageForm(props: PackageFormProps) {
               name="slug"
               placeholder="Package ID"
               pattern="^[a-z0-9-_]{2,}$"
+              icon={slugHelp}
             />
           </div>
           <ImageColumn>
