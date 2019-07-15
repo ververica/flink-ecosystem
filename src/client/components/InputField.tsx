@@ -10,6 +10,16 @@ import styled from "styled-components/macro";
 
 const InputWrapper = styled.div`
   position: relative;
+
+  &.is-invalid {
+    & ~ .invalid-feedback {
+      display: block;
+    }
+
+    & i {
+      margin-right: 2rem !important;
+    }
+  }
 `;
 
 export default function InputField(props: Props) {
@@ -27,12 +37,21 @@ export default function InputField(props: Props) {
     }
   };
 
+  // @TODO - HACK
+  // The server sends back 'slug' for this field (becasue thats what it's called)
+  // and we need to keep it like that to idenfity it, so this is a quick hack
+  // so we don't display the word 'slug' to the user.  Yes, this will try and
+  // run all error messages through here, but nothing else has the word slug, so
+  // it works for now.
+  const getErrorMessage =
+    error.message && error.message.replace("slug", "package id");
+
   const inputHasError = error.id === props.id;
 
   return (
     <div className="form-group">
       <label htmlFor={props.id}>{props.label}</label>
-      <InputWrapper>
+      <InputWrapper className={cx({ "is-invalid": inputHasError })}>
         <input
           ref={props.inputRef}
           aria-describedby={`${props.id}-help`}
@@ -55,7 +74,9 @@ export default function InputField(props: Props) {
           {props.help}
         </small>
       )}
-      {inputHasError && <div className="invalid-feedback">{error.message}</div>}
+      {inputHasError && (
+        <div className="invalid-feedback">{getErrorMessage}</div>
+      )}
     </div>
   );
 }
