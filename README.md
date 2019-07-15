@@ -32,7 +32,7 @@ You will also need docker to run mysql.
   $ mysql --host=127.0.0.1 --port=3306 --user=root --password=test
   ...
   ...
-  mysql> `CREATE DATABASE `flink_ecosystem` /*!40100 DEFAULT CHARACTER SET utf8mb4 */
+  mysql> CREATE DATABASE `flink_ecosystem` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
   ```
 
 - disconnect and apply the table schema to the database. The schema is located in `/src/server/database.sql`
