@@ -59,7 +59,9 @@ exports.get = [
         ctx.db.raw("count(distinct comment.id) as comments"),
         ...selectVotes(ctx)
       )
-      .leftJoin("comment", "package.id", "comment.package_id")
+      .leftJoin("comment", join =>
+        join.on("package.id", "comment.package_id").on("comment.deleted", 0)
+      )
       .where({ "package.deleted": 0 })
       .groupBy("package.id")
       .limit(limit)
