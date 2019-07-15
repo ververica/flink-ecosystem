@@ -266,7 +266,7 @@ const RedoIcon = (props: any) => {
   return (
     <>
       <StyledIcon onClick={props.onClick} id="RedoIcon" />
-      <UncontrolledTooltip target="RedoIcon" offset="10px 10px">
+      <UncontrolledTooltip target="RedoIcon" placement="top" offset="0, 5px">
         Revert "Package ID" to computed value.
       </UncontrolledTooltip>
     </>
