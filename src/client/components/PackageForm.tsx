@@ -1,4 +1,5 @@
-import React, { useState, SyntheticEvent, ChangeEvent } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent, useRef } from "react";
+import { UncontrolledTooltip as Tooltip } from "reactstrap";
 import InputField from "./InputField";
 import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
@@ -23,7 +24,7 @@ const StyledIcon = styled(Icon).attrs({
   name: "redo",
 })`
   position: absolute;
-  right: 0;
+  right: 5px;
   top: 50%;
   transform: translateY(-50%);
 `;
@@ -76,6 +77,8 @@ export default function PackageForm(props: PackageFormProps) {
   const { navigate } = useLocation();
 
   const isGenericError = !isEmpty(error) && !error.id;
+  const slugDisabled = props.disabledFields.includes("slug");
+  const slugIsCustom = slugify(inputs.name) !== inputs.slug;
 
   const handleInputChange = (e: FormChangeEvent) => {
     e.persist();
@@ -84,7 +87,7 @@ export default function PackageForm(props: PackageFormProps) {
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     handleInputChange(e);
-    if (slugify(inputs.name) === inputs.slug) {
+    if (!slugDisabled && !slugIsCustom) {
       setInputs(inputs => ({ ...inputs, slug: slugify(e.target.value) }));
     }
   };
@@ -129,7 +132,7 @@ export default function PackageForm(props: PackageFormProps) {
     error,
   };
 
-  const slugHelp = <StyledIcon onClick={handleRedoClick} />;
+  const redoIcon = slugIsCustom ? <RedoIcon onClick={handleRedoClick} /> : null;
 
   return (
     <FormProvider.Provider value={formPoviderValue}>
@@ -154,7 +157,8 @@ export default function PackageForm(props: PackageFormProps) {
               name="slug"
               placeholder="Package ID"
               pattern="^[a-z0-9-_]{2,}$"
-              icon={slugHelp}
+              icon={redoIcon}
+              className="pr-5"
             />
           </div>
           <ImageColumn>
@@ -256,3 +260,14 @@ type PackageFormProps = {
 };
 
 type MakeGeneralError = (message: string) => FormError;
+
+const RedoIcon = (props: any) => {
+  return (
+    <>
+      <StyledIcon onClick={props.onClick} id="RedoIcon" />
+      <Tooltip target="RedoIcon" offset="10px 10px">
+        Revert "Package ID" to computed value.
+      </Tooltip>
+    </>
+  );
+};

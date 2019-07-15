@@ -13,6 +13,7 @@ export default function Icon(props: IconProps) {
 
   return (
     <i
+      id={props.id}
       className={cx(name, margin, type, props.className, {
         "fa-fw": props.fw,
       })}
@@ -33,6 +34,7 @@ type IconTypes = {
 };
 
 type IconProps = {
+  id?: string;
   className?: string;
   fw?: boolean;
   margin?: number;

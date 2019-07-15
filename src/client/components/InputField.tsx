@@ -36,7 +36,7 @@ export default function InputField(props: Props) {
         <input
           ref={props.inputRef}
           aria-describedby={`${props.id}-help`}
-          className={cx("form-control", {
+          className={cx("form-control", props.className, {
             "is-invalid": inputHasError,
           })}
           disabled={disabledFields.includes(props.name)}
@@ -65,9 +65,10 @@ InputField.defaultProps = {
 };
 
 type Props = {
+  className?: string;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   help?: string;
-  icon?: ReactElement;
+  icon?: ReactElement | null;
   id: string;
   inputRef?: MutableRefObject<HTMLInputElement>;
   label: string;

@@ -21,6 +21,7 @@
     "@hapi/joi": "^15.1.0",
     "@reach/router": "^1.2.1",
     "@rooks/use-timeout": "^3.0.1",
+    "@types/reactstrap": "^8.0.1",
     "axios": "^0.18.1",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
@@ -49,6 +50,7 @@
     "react-ga": "^2.6.0",
     "react-markdown": "^4.1.0",
     "react-textarea-autosize": "^7.1.0",
+    "reactstrap": "^8.0.1",
     "styled-components": "^4.3.2"
   },
   "devDependencies": {
