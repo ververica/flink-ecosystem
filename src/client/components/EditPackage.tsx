@@ -4,12 +4,13 @@ import { Redirect, RouteComponentProps, Link } from "@reach/router";
 import MainCard from "./MainCard";
 import PackageForm from "./PackageForm";
 import { PackageData } from "client/types/Package";
-import Icon from "client/components/Icon";
 import Axios from "axios";
+import { Icon } from "./Icon";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const submitButton = (
   <button className="btn btn-success" type="submit">
-    <Icon name="save" fw={false} />
+    <Icon icon={faSave} fw={false} title="save" />
     Save Package
   </button>
 );

@@ -13,7 +13,19 @@ import logo from "client/assets/flink-logo.png";
 
 import { mediaLarge } from "client/helpers/styles";
 import { UserData } from "./UserDataProvider";
-import Icon from "./Icon";
+import { Icon } from "./Icon";
+import {
+  faBars,
+  faTags,
+  faPlug,
+  IconDefinition,
+  faTachometerAlt,
+  faProjectDiagram,
+  faLanguage,
+  faTools,
+  faPlus,
+  faExternalLinkAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 const SidebarColumn = styled.div.attrs({
   className: "col-lg-3 order-first bg-light card",
@@ -98,7 +110,7 @@ const NavItem: FunctionComponent<NavItemProps> = props => {
   return (
     <li className="nav-item">
       <Link to={props.to} getProps={isActive}>
-        <Icon name={props.icon} />
+        <Icon icon={props.icon} title={props.title} />
         {props.children}
       </Link>
     </li>
@@ -144,7 +156,7 @@ export default function Sidebar() {
           </NavTitle>
         </Link>
         <button className="btn btn-light btn-sm" onClick={toggleMain}>
-          <Icon name="bars" fw={false} margin={0} />
+          <Icon icon={faBars} fw={false} marginRight={0} title="bars" />
         </button>
       </TitleContainer>
 
@@ -156,25 +168,37 @@ export default function Sidebar() {
               href="#categories"
               onClick={toggleCategories}
             >
-              <Icon name="tags" />
+              <Icon icon={faTags} title="tags" />
               <span className="mr-auto">Categories</span>
               <Caret collapsed={subCollapsed} />
             </a>
             <AnimateHeight duration={350} height={subCollapsed ? 0 : "auto"}>
               <ul className={cx("nav flex-column")}>
-                <NavItem to="/categories/connectors" icon="plug">
+                <NavItem to="/categories/connectors" icon={faPlug} title="plug">
                   Connectors
                 </NavItem>
-                <NavItem to="/categories/metrics" icon="tachometer-alt-fast">
+                <NavItem
+                  to="/categories/metrics"
+                  icon={faTachometerAlt}
+                  title="tachometer"
+                >
                   Metrics
                 </NavItem>
-                <NavItem to="/categories/tools" icon="tools">
+                <NavItem to="/categories/tools" icon={faTools} title="tools">
                   Tools
                 </NavItem>
-                <NavItem to="/categories/machine-learning" icon="chart-network">
+                <NavItem
+                  to="/categories/machine-learning"
+                  icon={faProjectDiagram}
+                  title="project diagram"
+                >
                   Machine Learning
                 </NavItem>
-                <NavItem to="/categories/languages" icon="language">
+                <NavItem
+                  to="/categories/languages"
+                  icon={faLanguage}
+                  title="language"
+                >
                   Languages
                 </NavItem>
               </ul>
@@ -188,7 +212,7 @@ export default function Sidebar() {
               <li className="nav-item">
                 <hr className="m-0" />
               </li>
-              <NavItem to="/new-package" icon="plus">
+              <NavItem to="/new-package" icon={faPlus} title="plus">
                 Add a Package
               </NavItem>
               <li className="nav-item">
@@ -204,7 +228,7 @@ export default function Sidebar() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Icon name="external-link-square" />
+              <Icon icon={faExternalLinkAlt} title="external link" />
               Apache Flink Website
             </a>
           </li>
@@ -218,11 +242,8 @@ type CaretProps = {
   collapsed: boolean;
 };
 
-type IconProps = {
-  icon: string;
-};
-
 type NavItemProps = {
   to: string;
-  icon: string;
+  icon: IconDefinition;
+  title: string;
 };

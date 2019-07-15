@@ -3,9 +3,10 @@ import useOutsideClick from "client/helpers/useOutsideClick";
 import cx from "classnames";
 import Axios from "axios";
 import Modal from "./Modal";
-import Icon from "./Icon";
 import { Link } from "@reach/router";
 import useLocation from "client/helpers/useLocation";
+import { Icon } from "./Icon";
+import { faTools, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function PackageOptions(props: PackageOptionsProps) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -44,7 +45,7 @@ export default function PackageOptions(props: PackageOptionsProps) {
           aria-haspopup="true"
           onClick={() => setShowDropdown(!showDropdown)}
         >
-          <Icon name="tools" margin={0} />
+          <Icon icon={faTools} marginRight={0} title="Tools" />
         </button>
         <div
           className={cx("dropdown-menu dropdown-menu-right", {
@@ -53,14 +54,14 @@ export default function PackageOptions(props: PackageOptionsProps) {
           ref={ref}
         >
           <Link to="edit" className="dropdown-item">
-            <Icon name="edit" fw={false} /> Edit
+            <Icon icon={faEdit} fw={false} title="edit" /> Edit
           </Link>
           <a
             href="#delete"
             className="dropdown-item"
             onClick={handleDeleteClick}
           >
-            <Icon name="trash-alt" fw={false} /> Delete
+            <Icon icon={faTrashAlt} fw={false} title="trash" /> Delete
           </a>
         </div>
       </div>

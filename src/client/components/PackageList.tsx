@@ -4,9 +4,10 @@ import styled from "styled-components/macro";
 import { format } from "date-fns";
 import useScroll from "client/helpers/useScroll";
 import Votes from "client/components/Votes";
-import Icon from "./Icon";
 import { PackageData } from "client/types/Package";
 import Dotdotdot from "react-dotdotdot";
+import { Icon } from "./Icon";
+import { faComments } from "@fortawesome/free-solid-svg-icons";
 
 const Img = styled.img`
   object-fit: cover;
@@ -60,7 +61,11 @@ export default function PackageList(props: Props) {
                     />
                     <Link to={`/packages/${pkg.slug}`} className="ml-4">
                       <small className="text-muted">
-                        <Icon name="comments" margin={1} title="Comments" />
+                        <Icon
+                          icon={faComments}
+                          marginRight={1}
+                          title="comments"
+                        />
                         {pkg.comments}
                       </small>
                     </Link>

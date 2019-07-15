@@ -4,8 +4,9 @@ import Axios from "axios";
 import MainCard from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
 import PackageForm from "client/components/PackageForm";
-import Icon from "client/components/Icon";
+import { Icon } from "client/components/Icon";
 import { PackageData } from "client/types/Package";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 export default function NewPackage(props: NewPackageProps) {
   const handleSubmit: HandleSubmit = async data => {
@@ -14,7 +15,7 @@ export default function NewPackage(props: NewPackageProps) {
 
   const submitButton = (
     <button className="btn btn-success" type="submit">
-      <Icon name="save" fw={false} />
+      <Icon icon={faSave} fw={false} title="save" />
       Add Package
     </button>
   );

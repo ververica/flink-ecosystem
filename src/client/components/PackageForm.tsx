@@ -18,10 +18,11 @@ import { mediaLarge } from "client/helpers/styles";
 import styled from "styled-components";
 import Axios from "axios";
 import LicenseField from "./LicenseField";
-import Icon from "./Icon";
+import { Icon } from "./Icon";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
 
 const StyledIcon = styled(Icon).attrs({
-  name: "redo",
+  icon: faRedo,
 })`
   position: absolute;
   right: 5px;
@@ -265,7 +266,7 @@ type MakeGeneralError = (message: string) => FormError;
 const RedoIcon = (props: any) => {
   return (
     <>
-      <StyledIcon onClick={props.onClick} id="RedoIcon" />
+      <StyledIcon onClick={props.onClick} id="RedoIcon" title="revert" />
       <UncontrolledTooltip target="RedoIcon" placement="top" offset="0, 5px">
         Revert "Package ID" to computed value.
       </UncontrolledTooltip>
