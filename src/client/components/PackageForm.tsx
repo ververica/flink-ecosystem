@@ -1,4 +1,5 @@
-import React, { useState, SyntheticEvent } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent } from "react";
+import { UncontrolledTooltip, Row, Col, FormGroup } from "reactstrap";
 import InputField from "./InputField";
 import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
@@ -17,6 +18,16 @@ import { mediaLarge } from "client/helpers/styles";
 import styled from "styled-components";
 import Axios from "axios";
 import LicenseField from "./LicenseField";
+import Icon from "./Icon";
+
+const StyledIcon = styled(Icon).attrs({
+  name: "redo",
+})`
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
 
 const ImageColumn = styled.div.attrs({
   className: "col-md-4",
@@ -66,18 +77,24 @@ export default function PackageForm(props: PackageFormProps) {
   const { navigate } = useLocation();
 
   const isGenericError = !isEmpty(error) && !error.id;
+  const slugDisabled = props.disabledFields.includes("slug");
+  const slugIsCustom = slugify(inputs.name) !== inputs.slug;
 
   const handleInputChange = (e: FormChangeEvent) => {
     e.persist();
-    setInputs(inputs => {
-      return { ...inputs, [e.target.name]: e.target.value };
-    });
+    setInputs(inputs => ({ ...inputs, [e.target.name]: e.target.value }));
   };
 
-  const handleNameBlur = (e: SyntheticEvent) => {
-    if (inputs.name && !inputs.slug) {
-      setInputs(inputs => ({ ...inputs, slug: slugify(inputs.name) }));
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleInputChange(e);
+    if (!slugDisabled && !slugIsCustom) {
+      setInputs(inputs => ({ ...inputs, slug: slugify(e.target.value) }));
     }
+  };
+
+  const handleRedoClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+    setInputs(inputs => ({ ...inputs, slug: slugify(inputs.name) }));
   };
 
   const handleFormSubmit = async (e: SyntheticEvent) => {
@@ -115,6 +132,8 @@ export default function PackageForm(props: PackageFormProps) {
     error,
   };
 
+  const redoIcon = slugIsCustom ? <RedoIcon onClick={handleRedoClick} /> : null;
+
   return (
     <FormProvider.Provider value={formPoviderValue}>
       <form onSubmit={handleFormSubmit}>
@@ -122,13 +141,13 @@ export default function PackageForm(props: PackageFormProps) {
           <ErrorComponent message={error.message} className="p-0" />
         )}
 
-        <div className="row">
-          <div className="col-md-8">
+        <Row>
+          <Col md="8">
             <InputField
               id="name"
               label="Package Name"
               name="name"
-              onBlur={handleNameBlur}
+              handleChange={handleNameChange}
               placeholder="Package Name"
             />
             <InputField
@@ -138,19 +157,21 @@ export default function PackageForm(props: PackageFormProps) {
               name="slug"
               placeholder="Package ID"
               pattern="^[a-z0-9-_]{2,}$"
+              icon={redoIcon}
+              className="pr-5"
             />
-          </div>
+          </Col>
           <ImageColumn>
             <ImageField />
           </ImageColumn>
-        </div>
+        </Row>
         <InputField
           id="description"
           label="Description"
           name="description"
           placeholder="Description"
         />
-        <div className="form-group">
+        <FormGroup>
           <MarkdownEditor
             id="readme"
             name="readme"
@@ -170,10 +191,10 @@ export default function PackageForm(props: PackageFormProps) {
             </a>
             .
           </small>
-        </div>
+        </FormGroup>
 
-        <div className="row">
-          <div className="col-md-4">
+        <Row>
+          <Col md="4">
             <InputField
               id="website"
               label="Website"
@@ -181,8 +202,8 @@ export default function PackageForm(props: PackageFormProps) {
               placeholder="Website"
               type="url"
             />
-          </div>
-          <div className="col-md-4">
+          </Col>
+          <Col md="4">
             <InputField
               id="repository"
               label="Repository"
@@ -190,15 +211,14 @@ export default function PackageForm(props: PackageFormProps) {
               placeholder="Repository"
               type="url"
             />
-          </div>
-          {/* @TODO make "other" field for license */}
-          <div className="col-md-4">
+          </Col>
+          <Col md="4">
             <LicenseField />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row">
-          <div className="col-auto">
+        <Row>
+          <Col xs="auto">
             <SelectField
               id="category"
               label="Category"
@@ -206,8 +226,8 @@ export default function PackageForm(props: PackageFormProps) {
               options={categories}
               placeholder="Select a Category"
             />
-          </div>
-          <div className="col">
+          </Col>
+          <Col>
             <InputField
               help="Comma separated list (for now)"
               id="tags"
@@ -215,12 +235,14 @@ export default function PackageForm(props: PackageFormProps) {
               name="tags"
               placeholder="Tags"
             />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row">
-          <div className="col-auto ml-auto">{props.submitButton}</div>
-        </div>
+        <Row>
+          <Col md="auto" className="ml-auto">
+            {props.submitButton}
+          </Col>
+        </Row>
       </form>
     </FormProvider.Provider>
   );
@@ -239,3 +261,14 @@ type PackageFormProps = {
 };
 
 type MakeGeneralError = (message: string) => FormError;
+
+const RedoIcon = (props: any) => {
+  return (
+    <>
+      <StyledIcon onClick={props.onClick} id="RedoIcon" />
+      <UncontrolledTooltip target="RedoIcon" placement="top" offset="0, 5px">
+        Revert "Package ID" to computed value.
+      </UncontrolledTooltip>
+    </>
+  );
+};
