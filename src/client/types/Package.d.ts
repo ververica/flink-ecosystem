@@ -4,8 +4,11 @@ export type PackageData = {
   description: string;
   downvotes: number;
   id: number;
+  image_id: number;
+  image?: any;
   license: string;
   name: string;
+  owner: string;
   readme: string;
   repository: string;
   slug: string;
@@ -15,21 +18,19 @@ export type PackageData = {
   user_id: number;
   vote: number;
   website: string;
-  image?: any;
-  image_id: number;
 };
 
 export type CommentData = {
   added: string;
   avatar_url: string;
-  login: string;
   id: number;
+  login: string;
   text: string;
-  user_id: number;
   updated: string;
+  user_id: number;
 };
 
 export type PackageResult = {
-  package: PackageData;
   comments: CommentData[];
+  package: PackageData;
 };

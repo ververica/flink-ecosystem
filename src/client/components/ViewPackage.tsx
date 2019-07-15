@@ -62,6 +62,15 @@ export default function ViewPackage(props: ViewPackageProps) {
           <a href={pkg.repository} target="_blank" rel="noopener noreferrer">
             {pkg.repository}
           </a>
+          <br />
+          <Icon name="user" />
+          <a
+            href={`https://github.com/${pkg.owner}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {pkg.owner}
+          </a>
         </div>
 
         <div className="col-auto">License: {pkg.license}</div>
