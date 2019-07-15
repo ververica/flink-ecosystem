@@ -24,7 +24,7 @@ export default function ImageUpload() {
 
   const [thumbnail, setThumbnail] = useState(() => {
     if (inputs.image_id) {
-      return `http://localhost:3000/api/v1/images/${inputs.slug}`;
+      return `/api/v1/images/${inputs.slug}`;
     }
   });
 
