@@ -205,7 +205,7 @@ export default function Sidebar() {
               rel="noopener noreferrer"
             >
               <Icon name="external-link-square" />
-              Apache Flink
+              Apache Flink Website
             </a>
           </li>
         </ul>
