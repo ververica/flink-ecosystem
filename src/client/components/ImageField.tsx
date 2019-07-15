@@ -75,12 +75,16 @@ export default function ImageUpload() {
           ) : isDragActive ? (
             <p>Drop your image here.</p>
           ) : (
-            <p>Drag 'n' drop an image, or click to select one.</p>
+            <p>
+              Drag 'n' drop an image,
+              <br />
+              or click to select one.
+            </p>
           )}
         </div>
       </ImageCard>
       <small className="form-text text-muted">
-        Supported image types: gif/png/jpg
+        Supports <code>gif</code>, <code>png</code>, and <code>jpg</code>.
       </small>
       <div className="invalid-feedback">{imageError.message}</div>
     </div>
