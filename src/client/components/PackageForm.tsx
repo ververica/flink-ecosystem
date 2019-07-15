@@ -1,5 +1,5 @@
-import React, { useState, SyntheticEvent, ChangeEvent, useRef } from "react";
-import { UncontrolledTooltip as Tooltip } from "reactstrap";
+import React, { useState, SyntheticEvent, ChangeEvent } from "react";
+import { UncontrolledTooltip, Row, Col, FormGroup } from "reactstrap";
 import InputField from "./InputField";
 import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
@@ -141,8 +141,8 @@ export default function PackageForm(props: PackageFormProps) {
           <ErrorComponent message={error.message} className="p-0" />
         )}
 
-        <div className="row">
-          <div className="col-md-8">
+        <Row>
+          <Col md="8">
             <InputField
               id="name"
               label="Package Name"
@@ -160,18 +160,18 @@ export default function PackageForm(props: PackageFormProps) {
               icon={redoIcon}
               className="pr-5"
             />
-          </div>
+          </Col>
           <ImageColumn>
             <ImageField />
           </ImageColumn>
-        </div>
+        </Row>
         <InputField
           id="description"
           label="Description"
           name="description"
           placeholder="Description"
         />
-        <div className="form-group">
+        <FormGroup>
           <MarkdownEditor
             id="readme"
             name="readme"
@@ -191,10 +191,10 @@ export default function PackageForm(props: PackageFormProps) {
             </a>
             .
           </small>
-        </div>
+        </FormGroup>
 
-        <div className="row">
-          <div className="col-md-4">
+        <Row>
+          <Col md="4">
             <InputField
               id="website"
               label="Website"
@@ -202,8 +202,8 @@ export default function PackageForm(props: PackageFormProps) {
               placeholder="Website"
               type="url"
             />
-          </div>
-          <div className="col-md-4">
+          </Col>
+          <Col md="4">
             <InputField
               id="repository"
               label="Repository"
@@ -211,15 +211,14 @@ export default function PackageForm(props: PackageFormProps) {
               placeholder="Repository"
               type="url"
             />
-          </div>
-          {/* @TODO make "other" field for license */}
-          <div className="col-md-4">
+          </Col>
+          <Col md="4">
             <LicenseField />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row">
-          <div className="col-auto">
+        <Row>
+          <Col xs="auto">
             <SelectField
               id="category"
               label="Category"
@@ -227,8 +226,8 @@ export default function PackageForm(props: PackageFormProps) {
               options={categories}
               placeholder="Select a Category"
             />
-          </div>
-          <div className="col">
+          </Col>
+          <Col>
             <InputField
               help="Comma separated list (for now)"
               id="tags"
@@ -236,12 +235,14 @@ export default function PackageForm(props: PackageFormProps) {
               name="tags"
               placeholder="Tags"
             />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row">
-          <div className="col-auto ml-auto">{props.submitButton}</div>
-        </div>
+        <Row>
+          <Col md="auto" className="ml-auto">
+            {props.submitButton}
+          </Col>
+        </Row>
       </form>
     </FormProvider.Provider>
   );
@@ -265,9 +266,9 @@ const RedoIcon = (props: any) => {
   return (
     <>
       <StyledIcon onClick={props.onClick} id="RedoIcon" />
-      <Tooltip target="RedoIcon" offset="10px 10px">
+      <UncontrolledTooltip target="RedoIcon" offset="10px 10px">
         Revert "Package ID" to computed value.
-      </Tooltip>
+      </UncontrolledTooltip>
     </>
   );
 };
