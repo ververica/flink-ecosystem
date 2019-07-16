@@ -60,6 +60,7 @@ const middleware = [
 
 middleware.map(mw => app.use(mw));
 
+app.proxy = true;
 app.listen(4000);
 console.log("server listening on port 4000");
 
