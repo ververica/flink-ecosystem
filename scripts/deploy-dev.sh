@@ -19,7 +19,7 @@ function set_up_gcloud() {
 
 function build_image() {
   local image_tag="$1"
-  docker build -t "${IMAGE}:${image_tag}" ./ecosystem-ui
+  docker build -t "${IMAGE}:${image_tag}" .
 }
 
 function push_image() {
