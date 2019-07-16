@@ -26,19 +26,21 @@ You will also need docker to run mysql.
   this docker command is set to persist the data to `/tmp/flink-ecosystem-data` if you need to remove it for any reason.
 
 - get the [mysql-client](https://formulae.brew.sh/formula/mysql-client). (or elsewhere if you don't have homebrew)
-- connect to mysql to create the database.
+- connect to mysql to create the database and user.
 
   ```
-  $ mysql --host=127.0.0.1 --port=3306 --user=root --password=test
+  $ mysql --host=127.0.0.1 --port=3306 --user=root --password=<root-password>
   ...
   ...
   mysql> CREATE DATABASE `flink_ecosystem` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+  mysql> CREATE USER 'flink_ecosystem'@'%' IDENTIFIED BY '<password>';
+  mysql> GRANT ALL PRIVILEGES ON `flink_ecosystem`.* TO 'flink_ecosystem'@'%';
   ```
 
 - disconnect and apply the table schema to the database. The schema is located in `/src/server/database.sql`
 
   ```
-  $ mysql --host=127.0.0.1 --port=3306 --user=root --password=test --database flink_ecosystem < src/server/database.sql
+  $ mysql --host=127.0.0.1 --port=3306 --user=flink_ecosystem --password --database flink_ecosystem < src/server/database.sql
   ```
 
 - run `npm install` to install all the JS dependencies.
