@@ -77,6 +77,6 @@
     "server-dev": "sleep 1 && NODE_PATH=src/ npm run server",
     "server": "node -r esm src/server/main.js",
     "start": "concurrently --kill-others-on-fail --prefix '[{name}]' --names 'client,server' 'npm run client' 'npm run nodemon'",
-    "test": "react-scripts test"
+    "test": "react-scripts test --passWithNoTests"
   }
 }
