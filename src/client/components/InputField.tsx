@@ -16,7 +16,7 @@ const InputWrapper = styled.div`
       display: block;
     }
 
-    & i {
+    & svg {
       margin-right: 2rem !important;
     }
   }

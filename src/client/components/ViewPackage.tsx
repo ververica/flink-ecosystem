@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
 
+import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { Icon } from "client/components/Icon";
+
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
 import Votes from "client/components/Votes";
-import Icon from "client/components/Icon";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
 import PackageOptions from "./PackageOptions";
@@ -53,17 +56,17 @@ export default function ViewPackage(props: ViewPackageProps) {
       </div>
       <div className="row mt-3 justify-content-between">
         <div className="col-auto">
-          <Icon name="home" />
+          <Icon icon={faHome} title="home" />
           <a href={pkg.website} target="_blank" rel="noopener noreferrer">
             {pkg.website}
           </a>
           <br />
-          <Icon name="github" type="brand" />
+          <Icon icon={faGithub} title="github" />
           <a href={pkg.repository} target="_blank" rel="noopener noreferrer">
             {pkg.repository}
           </a>
           <br />
-          <Icon name="user" />
+          <Icon icon={faUser} title="User" />
           <a
             href={`https://github.com/${pkg.owner}`}
             target="_blank"

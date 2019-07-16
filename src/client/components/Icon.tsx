@@ -1,45 +1,34 @@
 import React, { SyntheticEvent } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cx from "classnames";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-const iconTypes: IconTypes = {
-  light: "fal",
-  brand: "fab",
-};
-
-export default function Icon(props: IconProps) {
-  const name = `fa-${props.name}`;
-  const margin = `mr-${props.margin}`;
-  const type = iconTypes[props.type];
+export const Icon = (props: IconProps) => {
+  const marginRight = `mr-${props.marginRight}`;
 
   return (
-    <i
+    <FontAwesomeIcon
       id={props.id}
-      className={cx(name, margin, type, props.className, {
-        "fa-fw": props.fw,
-      })}
-      title={props.title}
+      icon={props.icon}
+      className={cx(marginRight, props.className)}
+      fixedWidth={props.fw}
       onClick={props.onClick}
+      title={props.title}
     />
   );
-}
-
-Icon.defaultProps = {
-  margin: 2,
-  fw: true,
-  type: "light",
 };
 
-type IconTypes = {
-  [key: string]: string;
+Icon.defaultProps = {
+  fw: true,
+  marginRight: 2,
 };
 
 type IconProps = {
   id?: string;
   className?: string;
   fw?: boolean;
-  margin?: number;
-  name: string;
+  marginRight?: number;
+  icon: IconDefinition;
   onClick?: (e: SyntheticEvent) => void;
-  title?: string;
-  type?: string;
-} & Readonly<typeof Icon.defaultProps>;
+  title: string;
+};
