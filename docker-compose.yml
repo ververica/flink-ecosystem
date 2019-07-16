@@ -26,7 +26,8 @@ services:
       MYSQL_DATABASE: flink_ecosystem
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     volumes:
-    - ./src/server/database.sql:/docker-entrypoint-initdb.d/flink-ecosystem.sql:ro
+    - ./src/server/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    - ./src/server/fixtures.sql.gz:/docker-entrypoint-initdb.d/02-fixtures.sql.gz:ro
     - mariadb-data:/var/lib/mysql:rw
     ports:
     - '3306:3306'
