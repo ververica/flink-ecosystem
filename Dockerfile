@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM base
 ENV NODE_ENV=production \
-    NODE_PATH=src=/
+    NODE_PATH=src/
 COPY --from=build /home/node/app/*.json ./
 RUN npm install
 COPY --from=build /home/node/app/build ./build
