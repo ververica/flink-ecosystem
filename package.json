@@ -78,6 +78,7 @@
     "client": "react-scripts start",
     "flink-ecosystem-db": "docker run -d --rm -p 3306:3306 -v /tmp/flink-ecosystem-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=test --name flink-ecosystem-db mariadb:10.3",
     "nodemon": "nodemon --signal SIGTERM --ignore src/client --ignore/src/index.js -x 'npm run server-dev'",
+    "prestart": "npm install",
     "server-dev": "sleep 1 && NODE_PATH=src/ npm run server",
     "server": "node -r esm src/server/main.js",
     "start": "concurrently --kill-others-on-fail --prefix '[{name}]' --names 'client,server' 'npm run client' 'npm run nodemon'",

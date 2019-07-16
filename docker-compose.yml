@@ -1,0 +1,34 @@
+version: '3'
+services:
+  flink-ecosystem:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    environment:
+      MYSQL_HOST: mariadb
+      MYSQL_USER: flink_ecosystem
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: flink_ecosystem
+    volumes:
+    - ./package.json:/node/package.json:ro
+    - ./package-lock.json:/node/package-lock.json:ro
+    - ./tsconfig.json:/node/tsconfig.json:ro
+    - ./src:/node/src:ro
+    - ./public:/node/public:ro
+    ports:
+    - '3000:3000'
+    - '4000:4000'
+  mariadb:
+    image: mariadb:10
+    environment:
+      MYSQL_USER: flink_ecosystem
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: flink_ecosystem
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+    - ./src/server/database.sql:/docker-entrypoint-initdb.d/flink-ecosystem.sql:ro
+    - mariadb-data:/var/lib/mysql:rw
+    ports:
+    - '3306:3306'
+volumes:
+  mariadb-data:

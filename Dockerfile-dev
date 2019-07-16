@@ -1,0 +1,5 @@
+FROM node:10
+RUN mkdir /node
+WORKDIR /node
+VOLUME ["/node/src", "/node/public"]
+CMD ["npm", "start"]
