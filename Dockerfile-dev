@@ -1,5 +1,5 @@
 FROM node:10
 RUN mkdir /node
 WORKDIR /node
-VOLUME ["/node/src", "/node/public"]
+VOLUME ["/node/src", "/node/public", "/node/node_modules"]
 CMD ["npm", "start"]

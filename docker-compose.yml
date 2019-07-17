@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   flink-ecosystem:
     build:
@@ -9,15 +9,18 @@ services:
       MYSQL_USER: flink_ecosystem
       MYSQL_PASSWORD: test
       MYSQL_DATABASE: flink_ecosystem
+      GITHUB_CLIENT: ${GITHUB_CLIENT}
+      GITHUB_SECRET: ${GITHUB_SECRET}
     volumes:
-    - ./package.json:/node/package.json:ro
-    - ./package-lock.json:/node/package-lock.json:ro
-    - ./tsconfig.json:/node/tsconfig.json:ro
-    - ./src:/node/src:ro
-    - ./public:/node/public:ro
+      - ./package.json:/node/package.json:ro
+      - ./package-lock.json:/node/package-lock.json:ro
+      - ./tsconfig.json:/node/tsconfig.json:ro
+      - ./src:/node/src:ro
+      - ./public:/node/public:ro
+      - ./node_modules:/node/node_modules:rw
     ports:
-    - '3000:3000'
-    - '4000:4000'
+      - "3000:3000"
+      - "4000:4000"
   mariadb:
     image: mariadb:10
     environment:
@@ -26,10 +29,10 @@ services:
       MYSQL_DATABASE: flink_ecosystem
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     volumes:
-    - ./src/server/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
-    - ./src/server/fixtures.sql.gz:/docker-entrypoint-initdb.d/02-fixtures.sql.gz:ro
-    - mariadb-data:/var/lib/mysql:rw
+      - ./src/server/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./src/server/fixtures.sql.gz:/docker-entrypoint-initdb.d/02-fixtures.sql.gz:ro
+      - mariadb-data:/var/lib/mysql:rw
     ports:
-    - '3306:3306'
+      - "3306:3306"
 volumes:
   mariadb-data:
