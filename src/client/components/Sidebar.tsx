@@ -14,15 +14,11 @@ import logo from "client/assets/flink-logo.png";
 import { mediaLarge } from "client/helpers/styles";
 import { UserData } from "./UserDataProvider";
 import { Icon } from "./Icon";
+import { categories } from "client/helpers/categories";
 import {
   faBars,
   faTags,
-  faPlug,
   IconDefinition,
-  faTachometerAlt,
-  faProjectDiagram,
-  faLanguage,
-  faTools,
   faPlus,
   faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -174,33 +170,18 @@ export default function Sidebar() {
             </a>
             <AnimateHeight duration={350} height={subCollapsed ? 0 : "auto"}>
               <ul className={cx("nav flex-column")}>
-                <NavItem to="/categories/connectors" icon={faPlug} title="plug">
-                  Connectors
-                </NavItem>
-                <NavItem
-                  to="/categories/metrics"
-                  icon={faTachometerAlt}
-                  title="tachometer"
-                >
-                  Metrics
-                </NavItem>
-                <NavItem to="/categories/tools" icon={faTools} title="tools">
-                  Tools
-                </NavItem>
-                <NavItem
-                  to="/categories/machine-learning"
-                  icon={faProjectDiagram}
-                  title="project diagram"
-                >
-                  Machine Learning
-                </NavItem>
-                <NavItem
-                  to="/categories/languages"
-                  icon={faLanguage}
-                  title="language"
-                >
-                  Languages
-                </NavItem>
+                {categories.map(category => {
+                  return (
+                    <NavItem
+                      key={category.value}
+                      to={`/categories/${category.value}`}
+                      icon={category.icon}
+                      title={category.iconTitle}
+                    >
+                      {category.name}
+                    </NavItem>
+                  );
+                })}
               </ul>
             </AnimateHeight>
           </li>

@@ -32,8 +32,8 @@ export default function SelectField(props: SelectFieldProps) {
           {props.placeholder}
         </option>
         {props.options.map(option => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.name}
           </option>
         ))}
       </select>
@@ -57,7 +57,10 @@ type SelectFieldProps = {
   id: string;
   label: string;
   name: string;
-  options: string[];
+  options: {
+    name: string;
+    value: string;
+  }[];
   placeholder: string;
   handleChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 } & DefaultProps;
