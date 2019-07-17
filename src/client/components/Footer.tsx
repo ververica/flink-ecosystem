@@ -2,10 +2,10 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="row no-gutters text-center d-block py-4">
+    <div className="row no-gutters text-center small text-muted d-block py-4">
       <p>
         Copyright ©2014-2019&nbsp;
-        <a href="https://apache.org/" rel="noreferrer noopener nofollow">
+        <a href="https://apache.org/">
           The Apache Software Foundation
         </a>
         . All Rights Reserved.
@@ -17,16 +17,20 @@ export default function Footer() {
       <p>
         <a
           href="https://flink.apache.org/privacy-policy.html"
-          rel="noreferrer noopener nofollow"
         >
           Privacy Policy
         </a>
         &nbsp;|&nbsp;
         <a
           href="https://flink.apache.org/community.html#mailing-lists"
-          rel="noreferrer noopener nofollow"
         >
           Contact Us
+        </a>
+          &nbsp;|&nbsp;
+        <a
+              href="https://github.com/sorahn/flink-ecosystem"
+          >
+              Source Code and Issues
         </a>
       </p>
     </div>
