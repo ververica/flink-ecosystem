@@ -16,7 +16,7 @@ const defaultState = {
     avatar_url: "",
   },
   refreshData: () => {},
-  logout: (e: SyntheticEvent) => {},
+  logout: () => {},
   openGithubLogin: (e: SyntheticEvent) => {},
 };
 
@@ -41,8 +41,7 @@ export default function UserDataProvider(props: UserDataProviderProps) {
     refreshData();
   }, [refreshData]);
 
-  const logout = (e: SyntheticEvent) => {
-    e.preventDefault();
+  const logout = () => {
     cookies.remove("github-token");
     setUser(defaultState.user);
   };

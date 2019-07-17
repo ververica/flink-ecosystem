@@ -20,6 +20,7 @@ import Axios from "axios";
 import LicenseField from "./LicenseField";
 import { Icon } from "./Icon";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import useScroll from "client/helpers/useScroll";
 
 const StyledIcon = styled(Icon).attrs({
   icon: faRedo,
@@ -76,6 +77,7 @@ export default function PackageForm(props: PackageFormProps) {
   const [inputs, setInputs] = useState(props.initialValues);
   const [error, setError] = useState<FormError>({});
   const { navigate } = useLocation();
+  useScroll(error);
 
   const isGenericError = !isEmpty(error) && !error.id;
   const slugDisabled = props.disabledFields.includes("slug");
@@ -114,7 +116,6 @@ export default function PackageForm(props: PackageFormProps) {
       await props.handleSubmit(data);
       navigate(`/packages/${data.slug}`);
     } catch (e) {
-      console.log("error");
       switch (get("response.status", e)) {
         case 403:
           return setError(makeGeneralError("You are not logged in!"));
