@@ -20,6 +20,10 @@ exports.post = [
         .where({ id })
         .first();
 
+      ctx.sendMail("comment created", text).catch(e => {
+        console.log(e);
+      });
+
       ctx.status = 201;
       ctx.body = comment;
     } catch (e) {

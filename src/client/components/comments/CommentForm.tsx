@@ -1,5 +1,5 @@
 import React, { useState, SyntheticEvent, ReactNode } from "react";
-import MarkdownEditor from "./MarkdownEditor";
+import MarkdownEditor from "../MarkdownEditor";
 import { FormChangeEvent } from "client/types/FormProvider";
 
 export default function CommentForm(props: CommentFormProps) {

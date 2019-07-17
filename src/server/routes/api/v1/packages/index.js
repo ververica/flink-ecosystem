@@ -106,6 +106,10 @@ exports.post = [
         updated: ctx.db.raw("now()"),
       });
 
+      ctx.sendMail("package created", "does it work").catch(e => {
+        console.log(e);
+      });
+
       ctx.body = { result };
     } catch (e) {
       switch (e.code) {

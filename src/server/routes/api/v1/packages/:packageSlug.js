@@ -39,6 +39,8 @@ exports.get = [
     const commentsQuery = ctx
       .db("package")
       .select(
+        "package.name",
+        "package.slug",
         "comment.added",
         "comment.updated",
         "comment.text",
@@ -85,6 +87,10 @@ exports.post = [
       .update({ ...data, updated: ctx.db.raw("now()") })
       .where({ slug })
       .limit(1);
+
+    ctx.sendMail("package edited", "does it work").catch(e => {
+      console.log(e);
+    });
 
     ctx.status = 200;
     ctx.body = { result };

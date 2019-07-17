@@ -25,6 +25,7 @@ services:
       MYSQL_DATABASE: flink_ecosystem
       GITHUB_CLIENT: ${GITHUB_CLIENT}
       GITHUB_SECRET: ${GITHUB_SECRET}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
     ports:
       - "4000:4000"
     volumes:

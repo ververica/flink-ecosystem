@@ -1,12 +1,15 @@
 import React, { useContext, useState, SyntheticEvent } from "react";
 import styled from "styled-components/macro";
 import { format } from "date-fns";
-import { CommentData } from "client/types/Package";
-import { UserData } from "./UserDataProvider";
-import CommentForm from "./CommentForm";
 import Axios from "axios";
-import Modal from "./Modal";
-import MarkdownViewer from "./MarkdownViewer";
+import cx from "classnames";
+
+import { CommentData } from "client/types/Package";
+import { UserData } from "../UserDataProvider";
+import CommentForm from "./CommentForm";
+import Modal from "../Modal";
+import MarkdownViewer from "../MarkdownViewer";
+import useLocation from "client/helpers/useLocation";
 
 const Avatar = styled.img.attrs({
   className: "mr-2 mt-1",
@@ -16,11 +19,16 @@ const Avatar = styled.img.attrs({
   overflow: hidden;
 `;
 
-const Media = styled.li.attrs({
-  className: "media border",
-})`
+const Media = styled.li.attrs(props => ({
+  className: `${props.className} media border`,
+}))`
   padding: 0.25rem;
   margin-bottom: 0.5rem;
+
+  &.active {
+    border-style: dashed !important;
+    border-color: #d55c71 !important;
+  }
 `;
 
 export default function Comment(props: CommentProps) {
@@ -29,6 +37,7 @@ export default function Comment(props: CommentProps) {
   const [confirm, setConfirm] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const [text, setText] = useState(props.text);
+  const { location } = useLocation();
 
   const handleEditClick = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -37,7 +46,11 @@ export default function Comment(props: CommentProps) {
 
   // any errors thrown here are caught inside CommentForm
   const handleEdit = (id: CommentData["id"]) => async (text: string) => {
-    await Axios.post(`/api/v1/comments/${id}`, { text });
+    await Axios.post(`/api/v1/comments/${id}`, {
+      text,
+      packageName: props.name,
+      packageSlug: props.slug,
+    });
     setText(text);
 
     // setTimeout so this happens *after* then `handleSubmit` function inside
@@ -109,7 +122,9 @@ export default function Comment(props: CommentProps) {
 
   return (
     <>
-      <Media>
+      <Media
+        className={cx({ active: location.hash === `#comment-${props.id}` })}
+      >
         <div className="row no-gutters mw-100 w-100 flex-nowrap">
           <div className="col-auto">
             <Avatar src={props.avatar_url} alt={props.login} />
