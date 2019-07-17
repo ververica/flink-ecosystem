@@ -27,10 +27,14 @@ const SearchInput = styled.input.attrs({
 
 const WelcomeUser = () => {
   const { user, logout } = useContext(UserData);
+  const handleLogoutClick = (e: SyntheticEvent) => {
+    e.preventDefault();
+    logout();
+  };
   return (
     <>
       <span className="mr-2">Welcome, {user.login}</span>
-      <a href="/logout" onClick={logout}>
+      <a href="/logout" onClick={handleLogoutClick}>
         Logout
       </a>
     </>
