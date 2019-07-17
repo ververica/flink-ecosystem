@@ -29,7 +29,7 @@ export default function Packages(props: Props) {
 
   return (
     <>
-      <MainCard header={`Most Popular Packages (${count})`}>
+      <MainCard header={`Most Recent Packages (${count})`}>
         <PackageList packages={packages} page={page} />
         <Pager page={page} total={data.totalPages} />
       </MainCard>
