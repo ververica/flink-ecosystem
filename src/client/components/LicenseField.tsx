@@ -37,13 +37,15 @@ export default function LicenseField() {
     name: "license",
   };
 
+  const licenseOptions = licenses.map(value => ({ value, name: value }));
+
   return showFreeformField ? (
     <InputField inputRef={ref} {...basicProps} placeholder="Custom license" />
   ) : (
     <SelectField
       {...basicProps}
       handleChange={handleChange}
-      options={licenses}
+      options={licenseOptions}
       placeholder="Select a License"
     />
   );

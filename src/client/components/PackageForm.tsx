@@ -21,6 +21,7 @@ import LicenseField from "./LicenseField";
 import { Icon } from "./Icon";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import useScroll from "client/helpers/useScroll";
+import { categories } from "client/helpers/categories";
 
 const StyledIcon = styled(Icon).attrs({
   icon: faRedo,
@@ -53,14 +54,6 @@ export const initialValues = {
   tags: "",
   image_id: 0,
 };
-
-const categories = [
-  "connectors",
-  "metrics",
-  "tools",
-  "machine-learning",
-  "languages",
-];
 
 const pickFields = pick(Object.keys(initialValues));
 
@@ -135,6 +128,11 @@ export default function PackageForm(props: PackageFormProps) {
   };
 
   const redoIcon = slugIsCustom ? <RedoIcon onClick={handleRedoClick} /> : null;
+
+  const categoryOptions = categories.map(cat => ({
+    value: cat.value,
+    name: cat.name,
+  }));
 
   return (
     <FormProvider.Provider value={formPoviderValue}>
@@ -225,7 +223,7 @@ export default function PackageForm(props: PackageFormProps) {
               id="category"
               label="Category"
               name="category"
-              options={categories}
+              options={categoryOptions}
               placeholder="Select a Category"
             />
           </Col>
