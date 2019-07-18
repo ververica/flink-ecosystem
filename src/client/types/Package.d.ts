@@ -1,24 +1,26 @@
-export type PackageData = {
+export type PackageFormData = {
   category: string;
-  comments: number;
   description: string;
-  downvotes: number;
-  id: number;
   image_id: number;
   image?: any;
   license: string;
   name: string;
-  owner: string;
   readme: string;
   repository: string;
   slug: string;
   tags: string;
+  website: string;
+};
+export type PackageData = {
+  comments: number;
+  downvotes: number;
+  id: number;
+  owner: string;
   updated: string;
   upvotes: number;
   user_id: number;
   vote: number;
-  website: string;
-};
+} & PackageFormData;
 
 export type CommentData = {
   added: string;

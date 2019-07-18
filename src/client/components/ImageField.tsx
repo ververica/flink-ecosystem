@@ -61,7 +61,10 @@ export default function ImageUpload() {
 
   return (
     <div className="form-group flex-grow-1 d-flex flex-column">
-      <label htmlFor="image">Image</label>
+      <label htmlFor="image">
+        Image
+        <small className="text-muted font-italic"> - Optional</small>
+      </label>
       <ImageCard
         {...getRootProps()}
         className={cx("card form-control", {

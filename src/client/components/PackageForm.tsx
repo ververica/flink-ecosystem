@@ -1,16 +1,16 @@
-import React, { useState, SyntheticEvent, ChangeEvent } from "react";
+import React, { useState, SyntheticEvent, ChangeEvent, FC } from "react";
 import { UncontrolledTooltip, Row, Col, FormGroup } from "reactstrap";
 import InputField from "./InputField";
 import slugify from "client/helpers/slugify";
 import MarkdownEditor from "./MarkdownEditor";
 import SelectField from "./SelectField";
-import { PackageData } from "client/types/Package";
+import { PackageData, PackageFormData } from "client/types/Package";
 import {
   FormProviderProps,
   FormChangeEvent,
   FormError,
 } from "client/types/FormProvider";
-import { get, isEmpty, pick } from "lodash/fp";
+import { isEmpty, pick } from "lodash/fp";
 import ErrorComponent from "./ErrorComponent";
 import useLocation from "client/helpers/useLocation";
 import ImageField from "./ImageField";
@@ -44,16 +44,16 @@ const ImageColumn = styled.div.attrs({
 `;
 
 export const initialValues = {
-  name: "",
-  slug: "",
-  description: "",
-  readme: "",
-  website: "",
-  repository: "",
-  license: "",
   category: "",
-  tags: "",
+  description: "",
   image_id: 0,
+  license: "",
+  name: "",
+  readme: "",
+  repository: "",
+  slug: "",
+  tags: "",
+  website: "",
 };
 
 const pickFields = pick(Object.keys(initialValues));
@@ -65,8 +65,8 @@ export const FormProvider = React.createContext<FormProviderProps>({
   error: {},
 });
 
-export default function PackageForm(props: PackageFormProps) {
-  const [inputs, setInputs] = useState(props.initialValues);
+export const PackageForm: FC<Props> = props => {
+  const [inputs, setInputs] = useState<PackageFormData>(props.initialValues);
   const [error, setError] = useState<FormError>({});
   const { navigate } = useLocation();
   useScroll(error);
@@ -192,6 +192,7 @@ export default function PackageForm(props: PackageFormProps) {
               id="website"
               label="Website"
               name="website"
+              optional
               placeholder="Website"
               type="url"
             />
@@ -226,6 +227,7 @@ export default function PackageForm(props: PackageFormProps) {
               id="tags"
               label="Tags"
               name="tags"
+              optional
               placeholder="Tags"
             />
           </Col>
@@ -239,18 +241,6 @@ export default function PackageForm(props: PackageFormProps) {
       </form>
     </FormProvider.Provider>
   );
-}
-
-PackageForm.defaultProps = {
-  initialValues,
-  disabledFields: [],
-};
-
-type PackageFormProps = {
-  handleSubmit: (data: PackageData) => void;
-  initialValues: PackageData;
-  submitButton: React.ReactNode;
-  disabledFields: FormProviderProps["disabledFields"];
 };
 
 const RedoIcon = (props: any) => {
@@ -262,4 +252,11 @@ const RedoIcon = (props: any) => {
       </UncontrolledTooltip>
     </>
   );
+};
+
+type Props = {
+  disabledFields: FormProviderProps["disabledFields"];
+  handleSubmit: (data: PackageFormData) => void;
+  initialValues: PackageFormData;
+  submitButton: React.ReactNode;
 };
