@@ -22,9 +22,7 @@ export default function SelectField(props: SelectFieldProps) {
       <select
         name={props.name}
         id={props.id}
-        className={cx("custom-select", {
-          "is-invalid": inputHasError,
-        })}
+        className={cx("custom-select", { "is-invalid": inputHasError })}
         onChange={handleSelectChange}
         value={inputs[props.name]}
       >
@@ -37,12 +35,12 @@ export default function SelectField(props: SelectFieldProps) {
           </option>
         ))}
       </select>
+      {inputHasError && <div className="invalid-feedback">{error.message}</div>}
       {props.help && (
         <small id={`${props.id}-help`} className="form-text text-muted">
           {props.help}
         </small>
       )}
-      {inputHasError && <div className="invalid-feedback">{error.message}</div>}
     </div>
   );
 }

@@ -83,10 +83,10 @@ export default function ImageUpload() {
           )}
         </div>
       </ImageCard>
+      <div className="invalid-feedback">{imageError.message}</div>
       <small className="form-text text-muted">
         Supports <code>gif</code>, <code>png</code>, and <code>jpg</code>.
       </small>
-      <div className="invalid-feedback">{imageError.message}</div>
     </div>
   );
 }

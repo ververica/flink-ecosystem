@@ -1,40 +1,9 @@
 import Joi from "@hapi/joi";
-
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
 import { packageMailerTemplate } from "server/helpers/mailerTemplates";
-
-export const packageSchema = Joi.object().keys({
-  name: Joi.string().required(),
-  slug: Joi.string()
-    .regex(/^[a-z0-9-_]{2,}$/)
-    .required(),
-  description: Joi.string().required(),
-  readme: Joi.string().required(),
-  website: Joi.string()
-    .allow("")
-    .optional(),
-  repository: Joi.string(),
-  license: Joi.string().required(),
-  category: Joi.string().required(),
-  tags: Joi.string()
-    .allow("")
-    .optional(),
-  image_id: Joi.number()
-    .allow(0)
-    .optional(),
-});
-
-// The error messagse from Joi are not quite a "joy" to parse. :(
-const parseError = error => {
-  const firstBracket = error.indexOf("[");
-  const lastBracket = error.lastIndexOf("]");
-  const message = error.slice(firstBracket + 1, lastBracket) || "";
-  const match = message.match(/"(.*?)"/) || [];
-  const id = match[1];
-
-  return { id, message };
-};
+import { parseError } from "server/helpers/parseError";
+import { packageSchema } from "server/helpers/validatorSchemas";
 
 const addCategory = (query, category) =>
   query.andWhere({ category }).orWhere("tags", "like", `%${category}%`);
@@ -97,7 +66,9 @@ exports.post = [
   checkUser(),
   async ctx => {
     const validation = Joi.validate(ctx.request.body, packageSchema);
-    if (validation.error) ctx.throw(400, parseError(validation.error.message));
+    if (validation.error) {
+      ctx.throw(400, parseError(validation.error.message));
+    }
 
     const { body } = ctx.request;
 
