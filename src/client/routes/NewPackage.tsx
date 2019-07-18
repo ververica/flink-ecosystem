@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Axios from "axios";
 
-import MainCard from "client/components/MainCard";
+import { MainCard } from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
 import PackageForm from "client/components/PackageForm";
 import { Icon } from "client/components/Icon";
