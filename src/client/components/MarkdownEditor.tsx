@@ -2,6 +2,7 @@ import React, { useState, SyntheticEvent, useRef, ChangeEvent } from "react";
 import cx from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
 import MarkdownViewer from "./MarkdownViewer";
+import { FormError } from "client/types/FormProvider";
 
 export default function MarkdownEditor(props: MarkdownEditorProps) {
   const [tab, setTab] = useState("write");
@@ -19,6 +20,8 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
       });
     }
   };
+
+  const hasError = props.error.id === props.name;
 
   return (
     <>
@@ -40,11 +43,11 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
         </li>
       </ul>
       <div className="pt-2">
-        <div hidden={tab === "preview"}>
+        <div hidden={tab !== "write"}>
           <TextareaAutosize
             id={props.id}
             inputRef={ref}
-            className="form-control"
+            className={cx("form-control", { "is-invalid": hasError })}
             value={props.value}
             placeholder={props.placeholder}
             onChange={props.onChange}
@@ -55,12 +58,17 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
           />
         </div>
         <div
-          hidden={tab === "write"}
+          hidden={tab !== "preview"}
           style={{ minHeight: 110, padding: "0.375rem 0.75rem" }}
           className="card"
         >
           <MarkdownViewer source={props.value} />
         </div>
+        {hasError && (
+          <div className="invalid-feedback" style={{ display: "block" }}>
+            {props.error.message}
+          </div>
+        )}
       </div>
     </>
   );
@@ -73,4 +81,5 @@ type MarkdownEditorProps = {
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder: string;
   value: string;
+  error: FormError;
 };

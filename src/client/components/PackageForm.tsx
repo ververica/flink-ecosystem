@@ -22,6 +22,7 @@ import { Icon } from "./Icon";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import useScroll from "client/helpers/useScroll";
 import { categories } from "client/helpers/categories";
+import { handlePostError } from "client/helpers/handlePostError";
 
 const StyledIcon = styled(Icon).attrs({
   icon: faRedo,
@@ -63,8 +64,6 @@ export const FormProvider = React.createContext<FormProviderProps>({
   inputs: initialValues,
   error: {},
 });
-
-const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 
 export default function PackageForm(props: PackageFormProps) {
   const [inputs, setInputs] = useState(props.initialValues);
@@ -109,14 +108,7 @@ export default function PackageForm(props: PackageFormProps) {
       await props.handleSubmit(data);
       navigate(`/packages/${data.slug}`);
     } catch (e) {
-      switch (get("response.status", e)) {
-        case 403:
-          return setError(makeGeneralError("You are not logged in!"));
-        case 400:
-          return setError(e.response.data);
-        default:
-          return setError(makeGeneralError("An unknown error has occurred"));
-      }
+      handlePostError(e, setError);
     }
   };
 
@@ -179,6 +171,7 @@ export default function PackageForm(props: PackageFormProps) {
             onChange={handleInputChange}
             placeholder="Readme"
             value={inputs.readme}
+            error={error}
           />
           <small id="markdown-help" className="form-text text-muted">
             Supports{" "}
@@ -259,8 +252,6 @@ type PackageFormProps = {
   submitButton: React.ReactNode;
   disabledFields: FormProviderProps["disabledFields"];
 };
-
-type MakeGeneralError = (message: string) => FormError;
 
 const RedoIcon = (props: any) => {
   return (

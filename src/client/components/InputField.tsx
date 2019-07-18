@@ -43,7 +43,7 @@ export default function InputField(props: Props) {
   // so we don't display the word 'slug' to the user.  Yes, this will try and
   // run all error messages through here, but nothing else has the word slug, so
   // it works for now.
-  const getErrorMessage =
+  const errorMessage =
     error.message && error.message.replace("slug", "package id");
 
   const inputHasError = error.id === props.id;
@@ -69,13 +69,11 @@ export default function InputField(props: Props) {
         />
         {props.icon}
       </InputWrapper>
+      {inputHasError && <div className="invalid-feedback">{errorMessage}</div>}
       {props.help && (
         <small id={`${props.id}-help`} className="form-text text-muted">
           {props.help}
         </small>
-      )}
-      {inputHasError && (
-        <div className="invalid-feedback">{getErrorMessage}</div>
       )}
     </div>
   );

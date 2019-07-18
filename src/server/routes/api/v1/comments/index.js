@@ -1,5 +1,8 @@
+import Joi from "@hapi/joi";
 import checkUser from "server/middleware/checkUser";
-import { commentMailerTemplate } from "../../../../helpers/mailerTemplates";
+import { commentMailerTemplate } from "server/helpers/mailerTemplates";
+import { parseError } from "server/helpers/parseError";
+import { commentSchema } from "server/helpers/validatorSchemas";
 
 exports.post = [
   checkUser(),
@@ -11,6 +14,11 @@ exports.post = [
       text,
       userName,
     } = ctx.request.body;
+
+    const validation = Joi.validate({ text, packageSlug }, commentSchema);
+    if (validation.error) {
+      ctx.throw(400, parseError(validation.error.message));
+    }
 
     try {
       const [commentId] = await ctx.db("comment").insert({

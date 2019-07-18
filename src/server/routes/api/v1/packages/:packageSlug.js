@@ -1,9 +1,9 @@
 import Joi from "@hapi/joi";
-import { packageSchema } from "server/routes/api/v1/packages";
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
 import { omit } from "lodash/fp";
 import { packageMailerTemplate } from "server/helpers/mailerTemplates";
+import { packageSchema } from "server/helpers/validatorSchemas";
 
 exports.get = [
   checkUser({ required: false }),
