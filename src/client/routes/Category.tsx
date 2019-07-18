@@ -1,5 +1,5 @@
 import React from "react";
-import MainCard from "client/components/MainCard";
+import { MainCard } from "client/components/MainCard";
 import PackageList from "client/components/PackageList";
 import { RouteComponentProps } from "@reach/router";
 import { PackagesData } from "./Packages";

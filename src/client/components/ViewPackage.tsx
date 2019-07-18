@@ -6,7 +6,7 @@ import { RouteComponentProps } from "@reach/router";
 
 import { Icon } from "client/components/Icon";
 import styled from "styled-components/macro";
-import MainCard from "client/components/MainCard";
+import { MainCard } from "client/components/MainCard";
 import Votes from "client/components/Votes";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";

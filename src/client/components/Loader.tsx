@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
-import MainCard from "./MainCard";
+import { MainCard } from "./MainCard";
 
 const StyledSpinner = styled.svg`
   animation: rotate 1s linear infinite;

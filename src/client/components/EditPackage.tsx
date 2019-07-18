@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { UserData } from "./UserDataProvider";
 import { Redirect, RouteComponentProps, Link } from "@reach/router";
-import MainCard from "./MainCard";
+import { MainCard } from "./MainCard";
 import PackageForm from "./PackageForm";
 import { PackageData } from "client/types/Package";
 import Axios from "axios";
