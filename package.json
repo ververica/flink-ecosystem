@@ -77,7 +77,7 @@
     "build": "react-scripts build",
     "client": "react-scripts start",
     "flink-ecosystem-db": "docker run -d --rm -p 3306:3306 -v /tmp/flink-ecosystem-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=test --name flink-ecosystem-db mariadb:10.3",
-    "nodemon": "nodemon --signal SIGTERM --ignore src/client --ignore/src/index.js -x 'npm run server-dev'",
+    "nodemon": "nodemon --signal SIGTERM -x 'npm run server-dev'",
     "prestart": "npm rebuild node-sass",
     "server-dev": "sleep 1 && NODE_PATH=src/ npm run server",
     "server": "node -r esm src/server/main.js",
