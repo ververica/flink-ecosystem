@@ -1,18 +1,18 @@
-import React, { useContext, useState, SyntheticEvent } from "react";
+import React, { useState, SyntheticEvent } from "react";
 import styled from "styled-components/macro";
-import { format } from "date-fns";
 import Axios from "axios";
 import cx from "classnames";
 
 import { CommentData } from "client/types/Package";
-import { UserData } from "../UserDataProvider";
-import CommentForm from "./CommentForm";
 import Modal from "../Modal";
 import MarkdownViewer from "../MarkdownViewer";
 import useLocation from "client/helpers/useLocation";
+import { EditComment } from "./EditComment";
+import { CommentHeader } from "./CommentHeader";
+import { Col, Row } from "reactstrap";
 
 const Avatar = styled.img.attrs({
-  className: "mr-2 mt-1",
+  className: "mr-1 mt-1",
 })`
   max-width: 32px;
   max-height: 32px;
@@ -32,7 +32,6 @@ const Media = styled.li.attrs(props => ({
 `;
 
 export default function Comment(props: CommentProps) {
-  const { user } = useContext(UserData);
   const [editing, setEditing] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -42,20 +41,6 @@ export default function Comment(props: CommentProps) {
   const handleEditClick = (e: SyntheticEvent) => {
     e.preventDefault();
     setEditing(true);
-  };
-
-  // any errors thrown here are caught inside CommentForm
-  const handleEdit = (id: CommentData["id"]) => async (text: string) => {
-    await Axios.post(`/api/v1/comments/${id}`, {
-      text,
-      packageName: props.name,
-      packageSlug: props.slug,
-    });
-    setText(text);
-
-    // setTimeout so this happens *after* then `handleSubmit` function inside
-    // CommentForm finishes.
-    setTimeout(() => setEditing(false));
   };
 
   const handleDeleteClick = (e: SyntheticEvent) => {
@@ -83,20 +68,6 @@ export default function Comment(props: CommentProps) {
     }
   };
 
-  const commentActions = (
-    <small>
-      [
-      <a href="#delete" onClick={handleDeleteClick}>
-        delete
-      </a>
-      ] [
-      <a href="#edit" onClick={handleEditClick}>
-        edit
-      </a>
-      ]
-    </small>
-  );
-
   const modalActions = (
     <>
       <button
@@ -114,43 +85,37 @@ export default function Comment(props: CommentProps) {
     </>
   );
 
-  const cancelButton = (
-    <button className="btn btn-sm ml-auto" onClick={() => setEditing(false)}>
-      cancel
-    </button>
-  );
+  const commentActive = location.hash === `#comment-${props.id}`;
 
   return (
-    <>
-      <Media
-        className={cx({ active: location.hash === `#comment-${props.id}` })}
-      >
-        <div className="row no-gutters mw-100 w-100 flex-nowrap">
-          <div className="col-auto">
-            <Avatar src={props.avatar_url} alt={props.login} />
-          </div>
-          <div className="col overflow-hidden">
-            <small className="d-flex justify-content-between text-muted">
-              <span>
-                <strong>{props.login}</strong>{" "}
-                {format(props.added, "MM-DD-YYYY HH:mma")}{" "}
-                {props.added !== props.updated && <small>(edited)</small>}
-              </span>
-              {props.user_id === user.id && commentActions}
-            </small>
-            {editing ? (
-              <CommentForm
-                handleSubmit={handleEdit(props.id)}
-                buttonText="Save Changes"
-                initialValue={text}
-                cancelButton={cancelButton}
-              />
-            ) : (
-              <MarkdownViewer source={text} />
-            )}
-          </div>
-        </div>
-      </Media>
+    <Media className={cx({ active: commentActive })}>
+      <Row noGutters className="mw-100 w-100 flex-nowrap">
+        <Col sm="auto">
+          <Avatar src={props.avatar_url} alt={props.login} />
+        </Col>
+        <Col className="overflow-hidden">
+          <CommentHeader
+            user_id={props.user_id}
+            login={props.login}
+            added={props.added}
+            updated={props.updated}
+            handleDeleteClick={handleDeleteClick}
+            handleEditClick={handleEditClick}
+          />
+          {editing ? (
+            <EditComment
+              id={props.id}
+              initialValue={text}
+              setText={setText}
+              setEditing={setEditing}
+              packageName={props.name}
+              packageSlug={props.slug}
+            />
+          ) : (
+            <MarkdownViewer source={text} />
+          )}
+        </Col>
+      </Row>
       <Modal
         open={confirm}
         title="Are you sure?"
@@ -160,7 +125,7 @@ export default function Comment(props: CommentProps) {
         Are you sure you want to delete your comment? You cannot undo this
         action.
       </Modal>
-    </>
+    </Media>
   );
 }
 

@@ -1,8 +1,8 @@
-import React, { useState, SyntheticEvent, ReactNode } from "react";
+import React, { useState, SyntheticEvent, ReactNode, FC } from "react";
 import MarkdownEditor from "../MarkdownEditor";
 import { FormChangeEvent } from "client/types/FormProvider";
 
-export default function CommentForm(props: CommentFormProps) {
+export const CommentForm: FC<Props> = props => {
   const [content, setContent] = useState(props.initialValue || "");
 
   const handleChange = (e: FormChangeEvent) => {
@@ -40,9 +40,9 @@ export default function CommentForm(props: CommentFormProps) {
       </div>
     </>
   );
-}
+};
 
-type CommentFormProps = {
+type Props = {
   initialValue?: string;
   buttonText: string;
   handleSubmit: (content: string) => void;

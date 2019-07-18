@@ -2,10 +2,10 @@ import React, { useContext, useState, FC } from "react";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageData, CommentData } from "client/types/Package";
 
-import AddComment from "./AddComment";
+import { AddComment } from "./AddComment";
 import Comment from "./Comment";
 
-export const Comments: FC<Comments> = props => {
+export const Comments: FC<Props> = props => {
   const { user } = useContext(UserData);
   const [comments, setComments] = useState(props.comments);
 
@@ -33,13 +33,18 @@ export const Comments: FC<Comments> = props => {
       ) : null}
 
       {user.id > 0 && (
-        <AddComment slug={pkg.slug} id={pkg.id} addComment={addComment} />
+        <AddComment
+          addComment={addComment}
+          id={pkg.id}
+          packageName={pkg.name}
+          packageSlug={pkg.slug}
+        />
       )}
     </>
   );
 };
 
-type Comments = {
+type Props = {
   pkg: PackageData;
   comments: CommentData[];
 };
