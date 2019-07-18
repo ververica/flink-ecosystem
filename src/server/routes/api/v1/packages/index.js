@@ -6,7 +6,9 @@ import { parseError } from "server/helpers/parseError";
 import { packageSchema } from "server/helpers/validatorSchemas";
 
 const addCategory = (query, category) =>
-  query.andWhere({ category }).orWhere("tags", "like", `%${category}%`);
+  query.andWhere(whereCtx => {
+    whereCtx.where({ category }).orWhereRaw(`find_in_set('${category}', tags)`);
+  });
 
 exports.get = [
   checkUser({ required: false }),

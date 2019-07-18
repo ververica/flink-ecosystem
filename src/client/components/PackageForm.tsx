@@ -96,6 +96,13 @@ export const PackageForm: FC<Props> = props => {
     e.preventDefault();
     const data = pickFields(inputs) as PackageData;
 
+    // @TODO temporary until the tokenizer is done
+    // trim the white space around each tag
+    data.tags = data.tags
+      .split(",")
+      .map(t => t.trim())
+      .join(",");
+
     try {
       if (inputs.image) {
         const result = await Axios.post("/api/v1/upload-image", inputs.image, {
