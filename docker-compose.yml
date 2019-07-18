@@ -1,27 +1,38 @@
 version: "3"
 services:
-  flink-ecosystem:
+  client:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      dockerfile: dev.Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./public:/node/public:ro
+      - ./src/client:/node/src/client:ro
+      - ./src/index.js:/node/src/index.js:ro
+      - ./src/setupProxy.js:/node/src/setupProxy.js:ro
+      - ./src/react-app-env.d.ts:/node/src/react-app-env.d.ts:ro
+    command: npm run client
+
+  server:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
     environment:
-      MYSQL_HOST: mariadb
+      MYSQL_HOST: database
       MYSQL_USER: flink_ecosystem
       MYSQL_PASSWORD: test
       MYSQL_DATABASE: flink_ecosystem
       GITHUB_CLIENT: ${GITHUB_CLIENT}
       GITHUB_SECRET: ${GITHUB_SECRET}
-    volumes:
-      - ./package.json:/node/package.json:ro
-      - ./package-lock.json:/node/package-lock.json:ro
-      - ./tsconfig.json:/node/tsconfig.json:ro
-      - ./src:/node/src:ro
-      - ./public:/node/public:ro
-      - ./node_modules:/node/node_modules:rw
     ports:
-      - "3000:3000"
       - "4000:4000"
-  mariadb:
+    volumes:
+      - ./public:/node/public:ro
+      - ./src/server:/node/src/server:ro
+    command: npm run nodemon
+
+  database:
     image: mariadb:10
     environment:
       MYSQL_USER: flink_ecosystem
