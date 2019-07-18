@@ -21,7 +21,7 @@ exports.post = [
   checkUser(),
   async ctx => {
     const { commentId } = ctx.params;
-    const { text, packageSlug, packageName, userName } = ctx.request.body;
+    const { text, packageSlug, packageName } = ctx.request.body;
 
     await ctx
       .db("comment")
@@ -35,7 +35,7 @@ exports.post = [
         `Edited comment on package "${packageName}"`,
         commentMailerTemplate({
           packageName,
-          userName,
+          userName: ctx.state.user.login,
           text,
           origin: ctx.request.origin,
           packageSlug,

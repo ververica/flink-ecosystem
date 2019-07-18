@@ -7,11 +7,45 @@ export const commentMailerTemplate = ({
   commentId,
 }) => `
 Package: ${packageName}
-User: ${userName}
 Comment:
 ------
 ${text}
 ------
 
+Chagned by: ${userName}
 View this comment: ${origin}/packages/${packageSlug}#comment-${commentId}
+`;
+
+export const packageMailerTemplate = ({
+  name,
+  slug,
+  description,
+  readme,
+  website,
+  repository,
+  license,
+  category,
+  tags,
+  origin,
+  userName,
+}) => `
+Name: ${name}
+ID: ${slug}
+Website: ${website}
+Repository: ${repository}
+License: ${license}
+Category: ${category}
+Tags: ${tags}
+Description:
+---
+${description}
+---
+
+Readme:
+---
+${readme}
+---
+
+Chagned by: ${userName}
+View this package: ${origin}/packages/${slug}
 `;

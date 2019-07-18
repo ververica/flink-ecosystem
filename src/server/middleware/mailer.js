@@ -16,6 +16,8 @@ export const mailer = (ctx, next) => {
       setTimeout(() => {
         transporter.sendMail(
           {
+            // @TODO this will change based on how this runs when it eventually
+            // get sto apache.
             to: "daryl.roberts@gmail.com",
             from: "daryl.roberts@gmail.com",
             subject,

@@ -2,6 +2,7 @@ import Joi from "@hapi/joi";
 
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
+import { packageMailerTemplate } from "server/helpers/mailerTemplates";
 
 export const packageSchema = Joi.object().keys({
   name: Joi.string().required(),
@@ -98,17 +99,29 @@ exports.post = [
     const validation = Joi.validate(ctx.request.body, packageSchema);
     if (validation.error) ctx.throw(400, parseError(validation.error.message));
 
+    const { body } = ctx.request;
+
     try {
       const result = await ctx.db("package").insert({
-        ...ctx.request.body,
+        ...body,
         user_id: ctx.state.user.id,
         added: ctx.db.raw("now()"),
         updated: ctx.db.raw("now()"),
       });
 
-      ctx.sendMail("package created", "does it work").catch(e => {
-        console.log(e);
-      });
+      ctx
+        .sendMail(
+          "package-created",
+          `New package created: "${body.name}"`,
+          packageMailerTemplate({
+            ...body,
+            origin: ctx.request.origin,
+            userName: ctx.state.user.login,
+          })
+        )
+        .catch(e => {
+          console.log(e);
+        });
 
       ctx.body = { result };
     } catch (e) {
