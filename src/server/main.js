@@ -11,6 +11,7 @@ import fs from "fs";
 
 import errorHandler from "./middleware/errorHandler";
 import lruCache from "./middleware/lruCache";
+import { mailer } from "./middleware/mailer";
 
 const app = new Koa();
 const fileRouter = new FileRouter("./src/server/routes");
@@ -47,12 +48,13 @@ const db = knex({
 const middleware = [
   cors(),
   koaBody({ multipart: true }),
+  errorHandler,
   (ctx, next) => {
     ctx.db = db;
     return next();
   },
+  mailer,
   lruCache,
-  errorHandler,
   serve("./build"),
   fileRouter.routes(),
   router.routes(),

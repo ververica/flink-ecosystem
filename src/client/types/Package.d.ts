@@ -28,6 +28,8 @@ export type CommentData = {
   text: string;
   updated: string;
   user_id: number;
+  name: string;
+  slug: string;
 };
 
 export type PackageResult = {

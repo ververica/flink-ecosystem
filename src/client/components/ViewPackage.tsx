@@ -2,18 +2,18 @@ import React, { useContext } from "react";
 
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { Icon } from "client/components/Icon";
+import { RouteComponentProps } from "@reach/router";
 
+import { Icon } from "client/components/Icon";
 import styled from "styled-components/macro";
 import MainCard from "client/components/MainCard";
-import { RouteComponentProps } from "@reach/router";
 import Votes from "client/components/Votes";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
-import PackageOptions from "./PackageOptions";
-import Comments from "./Comments";
-import Tags from "./Tags";
-import MarkdownViewer from "./MarkdownViewer";
+import PackageOptions from "client/components/PackageOptions";
+import { Comments } from "client/components/comments";
+import Tags from "client/components/Tags";
+import MarkdownViewer from "client/components/MarkdownViewer";
 
 const Img = styled.img`
   object-fit: contain;

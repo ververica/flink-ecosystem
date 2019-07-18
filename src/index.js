@@ -7,8 +7,22 @@ import "client/assets/markdown.scss";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./client/components/App";
+import { createGlobalStyle } from "styled-components";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const GlobalStyle = createGlobalStyle`
+  :target {
+    border: 1px solid darkgray;
+    background-color: red;
+  }
+`;
+
+ReactDOM.render(
+  <>
+    <GlobalStyle />
+    <App />
+  </>,
+  document.getElementById("root")
+);
 
 // @TODO upload images
 // @TODO allow free-form license entry

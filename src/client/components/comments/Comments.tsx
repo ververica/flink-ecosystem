@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
-import { UserData } from "./UserDataProvider";
-import AddComment from "./AddComment";
+import React, { useContext, useState, FC } from "react";
+import { UserData } from "client/components/UserDataProvider";
 import { PackageData, CommentData } from "client/types/Package";
+
+import { AddComment } from "./AddComment";
 import Comment from "./Comment";
 
-export default function PackageComments(props: CommentsProps) {
+export const Comments: FC<Props> = props => {
   const { user } = useContext(UserData);
   const [comments, setComments] = useState(props.comments);
 
@@ -32,13 +33,18 @@ export default function PackageComments(props: CommentsProps) {
       ) : null}
 
       {user.id > 0 && (
-        <AddComment slug={pkg.slug} id={pkg.id} addComment={addComment} />
+        <AddComment
+          addComment={addComment}
+          id={pkg.id}
+          packageName={pkg.name}
+          packageSlug={pkg.slug}
+        />
       )}
     </>
   );
-}
+};
 
-type CommentsProps = {
+type Props = {
   pkg: PackageData;
   comments: CommentData[];
 };

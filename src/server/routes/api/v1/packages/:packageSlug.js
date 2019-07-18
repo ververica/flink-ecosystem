@@ -3,6 +3,7 @@ import { packageSchema } from "server/routes/api/v1/packages";
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
 import { omit } from "lodash/fp";
+import { packageMailerTemplate } from "server/helpers/mailerTemplates";
 
 exports.get = [
   checkUser({ required: false }),
@@ -39,6 +40,8 @@ exports.get = [
     const commentsQuery = ctx
       .db("package")
       .select(
+        "package.name",
+        "package.slug",
         "comment.added",
         "comment.updated",
         "comment.text",
@@ -85,6 +88,21 @@ exports.post = [
       .update({ ...data, updated: ctx.db.raw("now()") })
       .where({ slug })
       .limit(1);
+
+    ctx
+      .sendMail(
+        "package-edited",
+        `Edited package: "${data.name}"`,
+        packageMailerTemplate({
+          ...data,
+          slug,
+          origin: ctx.request.origin,
+          userName: ctx.state.user.name,
+        })
+      )
+      .catch(e => {
+        console.log(e);
+      });
 
     ctx.status = 200;
     ctx.body = { result };
