@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, FC } from "react";
 import Axios from "axios";
 
 import { MainCard } from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
-import PackageForm from "client/components/PackageForm";
+import { PackageForm, initialValues } from "client/components/PackageForm";
 import { Icon } from "client/components/Icon";
-import { PackageData } from "client/types/Package";
+import { PackageFormData } from "client/types/Package";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { UserData } from "client/components/UserDataProvider";
 
-export default function NewPackage(props: NewPackageProps) {
+export const NewPackage: FC<Props> = props => {
   const { logout } = useContext(UserData);
   const handleSubmit: HandleSubmit = async data => {
     await Axios.post("/api/v1/packages", data).catch(e => {
@@ -30,11 +30,15 @@ export default function NewPackage(props: NewPackageProps) {
 
   return (
     <MainCard header="Add a new Package">
-      <PackageForm handleSubmit={handleSubmit} submitButton={submitButton} />
+      <PackageForm
+        handleSubmit={handleSubmit}
+        submitButton={submitButton}
+        initialValues={initialValues}
+        disabledFields={[]}
+      />
     </MainCard>
   );
-}
+};
 
-type NewPackageProps = RouteComponentProps;
-
-type HandleSubmit = (data: PackageData) => void;
+type Props = RouteComponentProps;
+type HandleSubmit = (data: PackageFormData) => void;

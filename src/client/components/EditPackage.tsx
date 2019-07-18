@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { UserData } from "./UserDataProvider";
 import { Redirect, RouteComponentProps, Link } from "@reach/router";
 import { MainCard } from "./MainCard";
-import PackageForm from "./PackageForm";
-import { PackageData } from "client/types/Package";
+import { PackageForm } from "./PackageForm";
+import { PackageData, PackageFormData } from "client/types/Package";
 import Axios from "axios";
 import { Icon } from "./Icon";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
@@ -55,9 +55,4 @@ type EditPackageProps = {
   package: PackageData;
 } & RouteComponentProps;
 
-type Error = {
-  id: string;
-  message: string;
-};
-
-type HandleSubmit = (data: PackageData) => void;
+type HandleSubmit = (data: PackageFormData) => void;

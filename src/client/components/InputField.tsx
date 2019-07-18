@@ -50,7 +50,12 @@ export default function InputField(props: Props) {
 
   return (
     <div className="form-group">
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={props.id}>
+        {props.label}
+        {props.optional && (
+          <small className="text-muted font-italic"> - Optional</small>
+        )}
+      </label>
       <InputWrapper className={cx({ "is-invalid": inputHasError })}>
         <input
           ref={props.inputRef}
@@ -92,6 +97,7 @@ type Props = {
   inputRef?: MutableRefObject<HTMLInputElement>;
   label: string;
   name: string;
+  optional?: boolean;
   pattern?: string;
   placeholder?: string;
   type?: string;
