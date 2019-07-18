@@ -23,7 +23,7 @@ export const CommentHeader: FC<Props> = props => {
     <small className="d-flex justify-content-between text-muted">
       <span>
         <strong>{props.login}</strong>{" "}
-        {format(props.added, "MM-DD-YYYY HH:mma")}{" "}
+        {format(props.added, "MM-DD-YYYY hh:mma")}{" "}
         {props.added !== props.updated && <small>(edited)</small>}
       </span>
       {props.user_id === user.id && commentActions}
