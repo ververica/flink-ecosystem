@@ -10,7 +10,7 @@ import {
   FormChangeEvent,
   FormError,
 } from "client/types/FormProvider";
-import { get, isEmpty, pick } from "lodash/fp";
+import { isEmpty, pick } from "lodash/fp";
 import ErrorComponent from "./ErrorComponent";
 import useLocation from "client/helpers/useLocation";
 import ImageField from "./ImageField";
@@ -95,6 +95,13 @@ export default function PackageForm(props: PackageFormProps) {
   const handleFormSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     const data = pickFields(inputs) as PackageData;
+
+    // @TODO temporary until the tokenizer is done
+    // trim the white space around each tag
+    data.tags = data.tags
+      .split(",")
+      .map(t => t.trim())
+      .join(",");
 
     try {
       if (inputs.image) {
