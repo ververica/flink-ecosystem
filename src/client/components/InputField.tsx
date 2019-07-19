@@ -7,6 +7,7 @@ import React, {
 import cx from "classnames";
 import { FormProvider } from "./PackageForm";
 import styled from "styled-components/macro";
+import { InputLabel } from "./InputLabel";
 
 const InputWrapper = styled.div`
   position: relative;
@@ -50,12 +51,7 @@ export default function InputField(props: Props) {
 
   return (
     <div className="form-group">
-      <label htmlFor={props.id}>
-        {props.label}
-        {props.optional && (
-          <small className="text-muted font-italic"> - Optional</small>
-        )}
-      </label>
+      <InputLabel id={props.id} label={props.label} optional={props.optional} />
       <InputWrapper className={cx({ "is-invalid": inputHasError })}>
         <input
           ref={props.inputRef}

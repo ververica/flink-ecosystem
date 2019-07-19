@@ -1,5 +1,8 @@
 import checkUser from "server/middleware/checkUser";
 import { commentMailerTemplate } from "../../../../helpers/mailerTemplates";
+import Joi from "@hapi/joi";
+import { parseValidatorError } from "server/helpers/parseValidatorError";
+import { commentSchema } from "server/helpers/validatorSchemas";
 
 exports.delete = [
   checkUser(),
@@ -22,6 +25,11 @@ exports.post = [
   async ctx => {
     const { commentId } = ctx.params;
     const { text, packageSlug, packageName } = ctx.request.body;
+
+    const validation = Joi.validate({ text, packageSlug }, commentSchema);
+    if (validation.error) {
+      ctx.throw(400, parseValidatorError(validation.error.message));
+    }
 
     await ctx
       .db("comment")

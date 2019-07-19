@@ -4,6 +4,7 @@ import { selectVotes, joinVotes } from "server/helpers/votes";
 import { omit } from "lodash/fp";
 import { packageMailerTemplate } from "server/helpers/mailerTemplates";
 import { packageSchema } from "server/helpers/validatorSchemas";
+import { parseValidatorError } from "server/helpers/parseValidatorError";
 
 exports.get = [
   checkUser({ required: false }),
@@ -79,8 +80,11 @@ exports.post = [
   async ctx => {
     const { body } = ctx.request;
     const slug = ctx.params.packageSlug;
+
     const validation = Joi.validate(body, packageSchema);
-    if (validation.error) ctx.throw(400, validation.error);
+    if (validation.error) {
+      ctx.throw(400, parseValidatorError(validation.error.message));
+    }
 
     const data = omit(["slug"], body);
     const result = await ctx

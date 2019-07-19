@@ -10,8 +10,10 @@ import styled from "styled-components";
 import { Col, FormGroup, Row, UncontrolledTooltip } from "reactstrap";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "./Icon";
+import { InputLabel } from "./InputLabel";
 import { isEmpty, pick } from "lodash/fp";
 import { PackageData, PackageFormData } from "client/types/Package";
+import { Tokenizer } from "./Tokenizer";
 import {
   FormProviderProps,
   FormChangeEvent,
@@ -65,6 +67,7 @@ export const FormProvider = React.createContext<FormProviderProps>({
   handleInputChange: () => {},
   inputs: initialValues,
   error: {},
+  setInputs: () => {},
 });
 
 export const PackageForm: FC<Props> = props => {
@@ -126,6 +129,7 @@ export const PackageForm: FC<Props> = props => {
     handleInputChange,
     inputs,
     error,
+    setInputs,
   };
 
   const redoIcon = slugIsCustom ? <RedoIcon onClick={handleRedoClick} /> : null;
@@ -166,12 +170,14 @@ export const PackageForm: FC<Props> = props => {
             <ImageField />
           </ImageColumn>
         </Row>
+
         <InputField
           id="description"
           label="Description"
           name="description"
           placeholder="Description"
         />
+
         <FormGroup>
           <MarkdownEditor
             id="readme"
@@ -231,14 +237,10 @@ export const PackageForm: FC<Props> = props => {
             />
           </Col>
           <Col>
-            <InputField
-              help="Comma separated list (for now)"
-              id="tags"
-              label="Tags"
-              name="tags"
-              optional
-              placeholder="Tags"
-            />
+            <FormGroup>
+              <InputLabel id="tags" optional label="Tags" />
+              <Tokenizer name="tags" id="tags" placeholder="Tags" />
+            </FormGroup>
           </Col>
         </Row>
 
