@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, FC } from "react";
 
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -7,10 +7,10 @@ import { RouteComponentProps } from "@reach/router";
 import { Icon } from "client/components/Icon";
 import styled from "styled-components/macro";
 import { MainCard } from "client/components/MainCard";
-import Votes from "client/components/Votes";
+import { Votes } from "./Votes";
 import { UserData } from "client/components/UserDataProvider";
 import { PackageResult } from "client/types/Package";
-import PackageOptions from "client/components/PackageOptions";
+import PackageOptions from "client/components/packages/PackageOptions";
 import { Comments } from "client/components/comments";
 import Tags from "client/components/Tags";
 import MarkdownViewer from "client/components/MarkdownViewer";
@@ -21,7 +21,31 @@ const Img = styled.img`
   width: 100%;
 `;
 
-export default function ViewPackage(props: ViewPackageProps) {
+const defaultProps = {
+  package: {
+    category: "",
+    description: "",
+    comments: 0,
+    downvotes: 0,
+    id: 0,
+    image_id: 0,
+    license: "",
+    name: "",
+    owner: "",
+    readme: "",
+    repository: "",
+    slug: "",
+    tags: "",
+    updated: "",
+    upvotes: 0,
+    user_id: 0,
+    vote: 0,
+    website: "",
+  },
+  comments: [],
+};
+
+export const ViewPackage: FC<Props> = (props = defaultProps) => {
   const { user } = useContext(UserData);
   const { package: pkg, comments } = props;
 
@@ -92,11 +116,6 @@ export default function ViewPackage(props: ViewPackageProps) {
       <Comments pkg={pkg} comments={comments} />
     </MainCard>
   );
-}
-
-ViewPackage.defaultProps = {
-  package: {},
-  comments: [],
 };
 
-type ViewPackageProps = RouteComponentProps & PackageResult;
+type Props = RouteComponentProps<{}> & PackageResult;

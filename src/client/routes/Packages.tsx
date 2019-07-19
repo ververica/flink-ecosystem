@@ -3,10 +3,10 @@ import qs from "querystring";
 
 import { MainCard } from "client/components/MainCard";
 import Pager from "client/components/Pager";
-import PackageList from "client/components/PackageList";
+import { PackageList } from "client/components/packages";
 import { RouteComponentProps } from "@reach/router";
 
-import useFetchData, { RefreshData } from "client/helpers/useFetchData";
+import { useFetchData } from "client/helpers";
 import { PackageData } from "client/types/Package";
 import ErrorComponent from "client/components/ErrorComponent";
 import { ServerResponse } from "client/types/Server";
@@ -19,7 +19,7 @@ export default function Packages(props: Props) {
   const [data] = useFetchData(
     `/api/v1/packages?page=${page}`,
     props.location.key
-  ) as [ServerResponse<PackagesData>, RefreshData];
+  ) as [ServerResponse<PackagesData>, () => void];
 
   if (!data.packages) {
     return <ErrorComponent className="pr-0" />;

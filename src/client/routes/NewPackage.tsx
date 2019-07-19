@@ -9,7 +9,7 @@ import { PackageFormData } from "client/types/Package";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { UserData } from "client/components/UserDataProvider";
 
-export const NewPackage: FC<Props> = props => {
+export const NewPackage: FC<Props> = () => {
   const { logout } = useContext(UserData);
   const handleSubmit: HandleSubmit = async data => {
     await Axios.post("/api/v1/packages", data).catch(e => {

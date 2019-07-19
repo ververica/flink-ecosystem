@@ -1,16 +1,16 @@
 import React from "react";
 import { MainCard } from "client/components/MainCard";
-import PackageList from "client/components/PackageList";
+import { PackageList } from "client/components/packages";
 import { RouteComponentProps } from "@reach/router";
 import { PackagesData } from "./Packages";
-import useFetchData, { RefreshData } from "client/helpers/useFetchData";
+import { useFetchData } from "client/helpers";
 import { ServerResponse } from "client/types/Server";
 
 export default function Category(props: Props) {
   const [data] = useFetchData(
     `/api/v1/packages?category=${props.category}`,
     props.location.key
-  ) as [ServerResponse<PackagesData>, RefreshData];
+  ) as [ServerResponse<PackagesData>, () => void];
 
   const { packages = [], count = 0 } = data;
 
