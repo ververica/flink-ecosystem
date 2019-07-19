@@ -1,7 +1,7 @@
 import Joi from "@hapi/joi";
 import checkUser from "server/middleware/checkUser";
 import { commentMailerTemplate } from "server/helpers/mailerTemplates";
-import { parseError } from "server/helpers/parseError";
+import { parseValidatorError } from "server/helpers/parseValidatorError";
 import { commentSchema } from "server/helpers/validatorSchemas";
 
 exports.post = [
@@ -17,7 +17,7 @@ exports.post = [
 
     const validation = Joi.validate({ text, packageSlug }, commentSchema);
     if (validation.error) {
-      ctx.throw(400, parseError(validation.error.message));
+      ctx.throw(400, parseValidatorError(validation.error.message));
     }
 
     try {

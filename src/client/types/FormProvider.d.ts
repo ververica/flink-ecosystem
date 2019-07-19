@@ -3,6 +3,7 @@ export type FormProviderProps = {
   handleInputChange: (e: FormChangeEvent) => void;
   inputs: any;
   error: FormError;
+  setInputs: (inputs: FormProviderProps["inputs"]) => void;
 };
 
 export type FormChangeEvent = React.ChangeEvent<

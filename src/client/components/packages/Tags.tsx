@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "@reach/router";
+import { categories } from "client/helpers/categories";
+
+const categoryValues = categories.map(c => c.value);
 
 export default function Tags(props: TagsProps) {
   const { category } = props;
@@ -21,8 +24,11 @@ export default function Tags(props: TagsProps) {
               )
               .map((tag, i) => {
                 const uriTag = encodeURIComponent(tag);
+                const linkBase = categoryValues.includes(tag)
+                  ? "categories"
+                  : "search";
                 return (
-                  <Link to={`/search/${uriTag}`} key={i} className="mr-2">
+                  <Link to={`/${linkBase}/${uriTag}`} key={i} className="mr-2">
                     <span className="badge badge-light">{tag}</span>
                   </Link>
                 );

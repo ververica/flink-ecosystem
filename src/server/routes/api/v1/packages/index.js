@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
 import { packageMailerTemplate } from "server/helpers/mailerTemplates";
-import { parseError } from "server/helpers/parseError";
+import { parseValidatorError } from "server/helpers/parseValidatorError";
 import { packageSchema } from "server/helpers/validatorSchemas";
 
 const addCategory = (query, category) =>
@@ -67,12 +67,11 @@ exports.get = [
 exports.post = [
   checkUser(),
   async ctx => {
-    const validation = Joi.validate(ctx.request.body, packageSchema);
-    if (validation.error) {
-      ctx.throw(400, parseError(validation.error.message));
-    }
-
     const { body } = ctx.request;
+    const validation = Joi.validate(body, packageSchema);
+    if (validation.error) {
+      ctx.throw(400, parseValidatorError(validation.error.message));
+    }
 
     try {
       const result = await ctx.db("package").insert({
