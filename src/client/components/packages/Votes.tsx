@@ -1,3 +1,7 @@
+import cx from "classnames";
+import styled from "styled-components/macro";
+import { faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "../Icon";
 import React, {
   useState,
   SyntheticEvent,
@@ -6,14 +10,8 @@ import React, {
   SetStateAction,
   FC,
 } from "react";
-import styled from "styled-components/macro";
-import cx from "classnames";
-import { Icon } from "../Icon";
-import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
-const VoteContainer = styled.small.attrs<VoteContainerProps>(props => ({
-  className: cx({ "text-muted": !props.voted }),
-}))<VoteContainerProps>`
+const VoteContainer = styled.small`
   cursor: pointer;
   & + & {
     margin-left: 24px;
@@ -50,11 +48,17 @@ export const Votes: FC<Props> = props => {
 
   return (
     <>
-      <VoteContainer voted={vote > 0} onClick={castVote(vote, 1)}>
+      <VoteContainer
+        className={cx({ "text-muted": vote <= 0 })}
+        onClick={castVote(vote, 1)}
+      >
         <Icon icon={faThumbsUp} marginRight={1} title="thumbs up" />
         {upvotes}
       </VoteContainer>
-      <VoteContainer voted={vote < 0} onClick={castVote(vote, -1)}>
+      <VoteContainer
+        className={cx({ "text-muted": vote >= 0 })}
+        onClick={castVote(vote, -1)}
+      >
         <Icon icon={faThumbsDown} marginRight={1} title="thumbs down" />
         {downvotes}
       </VoteContainer>
@@ -71,10 +75,6 @@ type CastVote = (
   currentVote: number,
   change: number
 ) => (e: SyntheticEvent) => void;
-
-type VoteContainerProps = {
-  voted: boolean;
-};
 
 type Votes = {
   downvotes: number;
