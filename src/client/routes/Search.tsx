@@ -1,8 +1,8 @@
 import React from "react";
 import { MainCard } from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
-import useFetchData from "client/helpers/useFetchData";
-import PackageList from "client/components/PackageList";
+import { useFetchData } from "client/helpers";
+import { PackageList } from "client/components/packages";
 import { PackagesData } from "./Packages";
 import { ServerResponse } from "client/types/Server";
 

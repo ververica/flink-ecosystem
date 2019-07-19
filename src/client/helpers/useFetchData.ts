@@ -6,7 +6,7 @@ export default function useFetchData(url: string, key: string = "") {
   const { user } = useContext(UserData);
   const [time, setTime] = useState(0);
 
-  const refreshData: RefreshData = () => {
+  const refreshData = (): void => {
     setTime(Date.now());
   };
 
@@ -39,5 +39,3 @@ export default function useFetchData(url: string, key: string = "") {
 
   return [result, refreshData];
 }
-
-export type RefreshData = () => void;

@@ -4,10 +4,11 @@ import React, {
   useEffect,
   Dispatch,
   SetStateAction,
+  FC,
 } from "react";
 import styled from "styled-components/macro";
 import cx from "classnames";
-import { Icon } from "./Icon";
+import { Icon } from "../Icon";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 const VoteContainer = styled.small.attrs<VoteContainerProps>(props => ({
@@ -28,7 +29,7 @@ const useVotes: UseVotes = ({ vote, upvotes, downvotes }) => {
   return [voteState, setVoteState];
 };
 
-export default function Votes(props: Props) {
+export const Votes: FC<Props> = props => {
   const [{ vote, upvotes, downvotes }, setVoteState] = useVotes(props);
 
   const castVote: CastVote = (currentVote, change) => async e => {
@@ -59,7 +60,7 @@ export default function Votes(props: Props) {
       </VoteContainer>
     </>
   );
-}
+};
 
 type Props = {
   id: number;

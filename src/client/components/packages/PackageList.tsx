@@ -1,13 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link } from "@reach/router";
 import styled from "styled-components/macro";
 import { format } from "date-fns";
 import useScroll from "client/helpers/useScroll";
-import Votes from "client/components/Votes";
+import { Votes } from "./Votes";
 import { PackageData } from "client/types/Package";
 import Dotdotdot from "react-dotdotdot";
-import { Icon } from "./Icon";
+import { Icon } from "../Icon";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
+import { Row, Col, CardText } from "reactstrap";
 
 const Img = styled.img`
   object-fit: cover;
@@ -15,7 +16,7 @@ const Img = styled.img`
   width: 100%;
 `;
 
-export default function PackageList(props: Props) {
+export const PackageList: FC<Props> = props => {
   useScroll(props.page);
 
   if (!props.packages.length) {
@@ -28,29 +29,32 @@ export default function PackageList(props: Props) {
     <>
       {props.packages.map(pkg => {
         const packageImage = pkg.image_id ? (
-          <div className="col-md-3 overflow-hidden d-flex align-items-start justify-content-center">
+          <Col
+            md="3"
+            className="overflow-hidden d-flex align-items-start justify-content-center"
+          >
             <Link to={`/packages/${pkg.slug}`}>
               <Img src={`/api/v1/images/${pkg.slug}`} alt={pkg.name} />
             </Link>
-          </div>
+          </Col>
         ) : null;
 
         return (
           <React.Fragment key={pkg.slug}>
-            <div className="row">
-              <div className="col">
+            <Row>
+              <Col>
                 <h5 className="card-title">
                   <Link to={`/packages/${pkg.slug}`}>{pkg.name}</Link>
                 </h5>
                 <Dotdotdot className="card-text" clamp={5}>
                   {pkg.description}
                 </Dotdotdot>
-              </div>
+              </Col>
               {packageImage}
-            </div>
-            <div className="row mb-3">
-              <div className="col">
-                <div className="card-text mt-1 d-flex justify-content-between">
+            </Row>
+            <Row className="mb-3">
+              <Col>
+                <CardText className="mt-1 d-flex justify-content-between">
                   <span>
                     <Votes
                       id={pkg.id}
@@ -74,15 +78,15 @@ export default function PackageList(props: Props) {
                   <small>
                     Last Updated: {format(pkg.updated, "MM/DD/YYYY")}
                   </small>
-                </div>
-              </div>
-            </div>
+                </CardText>
+              </Col>
+            </Row>
           </React.Fragment>
         );
       })}
     </>
   );
-}
+};
 
 type Props = {
   packages: Array<PackageData>;
