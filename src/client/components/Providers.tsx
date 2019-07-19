@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import ReactGA from "react-ga";
-import { createHistory, LocationProvider } from "@reach/router";
 import UserDataProvider from "./UserDataProvider";
+import { createHistory, LocationProvider } from "@reach/router";
 
 ReactGA.initialize("UA-52545728-1");
 

@@ -1,28 +1,30 @@
-import React, { useState, SyntheticEvent, ChangeEvent, FC } from "react";
-import { UncontrolledTooltip, Row, Col, FormGroup } from "reactstrap";
+import Axios from "axios";
+import ErrorComponent from "./ErrorComponent";
+import ImageField from "./ImageField";
 import InputField from "./InputField";
-import slugify from "client/helpers/slugify";
+import LicenseField from "./LicenseField";
 import MarkdownEditor from "./MarkdownEditor";
+import React, { ChangeEvent, FC, SyntheticEvent, useState } from "react";
 import SelectField from "./SelectField";
+import styled from "styled-components";
+import { Col, FormGroup, Row, UncontrolledTooltip } from "reactstrap";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "./Icon";
+import { isEmpty, pick } from "lodash/fp";
 import { PackageData, PackageFormData } from "client/types/Package";
 import {
   FormProviderProps,
   FormChangeEvent,
   FormError,
 } from "client/types/FormProvider";
-import { isEmpty, pick } from "lodash/fp";
-import ErrorComponent from "./ErrorComponent";
-import useLocation from "client/helpers/useLocation";
-import ImageField from "./ImageField";
-import { mediaLarge } from "client/helpers/styles";
-import styled from "styled-components";
-import Axios from "axios";
-import LicenseField from "./LicenseField";
-import { Icon } from "./Icon";
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
-import useScroll from "client/helpers/useScroll";
-import { categories } from "client/helpers/categories";
-import { handlePostError } from "client/helpers/handlePostError";
+import {
+  slugify,
+  useLocation,
+  mediaLarge,
+  useScroll,
+  categories,
+  handlePostError,
+} from "client/helpers";
 
 const StyledIcon = styled(Icon).attrs({
   icon: faRedo,

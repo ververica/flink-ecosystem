@@ -1,7 +1,7 @@
+import cx from "classnames";
+import qs from "querystring";
 import React, { FunctionComponent } from "react";
 import useLocation from "client/helpers/useLocation";
-import qs from "querystring";
-import cx from "classnames";
 import { Link } from "@reach/router";
 
 const createPages: CreatePages = (current, { range, total = 1 }) => {

@@ -1,12 +1,11 @@
-import React, { useState, SyntheticEvent } from "react";
-import useOutsideClick from "client/helpers/useOutsideClick";
-import cx from "classnames";
 import Axios from "axios";
+import cx from "classnames";
 import Modal from "../Modal";
-import { Link } from "@reach/router";
-import useLocation from "client/helpers/useLocation";
+import React, { SyntheticEvent, useState } from "react";
+import { faEdit, faTools, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "../Icon";
-import { faTools, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "@reach/router";
+import { useLocation, useOutsideClick } from "client/helpers";
 
 export default function PackageOptions(props: PackageOptionsProps) {
   const [showDropdown, setShowDropdown] = useState(false);

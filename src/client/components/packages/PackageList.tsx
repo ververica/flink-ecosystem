@@ -1,14 +1,14 @@
-import React, { FC } from "react";
-import { Link } from "@reach/router";
-import styled from "styled-components/macro";
-import { format } from "date-fns";
-import useScroll from "client/helpers/useScroll";
-import { Votes } from "./Votes";
-import { PackageData } from "client/types/Package";
 import Dotdotdot from "react-dotdotdot";
-import { Icon } from "../Icon";
+import React, { FC } from "react";
+import styled from "styled-components/macro";
+import { CardText, Col, Row } from "reactstrap";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
-import { Row, Col, CardText } from "reactstrap";
+import { format } from "date-fns";
+import { Icon } from "../Icon";
+import { Link } from "@reach/router";
+import { PackageData } from "client/types/Package";
+import { useScroll } from "client/helpers";
+import { Votes } from "./Votes";
 
 const Img = styled.img`
   object-fit: cover;
