@@ -9,10 +9,16 @@ import React, {
   Dispatch,
   SetStateAction,
   FC,
+  useContext,
 } from "react";
+import { UncontrolledTooltip } from "reactstrap";
+import { UserData } from "../UserDataProvider";
 
-const VoteContainer = styled.small`
-  cursor: pointer;
+const VoteContainer = styled.small<{
+  loggedOut: boolean;
+}>`
+  cursor: ${({ loggedOut }) => (loggedOut ? "default" : "pointer")};
+
   & + & {
     margin-left: 24px;
   }
@@ -28,10 +34,14 @@ const useVotes: UseVotes = ({ vote, upvotes, downvotes }) => {
 };
 
 export const Votes: FC<Props> = props => {
+  const { user } = useContext(UserData);
   const [{ vote, upvotes, downvotes }, setVoteState] = useVotes(props);
+  const loggedOut = user.id === 0;
 
   const castVote: CastVote = (currentVote, change) => async e => {
     e.preventDefault();
+    if (loggedOut) return;
+
     const newVote = currentVote !== change ? change : 0;
     try {
       const results: Votes = await fetch(`/api/v1/vote`, {
@@ -49,6 +59,8 @@ export const Votes: FC<Props> = props => {
   return (
     <>
       <VoteContainer
+        loggedOut={loggedOut}
+        id="upvote"
         className={cx({ "text-muted": vote <= 0 })}
         onClick={castVote(vote, 1)}
       >
@@ -56,12 +68,29 @@ export const Votes: FC<Props> = props => {
         {upvotes}
       </VoteContainer>
       <VoteContainer
+        loggedOut={loggedOut}
+        id="downvote"
         className={cx({ "text-muted": vote >= 0 })}
         onClick={castVote(vote, -1)}
       >
         <Icon icon={faThumbsDown} marginRight={1} title="thumbs down" />
         {downvotes}
       </VoteContainer>
+      {loggedOut && (
+        <>
+          <UncontrolledTooltip target="upvote" placement="top" offset="0, 5px">
+            You must be logged in to upvote.
+          </UncontrolledTooltip>
+
+          <UncontrolledTooltip
+            target="downvote"
+            placement="top"
+            offset="0, 5px"
+          >
+            You must be logged in to downvote.
+          </UncontrolledTooltip>
+        </>
+      )}
     </>
   );
 };
