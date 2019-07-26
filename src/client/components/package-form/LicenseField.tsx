@@ -1,6 +1,6 @@
-import React, { useState, useContext, useRef } from "react";
-import SelectField from "./SelectField";
-import InputField from "./InputField";
+import React, { useState, useContext, useRef, FC } from "react";
+import { SelectField } from "./SelectField";
+import { InputField } from "./InputField";
 import { FormProvider } from "./PackageForm";
 
 const licenses = [
@@ -13,7 +13,7 @@ const licenses = [
   "Other...",
 ];
 
-export default function LicenseField() {
+export const LicenseField: FC = () => {
   const { handleInputChange } = useContext(FormProvider);
   const [showFreeformField, setShowFreeformField] = useState(false);
   const ref = useRef<any>(null);
@@ -49,4 +49,4 @@ export default function LicenseField() {
       placeholder="Select a License"
     />
   );
-}
+};

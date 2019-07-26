@@ -4,8 +4,8 @@ import Axios from "axios";
 import cx from "classnames";
 
 import { CommentData } from "client/types/Package";
-import Modal from "../Modal";
-import MarkdownViewer from "../MarkdownViewer";
+import { Modal } from "../Modal";
+import { MarkdownViewer } from "../MarkdownViewer";
 import useLocation from "client/helpers/useLocation";
 import { EditComment } from "./EditComment";
 import { CommentHeader } from "./CommentHeader";

@@ -2,8 +2,8 @@ import React, { FC, useContext, useEffect } from "react";
 import { FormProvider } from "./PackageForm";
 import { Badge, Card } from "reactstrap";
 import { FormProviderProps } from "client/types/FormProvider";
-import { useTokenizer } from "../helpers/useTokenizer";
-import { Icon } from "./Icon";
+import { useTokenizer } from "client/helpers/useTokenizer";
+import { Icon } from "../Icon";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
@@ -30,7 +30,6 @@ const TokenizerWrapper = styled(Card).attrs({
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
   }
 `;
 

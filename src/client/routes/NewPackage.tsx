@@ -3,7 +3,8 @@ import Axios from "axios";
 
 import { MainCard } from "client/components/MainCard";
 import { RouteComponentProps } from "@reach/router";
-import { PackageForm, initialValues } from "client/components/PackageForm";
+import { PackageForm } from "client/components/package-form";
+import { initialValues } from "client/components/package-form/PackageForm";
 import { Icon } from "client/components/Icon";
 import { PackageFormData } from "client/types/Package";
 import { faSave } from "@fortawesome/free-solid-svg-icons";

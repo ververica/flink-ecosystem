@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, FC } from "react";
 import cx from "classnames";
 import { FormProvider } from "./PackageForm";
 
-export default function SelectField(props: SelectFieldProps) {
+export const SelectField: FC<Props> = props => {
   const { handleInputChange, inputs, error } = useContext(FormProvider);
   const inputHasError = error.id === props.id;
 
@@ -43,13 +43,9 @@ export default function SelectField(props: SelectFieldProps) {
       )}
     </div>
   );
-}
-
-SelectField.defaultProps = {
-  error: {},
 };
 
-type SelectFieldProps = {
+type Props = {
   error?: { id: string };
   help?: string;
   id: string;
@@ -61,6 +57,4 @@ type SelectFieldProps = {
   }[];
   placeholder: string;
   handleChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-} & DefaultProps;
-
-type DefaultProps = Readonly<typeof SelectField.defaultProps>;
+};

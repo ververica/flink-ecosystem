@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ReactNode } from "react";
+import React, { useState, useEffect, useRef, ReactNode, FC } from "react";
 import cx from "classnames";
 import ReactDOM from "react-dom";
 
@@ -22,7 +22,7 @@ const Dialog = (props: DialogProps) => {
   );
 };
 
-const useModal = (props: ModalProps) => {
+const useModal = (props: Props) => {
   const [modalShown, setModalShown] = useState(false);
   const [modalDisplay, setModalDisplay] = useState("none");
   const modalRef = useRef(null);
@@ -78,7 +78,7 @@ const useModal = (props: ModalProps) => {
   return { hideModal, modalProps, backdrop, modalDisplay };
 };
 
-export default function Modal(props: ModalProps) {
+export const Modal: FC<Props> = props => {
   const { hideModal, modalProps, backdrop } = useModal(props);
 
   // Dialog needs to be unrendered while the modal is hidden so the click
@@ -111,10 +111,6 @@ export default function Modal(props: ModalProps) {
     </>,
     document.body
   );
-}
-
-Modal.defaultProps = {
-  onModalHidden: () => {},
 };
 
 type DialogProps = {
@@ -122,9 +118,10 @@ type DialogProps = {
   children: ReactNode;
 };
 
-type ModalProps = {
+type Props = {
   actions?: ReactNode;
   title: string;
   children: ReactNode;
   open: boolean;
-} & Readonly<typeof Modal.defaultProps>;
+  onModalHidden: () => void;
+};

@@ -11,7 +11,7 @@ import { PackageResult } from "client/types/Package";
 import PackageOptions from "client/components/packages/PackageOptions";
 import { Comments } from "client/components/comments";
 import Tags from "client/components/packages/Tags";
-import MarkdownViewer from "client/components/MarkdownViewer";
+import { MarkdownViewer } from "client/components/MarkdownViewer";
 
 const Img = styled.img`
   object-fit: contain;
