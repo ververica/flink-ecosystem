@@ -21,6 +21,7 @@ import {
   IconDefinition,
   faPlus,
   faExternalLinkAlt,
+  faAngleDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 const SidebarColumn = styled.div.attrs({
@@ -91,8 +92,10 @@ const TitleContainer = styled.div`
 
 const getRotation = (props: CaretProps) => (props.collapsed ? 0 : 540);
 
-const Caret = styled.i.attrs({
-  className: "fal fa-angle-down",
+const Caret = styled(Icon).attrs({
+  className: "far fa-angle-down",
+  icon: faAngleDown,
+  title: "angle-down",
 })<CaretProps>`
   transition: transform 350ms ease;
   transform: rotateZ(${getRotation}deg);

@@ -1,9 +1,9 @@
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cx from "classnames";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
-export const Icon = (props: IconProps) => {
+export const Icon: FC<Props> = props => {
   const marginRight = `mr-${props.marginRight}`;
 
   return (
@@ -23,7 +23,7 @@ Icon.defaultProps = {
   marginRight: 2,
 };
 
-type IconProps = {
+type Props = {
   id?: string;
   className?: string;
   fw?: boolean;
