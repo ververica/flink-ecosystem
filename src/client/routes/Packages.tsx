@@ -1,15 +1,13 @@
-import React from "react";
-import qs from "querystring";
-
-import { MainCard } from "client/components/MainCard";
 import Pager from "client/components/Pager";
+import qs from "querystring";
+import React from "react";
+import { ErrorComponent } from "client/components/ErrorComponent";
+import { MainCard } from "client/components/MainCard";
+import { PackageData } from "client/types/Package";
 import { PackageList } from "client/components/packages";
 import { RouteComponentProps } from "@reach/router";
-
-import { useFetchData } from "client/helpers";
-import { PackageData } from "client/types/Package";
-import ErrorComponent from "client/components/ErrorComponent";
 import { ServerResponse } from "client/types/Server";
+import { useFetchData } from "client/helpers";
 
 export default function Packages(props: Props) {
   const { search = "" } = props.location;

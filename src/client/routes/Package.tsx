@@ -1,9 +1,8 @@
 import React from "react";
 
 import { RouteComponentProps, Router } from "@reach/router";
-import { ViewPackage } from "client/components/packages";
-import { EditPackage } from "client/components/packages/EditPackage";
-import ErrorComponent from "client/components/ErrorComponent";
+import { ViewPackage, EditPackage } from "client/components/packages";
+import { ErrorComponent } from "client/components/ErrorComponent";
 import { useFetchData } from "client/helpers";
 import { PackageResult } from "client/types/Package";
 import { ServerResponse } from "client/types/Server";

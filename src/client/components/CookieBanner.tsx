@@ -74,7 +74,7 @@ export const CookieBanner: FC = () => {
                 >
                   Decline
                 </Button>
-                <Button color="primary" size="sm" onClick={handleConsentClick}>
+                <Button color="success" size="sm" onClick={handleConsentClick}>
                   Accept
                 </Button>
               </CookieButtons>
