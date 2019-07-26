@@ -45,6 +45,13 @@ export const CookieBanner: FC = () => {
   const div = document.createElement("div");
   document.body.appendChild(div);
 
+  const handleConsentClick = () =>
+    setCookie("consent", true, {
+      maxAge: 60 * 60 * 24 * 365,
+    });
+
+  const handleDeclineClick = () => setDeclined(true);
+
   return cookies.consent || declined
     ? null
     : createPortal(
@@ -63,15 +70,11 @@ export const CookieBanner: FC = () => {
                   color="danger"
                   outline
                   size="sm"
-                  onClick={() => setDeclined(true)}
+                  onClick={handleDeclineClick}
                 >
                   Decline
                 </Button>
-                <Button
-                  color="primary"
-                  size="sm"
-                  onClick={() => setCookie("consent", true)}
-                >
+                <Button color="primary" size="sm" onClick={handleConsentClick}>
                   Accept
                 </Button>
               </CookieButtons>
