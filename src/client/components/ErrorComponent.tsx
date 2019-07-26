@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
-export default function ErrorComponent(props: ErrorComponentProps) {
+export const ErrorComponent: FC<Props> = props => {
   return (
     <div className={cx("container", props.className)}>
       <div className="alert alert-danger" role="alert">
@@ -9,13 +9,13 @@ export default function ErrorComponent(props: ErrorComponentProps) {
       </div>
     </div>
   );
-}
+};
 
 ErrorComponent.defaultProps = {
   message: "An unknown error occured.",
 };
 
-type ErrorComponentProps = {
+type Props = {
   className?: string;
-  message: string;
+  message?: string;
 };

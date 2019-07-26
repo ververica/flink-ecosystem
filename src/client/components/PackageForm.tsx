@@ -1,5 +1,4 @@
 import Axios from "axios";
-import ErrorComponent from "./ErrorComponent";
 import ImageField from "./ImageField";
 import InputField from "./InputField";
 import LicenseField from "./LicenseField";
@@ -8,6 +7,7 @@ import React, { ChangeEvent, FC, SyntheticEvent, useState } from "react";
 import SelectField from "./SelectField";
 import styled from "styled-components";
 import { Col, FormGroup, Row, UncontrolledTooltip } from "reactstrap";
+import { ErrorComponent } from "./ErrorComponent";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "./Icon";
 import { InputLabel } from "./InputLabel";

@@ -6,7 +6,7 @@ import "client/assets/markdown.scss";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./client/components/App";
+import { App } from "./client/components/App";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`

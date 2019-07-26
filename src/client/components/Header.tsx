@@ -1,14 +1,15 @@
 import React, {
   SyntheticEvent,
-  useContext,
   useState,
   ChangeEvent,
   useEffect,
+  FC,
 } from "react";
 import styled from "styled-components/macro";
 import useLocation from "client/helpers/useLocation";
-import { UserData } from "./UserDataProvider";
+
 import getFormData from "get-form-data";
+import { UserLogin } from "./UserLogin";
 
 const SearchIcon = styled.small.attrs({
   className: "fal fa-search mr-2",
@@ -25,23 +26,7 @@ const SearchInput = styled.input.attrs({
   "aria-label": "Search",
 })``;
 
-const WelcomeUser = () => {
-  const { user, logout } = useContext(UserData);
-  const handleLogoutClick = (e: SyntheticEvent) => {
-    e.preventDefault();
-    logout();
-  };
-  return (
-    <>
-      <span className="mr-2">Welcome, {user.login}</span>
-      <a href="/logout" onClick={handleLogoutClick}>
-        Logout
-      </a>
-    </>
-  );
-};
-
-export default function Header() {
+export const Header: FC = () => {
   const { location, navigate } = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -52,8 +37,6 @@ export default function Header() {
 
     setSearchQuery(decodeURIComponent(newQuery));
   }, [location.pathname]);
-
-  const { user, openGithubLogin } = useContext(UserData);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -70,15 +53,7 @@ export default function Header() {
     <nav className="navbar navbar-light pr-0 mb-4">
       <ul className="ml-auto navbar-nav mr-3">
         <li className="nav-item">
-          <small>
-            {user.login ? (
-              <WelcomeUser />
-            ) : (
-              <a href="/auth" onClick={openGithubLogin}>
-                Login With Github
-              </a>
-            )}
-          </small>
+          <UserLogin />
         </li>
       </ul>
       <form className="form-inline my-lg-0" onSubmit={handleSubmit}>
@@ -89,4 +64,4 @@ export default function Header() {
       </form>
     </nav>
   );
-}
+};

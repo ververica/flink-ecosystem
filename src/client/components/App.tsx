@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, FC } from "react";
 import { Router } from "@reach/router";
 import styled from "styled-components/macro";
 
@@ -11,7 +11,7 @@ import {
   NewPackage,
 } from "client/routes";
 import Sidebar from "client/components/Sidebar";
-import Header from "client/components/Header";
+import { Header } from "client/components/Header";
 import { Providers } from "client/components/Providers";
 import Loader from "./Loader";
 import { mediaLarge } from "client/helpers/styles";
@@ -50,7 +50,7 @@ const RouterWrapper = styled(Router)`
   flex-direction: column;
 `;
 
-export default function App() {
+export const App: FC = () => {
   return (
     <Providers>
       <Container>
@@ -74,4 +74,4 @@ export default function App() {
       </Container>
     </Providers>
   );
-}
+};
