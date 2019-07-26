@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { UserData } from "./UserDataProvider";
+import React, { useContext, FC } from "react";
+import { UserData } from "../UserDataProvider";
 import { Redirect, RouteComponentProps, Link } from "@reach/router";
-import { MainCard } from "./MainCard";
-import { PackageForm } from "./PackageForm";
+import { MainCard } from "../MainCard";
+import { PackageForm } from "../PackageForm";
 import { PackageData, PackageFormData } from "client/types/Package";
 import Axios from "axios";
-import { Icon } from "./Icon";
+import { Icon } from "../Icon";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const submitButton = (
@@ -15,7 +15,7 @@ const submitButton = (
   </button>
 );
 
-export default function EditPackage(props: EditPackageProps) {
+export const EditPackage: FC<Props> = props => {
   const { user } = useContext(UserData);
 
   if (user.id === 0) {
@@ -45,13 +45,9 @@ export default function EditPackage(props: EditPackageProps) {
       />
     </MainCard>
   );
-}
-
-EditPackage.defaultProps = {
-  package: {},
 };
 
-type EditPackageProps = {
+type Props = {
   package: PackageData;
 } & RouteComponentProps;
 
