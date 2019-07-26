@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, useEffect } from "react";
+import React, { useCallback, useContext, useState, useEffect, FC } from "react";
 import { useDropzone } from "react-dropzone";
 import { FormProvider } from "./PackageForm";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ const ImageCard = styled.div`
   height: auto;
 `;
 
-export default function ImageUpload() {
+export const ImageField: FC = () => {
   const { inputs, error } = useContext(FormProvider);
   const [imageError, setImageError] = useState(error);
 
@@ -92,4 +92,4 @@ export default function ImageUpload() {
       </small>
     </div>
   );
-}
+};

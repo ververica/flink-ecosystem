@@ -1,13 +1,13 @@
+import axios from "axios";
+import cookies from "js-cookie";
+import useLocation from "client/helpers/useLocation";
 import React, {
   useEffect,
   useState,
   useCallback,
   SyntheticEvent,
-  ReactNode,
+  FC,
 } from "react";
-import axios from "axios";
-import cookies from "js-cookie";
-import useLocation from "client/helpers/useLocation";
 
 const defaultState = {
   user: {
@@ -22,7 +22,7 @@ const defaultState = {
 
 export const UserData = React.createContext(defaultState);
 
-export default function UserDataProvider(props: UserDataProviderProps) {
+export const UserDataProvider: FC = props => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(defaultState.user);
   const [authWindow, setAuthWindow] = useState<Window | null>(null);
@@ -87,8 +87,4 @@ export default function UserDataProvider(props: UserDataProviderProps) {
   }
 
   return <UserData.Provider value={value}>{props.children}</UserData.Provider>;
-}
-
-type UserDataProviderProps = {
-  children: ReactNode;
 };

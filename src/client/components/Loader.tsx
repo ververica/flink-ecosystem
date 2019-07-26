@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components/macro";
 import { MainCard } from "./MainCard";
 
@@ -35,7 +35,7 @@ const StyledSpinner = styled.svg`
   }
 `;
 
-export default function Loader() {
+export const Loader: FC = () => {
   return (
     <MainCard
       header="Loading..."
@@ -53,4 +53,4 @@ export default function Loader() {
       </StyledSpinner>
     </MainCard>
   );
-}
+};

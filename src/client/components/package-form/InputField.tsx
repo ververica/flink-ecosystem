@@ -3,6 +3,7 @@ import React, {
   MutableRefObject,
   ChangeEvent,
   ReactElement,
+  FC,
 } from "react";
 import cx from "classnames";
 import { FormProvider } from "./PackageForm";
@@ -23,7 +24,7 @@ const InputWrapper = styled.div`
   }
 `;
 
-export default function InputField(props: Props) {
+export const InputField: FC<Props> = props => {
   const { disabledFields, handleInputChange, inputs, error } = useContext(
     FormProvider
   );
@@ -78,7 +79,7 @@ export default function InputField(props: Props) {
       )}
     </div>
   );
-}
+};
 
 InputField.defaultProps = {
   type: "text",

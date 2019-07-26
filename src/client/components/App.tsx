@@ -1,7 +1,12 @@
-import React, { Suspense, FC } from "react";
-import { Router } from "@reach/router";
+import React, { FC, Suspense } from "react";
 import styled from "styled-components/macro";
-
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { Loader } from "./Loader";
+import { mediaLarge } from "client/helpers/styles";
+import { Providers } from "./Providers";
+import { Router } from "@reach/router";
+import { Sidebar } from "./Sidebar";
 import {
   Package,
   Packages,
@@ -10,12 +15,6 @@ import {
   Search,
   NewPackage,
 } from "client/routes";
-import Sidebar from "client/components/Sidebar";
-import { Header } from "client/components/Header";
-import { Providers } from "client/components/Providers";
-import Loader from "./Loader";
-import { mediaLarge } from "client/helpers/styles";
-import { Footer } from "./Footer";
 
 const Container = styled.div.attrs({
   className: "container min-vh-100 d-flex flex-column",

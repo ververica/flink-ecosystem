@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import ReactMarkdown from "react-markdown";
 
-export default function MarkdownViewer(props: MarkdownViewerProps) {
+export const MarkdownViewer: FC<Props> = props => {
   return (
     <ReactMarkdown
       source={props.source}
@@ -9,7 +9,7 @@ export default function MarkdownViewer(props: MarkdownViewerProps) {
       renderers={{ code, table, link }}
     />
   );
-}
+};
 
 const code = (props: any) => (
   <pre className="pre-scrollable p-2 bg-light">
@@ -29,6 +29,6 @@ const link = (props: any) => {
   );
 };
 
-type MarkdownViewerProps = {
+type Props = {
   source: string;
 };

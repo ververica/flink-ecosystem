@@ -1,6 +1,6 @@
 import cx from "classnames";
 import qs from "querystring";
-import React, { FunctionComponent } from "react";
+import React, { FC, FunctionComponent } from "react";
 import useLocation from "client/helpers/useLocation";
 import { Link } from "@reach/router";
 
@@ -50,7 +50,7 @@ const PageLink: FunctionComponent<PageLinkProps> = props => {
   );
 };
 
-export default function Pager(props: PagerProps) {
+export const Pager: FC<Props> = props => {
   const page = Number(props.page);
   const { total } = props;
   const range = 5;
@@ -68,7 +68,7 @@ export default function Pager(props: PagerProps) {
       </ul>
     </nav>
   );
-}
+};
 
 type CreatePages = (
   current: number,
@@ -81,7 +81,7 @@ type PageLinkProps = {
   i: number;
 };
 
-type PagerProps = {
+type Props = {
   page: number | string;
   total: number;
 };

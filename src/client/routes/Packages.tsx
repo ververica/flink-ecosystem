@@ -1,10 +1,10 @@
-import Pager from "client/components/Pager";
 import qs from "querystring";
 import React from "react";
 import { ErrorComponent } from "client/components/ErrorComponent";
 import { MainCard } from "client/components/MainCard";
 import { PackageData } from "client/types/Package";
 import { PackageList } from "client/components/packages";
+import { Pager } from "client/components/Pager";
 import { RouteComponentProps } from "@reach/router";
 import { ServerResponse } from "client/types/Server";
 import { useFetchData } from "client/helpers";

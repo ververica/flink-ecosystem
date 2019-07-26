@@ -1,10 +1,16 @@
-import React, { useState, SyntheticEvent, useRef, ChangeEvent } from "react";
+import React, {
+  useState,
+  SyntheticEvent,
+  useRef,
+  ChangeEvent,
+  FC,
+} from "react";
 import cx from "classnames";
 import TextareaAutosize from "react-textarea-autosize";
-import MarkdownViewer from "./MarkdownViewer";
+import { MarkdownViewer } from "./MarkdownViewer";
 import { FormError } from "client/types/FormProvider";
 
-export default function MarkdownEditor(props: MarkdownEditorProps) {
+export const MarkdownEditor: FC<Props> = props => {
   const [tab, setTab] = useState("write");
   // const [minHeight, setMinHeight] = useState(0);
   const ref = useRef() as any;
@@ -72,9 +78,9 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
       </div>
     </>
   );
-}
+};
 
-type MarkdownEditorProps = {
+type Props = {
   id: string;
   name: string;
   label: string;

@@ -1,6 +1,6 @@
 import Axios from "axios";
 import cx from "classnames";
-import Modal from "../Modal";
+import { Modal } from "../Modal";
 import React, { SyntheticEvent, useState } from "react";
 import { faEdit, faTools, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "../Icon";

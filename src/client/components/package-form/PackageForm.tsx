@@ -1,18 +1,18 @@
 import Axios from "axios";
-import ImageField from "./ImageField";
-import InputField from "./InputField";
-import LicenseField from "./LicenseField";
-import MarkdownEditor from "./MarkdownEditor";
 import React, { ChangeEvent, FC, SyntheticEvent, useState } from "react";
-import SelectField from "./SelectField";
 import styled from "styled-components";
 import { Col, FormGroup, Row, UncontrolledTooltip } from "reactstrap";
-import { ErrorComponent } from "./ErrorComponent";
+import { ErrorComponent } from "../ErrorComponent";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
-import { Icon } from "./Icon";
+import { Icon } from "../Icon";
+import { ImageField } from "./ImageField";
+import { InputField } from "./InputField";
 import { InputLabel } from "./InputLabel";
 import { isEmpty, pick } from "lodash/fp";
+import { LicenseField } from "./LicenseField";
+import { MarkdownEditor } from "../MarkdownEditor";
 import { PackageData, PackageFormData } from "client/types/Package";
+import { SelectField } from "./SelectField";
 import { Tokenizer } from "./Tokenizer";
 import {
   FormProviderProps,

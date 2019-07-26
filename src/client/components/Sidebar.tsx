@@ -1,9 +1,9 @@
 import React, {
   useState,
   useEffect,
-  FunctionComponent,
   SyntheticEvent,
   useContext,
+  FC,
 } from "react";
 import { Link } from "@reach/router";
 import styled from "styled-components/macro";
@@ -105,7 +105,7 @@ const isActive = ({ isCurrent }: { isCurrent: boolean }) => {
   return { className: cx("nav-link", { active: isCurrent }) };
 };
 
-const NavItem: FunctionComponent<NavItemProps> = props => {
+const NavItem: FC<NavItemProps> = props => {
   return (
     <li className="nav-item">
       <Link to={props.to} getProps={isActive}>
@@ -116,7 +116,7 @@ const NavItem: FunctionComponent<NavItemProps> = props => {
   );
 };
 
-export default function Sidebar() {
+export const Sidebar: FC = () => {
   const [mainCollapsed, setMainCollapsed] = useState(true);
   const [subCollapsed, setSubCollapsed] = useState(false);
 
@@ -220,7 +220,7 @@ export default function Sidebar() {
       </AnimateHeight>
     </SidebarColumn>
   );
-}
+};
 
 type CaretProps = {
   collapsed: boolean;

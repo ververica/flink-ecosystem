@@ -2,7 +2,7 @@ import React, { useContext, FC } from "react";
 import { UserData } from "../UserDataProvider";
 import { Redirect, RouteComponentProps, Link } from "@reach/router";
 import { MainCard } from "../MainCard";
-import { PackageForm } from "../PackageForm";
+import { PackageForm } from "../package-form";
 import { PackageData, PackageFormData } from "client/types/Package";
 import Axios from "axios";
 import { Icon } from "../Icon";

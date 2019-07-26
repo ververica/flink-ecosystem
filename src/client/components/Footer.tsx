@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import { CookieBanner } from "./CookieBanner";
 
-export const Footer = () => {
+export const Footer: FC = () => {
   return (
     <div className="row no-gutters text-center small text-muted d-block py-4">
       <p>
