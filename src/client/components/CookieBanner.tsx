@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { useCookies } from "react-cookie";
 import styled from "styled-components/macro";
 import { createPortal } from "react-dom";
