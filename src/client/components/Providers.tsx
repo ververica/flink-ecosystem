@@ -1,9 +1,8 @@
-import React, { ReactNode } from "react";
-import ReactGA from "react-ga";
+import React, { FC, ReactNode } from "react";
 import UserDataProvider from "./UserDataProvider";
+import { AnalyticsProvider } from "./AnalyticsProvider";
+import { CookiesProvider } from "react-cookie";
 import { createHistory, LocationProvider } from "@reach/router";
-
-ReactGA.initialize("UA-52545728-1");
 
 export const history = createHistory(window);
 
@@ -11,18 +10,18 @@ export const history = createHistory(window);
 // a custom history.  You need to use the one from the result of createHistory
 export const { navigate } = history;
 
-history.listen(({ location }) => {
-  ReactGA.pageview(location.pathname + location.search);
-});
-
-export default function Providers(props: ProvidersProps) {
+export const Providers: FC<Props> = props => {
   return (
     <LocationProvider history={history}>
-      <UserDataProvider>{props.children}</UserDataProvider>
+      <CookiesProvider>
+        <AnalyticsProvider>
+          <UserDataProvider>{props.children}</UserDataProvider>
+        </AnalyticsProvider>
+      </CookiesProvider>
     </LocationProvider>
   );
-}
+};
 
-type ProvidersProps = {
+type Props = {
   children: ReactNode;
 };
