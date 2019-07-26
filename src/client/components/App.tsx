@@ -12,10 +12,10 @@ import {
 } from "client/routes";
 import Sidebar from "client/components/Sidebar";
 import Header from "client/components/Header";
-import Providers from "client/components/Providers";
+import { Providers } from "client/components/Providers";
 import Loader from "./Loader";
 import { mediaLarge } from "client/helpers/styles";
-import Footer from "./Footer";
+import { Footer } from "./Footer";
 
 const Container = styled.div.attrs({
   className: "container min-vh-100 d-flex flex-column",
@@ -70,7 +70,6 @@ export default function App() {
           </div>
           <Sidebar />
         </LayoutWrapper>
-
         <Footer />
       </Container>
     </Providers>
