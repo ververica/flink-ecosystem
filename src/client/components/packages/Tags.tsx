@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "@reach/router";
 import { categories } from "client/helpers/categories";
+import { Badge } from "reactstrap";
 
 const categoryValues = categories.map(c => c.value);
 
@@ -14,7 +15,7 @@ export default function Tags(props: TagsProps) {
           <span>Tags: </span>
           <big>
             <Link to={`/categories/${category}`} className="mr-2">
-              <span className="badge badge-light">{category}</span>
+              <Badge color="secondary">{category}</Badge>
             </Link>
             {props.tags
               .split(",")
@@ -29,7 +30,7 @@ export default function Tags(props: TagsProps) {
                   : "search";
                 return (
                   <Link to={`/${linkBase}/${uriTag}`} key={i} className="mr-2">
-                    <span className="badge badge-light">{tag}</span>
+                    <Badge color="secondary">{tag}</Badge>
                   </Link>
                 );
               })}
