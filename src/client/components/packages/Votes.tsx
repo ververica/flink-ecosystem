@@ -14,10 +14,9 @@ import React, {
 import { UncontrolledTooltip } from "reactstrap";
 import { UserData } from "../UserDataProvider";
 
-const VoteContainer = styled.small<{
-  loggedOut: boolean;
-}>`
-  cursor: ${({ loggedOut }) => (loggedOut ? "default" : "pointer")};
+const VoteContainer = styled.small`
+  cursor: ${(props: { loggedOut: boolean }) =>
+    props.loggedOut ? "default" : "pointer"};
 
   & + & {
     margin-left: 24px;
