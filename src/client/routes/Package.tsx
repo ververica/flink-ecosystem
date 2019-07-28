@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { RouteComponentProps, Router } from "@reach/router";
 import { ViewPackage, EditPackage } from "client/components/packages";
@@ -7,7 +7,7 @@ import { useFetchData } from "client/helpers";
 import { PackageResult } from "client/types/Package";
 import { ServerResponse } from "client/types/Server";
 
-export default function Package(props: PackageProps) {
+export const Package: FC<Props> = props => {
   const [data] = useFetchData(
     `/api/v1/packages/${props.packageSlug}`,
     props.location.key
@@ -23,8 +23,8 @@ export default function Package(props: PackageProps) {
       <EditPackage path="edit" package={data.package} />
     </Router>
   );
-}
+};
 
-type PackageProps = RouteComponentProps<{
+type Props = RouteComponentProps<{
   packageSlug: string;
 }>;
