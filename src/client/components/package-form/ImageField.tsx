@@ -1,8 +1,9 @@
 import React, { useCallback, useContext, useState, useEffect, FC } from "react";
 import { useDropzone } from "react-dropzone";
 import { FormProvider } from "./PackageForm";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import cx from "classnames";
+import { FormFeedback } from "reactstrap";
 
 const Image = styled.img`
   object-fit: contain;
@@ -86,7 +87,7 @@ export const ImageField: FC = () => {
           )}
         </div>
       </ImageCard>
-      <div className="invalid-feedback">{imageError.message}</div>
+      <FormFeedback>{imageError.message}</FormFeedback>
       <small className="form-text text-muted">
         Supports <code>gif</code>, <code>png</code>, and <code>jpg</code>.
       </small>

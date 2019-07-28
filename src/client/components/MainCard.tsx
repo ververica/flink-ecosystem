@@ -1,7 +1,7 @@
 import React, { ReactNode, FC } from "react";
 import styled from "styled-components/macro";
 import { mediaLarge } from "client/helpers/styles";
-import cx from "classnames";
+import { CardBody } from "reactstrap";
 
 const Card = styled.div.attrs({
   className: `card rounded-0`,
@@ -25,14 +25,14 @@ export const MainCard: FC<Props> = props => {
     <>
       {props.header && (
         <Card>
-          <div className="card-body d-flex align-items-center justify-content-between">
+          <CardBody className="d-flex align-items-center justify-content-between">
             <h2 className="h5 mb-0">{props.header}</h2>
             {props.options}
-          </div>
+          </CardBody>
         </Card>
       )}
       <Card>
-        <div className={cx("card-body", props.bodyClass)}>{props.children}</div>
+        <CardBody className={props.bodyClass}>{props.children}</CardBody>
       </Card>
     </>
   );

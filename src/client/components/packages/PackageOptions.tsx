@@ -1,11 +1,11 @@
 import Axios from "axios";
 import cx from "classnames";
-import { Modal } from "../Modal";
 import React, { SyntheticEvent, useState } from "react";
 import { faEdit, faTools, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "../Icon";
 import { Link } from "@reach/router";
 import { useLocation, useOutsideClick } from "client/helpers";
+import { ConfirmModal } from "../ConfirmModal";
 
 export default function PackageOptions(props: PackageOptionsProps) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -18,12 +18,11 @@ export default function PackageOptions(props: PackageOptionsProps) {
 
   const handleDeleteClick = (e: SyntheticEvent) => {
     e.preventDefault();
-    setConfirm(true);
     setShowDropdown(false);
+    setTimeout(() => setConfirm(true));
   };
 
-  const handleDelete = (slug: string) => async (e: SyntheticEvent) => {
-    e.preventDefault();
+  const handleDelete = (slug: string) => async () => {
     setShowDropdown(false);
 
     try {
@@ -64,31 +63,25 @@ export default function PackageOptions(props: PackageOptionsProps) {
           </a>
         </div>
       </div>
-      <Modal
-        open={confirm}
-        title="Are you sure?"
-        onModalHidden={() => setConfirm(false)}
-        actions={
+      <ConfirmModal
+        handleCancel={() => setConfirm(false)}
+        handleConfirm={handleDelete(props.slug)}
+        header={
           <>
-            <button
-              className="btn btn-sm btn-default"
-              onClick={() => setConfirm(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className="btn btn-sm btn-danger"
-              onClick={handleDelete(props.slug)}
-            >
-              Delete
-            </button>
+            Are you sure you want to delete the package "
+            <code>{props.name}</code>"?
           </>
         }
-      >
-        Are you sure you want to delete the package "<code>{props.name}</code>"?
-        You cannot undo this action, and the package id <kbd>{props.slug}</kbd>{" "}
-        will remain unavailable.
-      </Modal>
+        isOpen={confirm}
+        message={
+          <>
+            Are you sure you want to delete the package "
+            <code>{props.name}</code>"? You cannot undo this action, and the
+            package id <kbd>{props.slug}</kbd> will remain unavailable.
+          </>
+        }
+        onClosed={() => setConfirm(false)}
+      />
     </>
   );
 }

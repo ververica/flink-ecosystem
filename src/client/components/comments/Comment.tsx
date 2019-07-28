@@ -4,9 +4,9 @@ import Axios from "axios";
 import cx from "classnames";
 
 import { CommentData } from "client/types/Package";
-import { Modal } from "../Modal";
+import { ConfirmModal } from "../ConfirmModal";
 import { MarkdownViewer } from "../MarkdownViewer";
-import useLocation from "client/helpers/useLocation";
+import { useLocation } from "client/helpers";
 import { EditComment } from "./EditComment";
 import { CommentHeader } from "./CommentHeader";
 import { Col, Row } from "reactstrap";
@@ -48,9 +48,7 @@ export default function Comment(props: CommentProps) {
     setConfirm(true);
   };
 
-  const handleDelete = (id: CommentData["id"]) => async (e: SyntheticEvent) => {
-    e.preventDefault();
-
+  const handleDelete = (id: CommentData["id"]) => async () => {
     try {
       await Axios.delete(`/api/v1/comments/${id}`);
       setDeleted(true);
@@ -61,29 +59,12 @@ export default function Comment(props: CommentProps) {
 
   // We mark a comment as deleted if the request was successful, then we
   // delete the comment after the modal animation finishes.
-  const handleModalHidden = () => {
+  const handleModalClosed = () => {
     setConfirm(false);
     if (deleted) {
       props.removeComment(props.id);
     }
   };
-
-  const modalActions = (
-    <>
-      <button
-        className="btn btn-sm btn-default"
-        onClick={() => setConfirm(false)}
-      >
-        Cancel
-      </button>
-      <button
-        className="btn btn-sm btn-danger"
-        onClick={handleDelete(props.id)}
-      >
-        Delete
-      </button>
-    </>
-  );
 
   const commentActive = location.hash === `#comment-${props.id}`;
 
@@ -116,15 +97,14 @@ export default function Comment(props: CommentProps) {
           )}
         </Col>
       </Row>
-      <Modal
-        open={confirm}
-        title="Are you sure?"
-        onModalHidden={handleModalHidden}
-        actions={modalActions}
-      >
-        Are you sure you want to delete your comment? You cannot undo this
-        action.
-      </Modal>
+      <ConfirmModal
+        handleCancel={() => setConfirm(false)}
+        handleConfirm={handleDelete(props.id)}
+        header="Are you sure?"
+        isOpen={confirm}
+        message="Are you sure you want to delete your comment? You cannot undo this action."
+        onClosed={handleModalClosed}
+      />
     </Media>
   );
 }
