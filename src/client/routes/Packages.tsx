@@ -2,7 +2,7 @@ import qs from "querystring";
 import React, { FC } from "react";
 import { ErrorComponent } from "client/components/ErrorComponent";
 import { MainCard } from "client/components/MainCard";
-import { PackageData } from "client/types/Package";
+import { PackagesResult } from "client/types/Package";
 import { PackageList } from "client/components/packages";
 import { Pager } from "client/components/Pager";
 import { RouteComponentProps } from "@reach/router";
@@ -17,7 +17,7 @@ export const Packages: FC<Props> = props => {
   const [data] = useFetchData(
     `/api/v1/packages?page=${page}`,
     props.location.key
-  ) as [ServerResponse<PackagesData>, () => void];
+  ) as [ServerResponse<PackagesResult>, () => void];
 
   if (!data.packages) {
     return <ErrorComponent className="pr-0" />;
@@ -50,9 +50,3 @@ export const Packages: FC<Props> = props => {
 };
 
 type Props = RouteComponentProps;
-
-export type PackagesData = {
-  packages: PackageData[];
-  count: number;
-  totalPages: number;
-};

@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { ChangeEvent, FC, SyntheticEvent, useState } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { Col, FormGroup, Row, UncontrolledTooltip } from "reactstrap";
 import { ErrorComponent } from "../ErrorComponent";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";

@@ -15,9 +15,10 @@ import {
   Search,
   NewPackage,
 } from "client/routes";
+import { Container } from "reactstrap";
 
-const Container = styled.div.attrs({
-  className: "container min-vh-100 d-flex flex-column",
+const AppContainer = styled(Container).attrs({
+  className: "min-vh-100 d-flex flex-column",
 })`
   .nav a {
     color: #333;
@@ -52,7 +53,7 @@ const RouterWrapper = styled(Router)`
 export const App: FC = () => {
   return (
     <Providers>
-      <Container>
+      <AppContainer>
         <LayoutWrapper>
           <div className="col-lg-9 d-flex flex-column">
             <Header />
@@ -70,7 +71,7 @@ export const App: FC = () => {
           <Sidebar />
         </LayoutWrapper>
         <Footer />
-      </Container>
+      </AppContainer>
     </Providers>
   );
 };

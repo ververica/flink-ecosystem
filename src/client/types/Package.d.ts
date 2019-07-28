@@ -11,6 +11,7 @@ export type PackageFormData = {
   tags: string;
   website: string;
 };
+
 export type PackageData = {
   comments: number;
   downvotes: number;
@@ -37,4 +38,10 @@ export type CommentData = {
 export type PackageResult = {
   comments: CommentData[];
   package: PackageData;
+};
+
+export type PackagesResult = {
+  packages: PackageData[];
+  count: number;
+  totalPages: number;
 };

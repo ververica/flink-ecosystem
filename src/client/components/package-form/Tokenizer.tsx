@@ -5,7 +5,7 @@ import { FormProviderProps } from "client/types/FormProvider";
 import { useTokenizer } from "client/helpers/useTokenizer";
 import { Icon } from "../Icon";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const Input = styled.input.attrs({
   className: "mx-1 border-0",
