@@ -1,5 +1,5 @@
 import qs from "querystring";
-import React from "react";
+import React, { FC } from "react";
 import { ErrorComponent } from "client/components/ErrorComponent";
 import { MainCard } from "client/components/MainCard";
 import { PackageData } from "client/types/Package";
@@ -9,7 +9,7 @@ import { RouteComponentProps } from "@reach/router";
 import { ServerResponse } from "client/types/Server";
 import { useFetchData } from "client/helpers";
 
-export default function Packages(props: Props) {
+export const Packages: FC<Props> = props => {
   const { search = "" } = props.location;
   const searchQuery = qs.parse(search.slice(1));
   const page = Number(searchQuery.page || 1);
@@ -47,7 +47,7 @@ export default function Packages(props: Props) {
       </MainCard>
     </>
   );
-}
+};
 
 type Props = RouteComponentProps;
 
