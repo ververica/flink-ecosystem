@@ -147,8 +147,9 @@ export default function Sidebar() {
           <FlinkLogo />
 
           <NavTitle>
-            Community Packages 
-            <br />for Apache Flink®
+            Community Packages
+            <br />
+            for Apache Flink®
           </NavTitle>
         </Link>
         <button className="btn btn-light btn-sm" onClick={toggleMain}>

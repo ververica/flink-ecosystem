@@ -101,9 +101,7 @@ exports.post = [
         case "ER_DUP_ENTRY":
           return ctx.throw(400, {
             id: "slug",
-            message: `the package id "${
-              ctx.request.body.slug
-            }" is already in use`,
+            message: `the package id "${ctx.request.body.slug}" is already in use`,
           });
         default:
           return ctx.throw(500, { message: "an unknown error has occured" });

@@ -34,9 +34,7 @@ export default function checkUser(options = defaultOptions) {
 
     try {
       const { data } = await axios.get(
-        `https://api.github.com/applications/${
-          process.env.GITHUB_CLIENT
-        }/tokens/${token}`,
+        `https://api.github.com/applications/${process.env.GITHUB_CLIENT}/tokens/${token}`,
         { headers: { Authorization: `Basic ${basicAuthString}` } }
       );
 
