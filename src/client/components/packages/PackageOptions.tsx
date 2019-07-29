@@ -4,13 +4,13 @@ import React, { SyntheticEvent, useState } from "react";
 import { faEdit, faTools, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "../Icon";
 import { Link } from "@reach/router";
-import { useLocation, useOutsideClick } from "client/helpers";
+import { useHistory, useOutsideClick } from "client/helpers";
 import { ConfirmModal } from "../ConfirmModal";
 
 export default function PackageOptions(props: PackageOptionsProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const { navigate } = useLocation();
+  const { navigate } = useHistory();
 
   const ref = useOutsideClick(() => {
     if (showDropdown) setShowDropdown(false);

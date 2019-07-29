@@ -1,15 +1,14 @@
-import React, { useState, SyntheticEvent } from "react";
-import styled from "styled-components/macro";
 import Axios from "axios";
 import cx from "classnames";
-
-import { CommentData } from "client/types/Package";
-import { ConfirmModal } from "../ConfirmModal";
-import { MarkdownViewer } from "../MarkdownViewer";
-import { useLocation } from "client/helpers";
-import { EditComment } from "./EditComment";
-import { CommentHeader } from "./CommentHeader";
+import React, { SyntheticEvent, useState } from "react";
+import styled from "styled-components/macro";
 import { Col, Row } from "reactstrap";
+import { CommentData } from "client/types/Package";
+import { CommentHeader } from "./CommentHeader";
+import { ConfirmModal } from "../ConfirmModal";
+import { EditComment } from "./EditComment";
+import { MarkdownViewer } from "../MarkdownViewer";
+import { useHistory } from "client/helpers";
 
 const Avatar = styled.img.attrs({
   className: "mr-1 mt-1",
@@ -36,7 +35,7 @@ export default function Comment(props: CommentProps) {
   const [confirm, setConfirm] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const [text, setText] = useState(props.text);
-  const { location } = useLocation();
+  const { location } = useHistory();
 
   const handleEditClick = (e: SyntheticEvent) => {
     e.preventDefault();

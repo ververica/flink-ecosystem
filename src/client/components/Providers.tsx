@@ -6,10 +6,6 @@ import { createHistory, LocationProvider } from "@reach/router";
 
 export const history = createHistory(window);
 
-// Cannot use the default navigate function from @reach/router when you have
-// a custom history.  You need to use the one from the result of createHistory
-export const { navigate } = history;
-
 export const Providers: FC = props => {
   return (
     <LocationProvider history={history}>

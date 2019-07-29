@@ -1,8 +1,8 @@
 import cx from "classnames";
 import qs from "querystring";
 import React, { FC, FunctionComponent } from "react";
-import useLocation from "client/helpers/useLocation";
 import { Link } from "@reach/router";
+import { useHistory } from "client/helpers";
 
 const createPages: CreatePages = (current, { range, total = 1 }) => {
   const pager = [];
@@ -28,7 +28,7 @@ const createPages: CreatePages = (current, { range, total = 1 }) => {
 };
 
 const PageLink: FunctionComponent<PageLinkProps> = props => {
-  const { location } = useLocation();
+  const { location } = useHistory();
   const { page, ...rest } = qs.parse(location.search.slice(1));
 
   // If we're going to the first page, just remove 'page' from the querystring
