@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Badge } from "reactstrap";
+import { Badge, Col, Row } from "reactstrap";
 import { categories } from "client/helpers/categories";
 import { Link } from "@reach/router";
 
@@ -10,8 +10,8 @@ export const Tags: FC<Props> = props => {
   return (
     <>
       <hr />
-      <div className="row align-items-baseline">
-        <div className="col">
+      <Row className="align-items-baseline">
+        <Col>
           <span>Tags: </span>
           <big>
             <Link to={`/categories/${category}`} className="mr-2">
@@ -35,8 +35,8 @@ export const Tags: FC<Props> = props => {
                 );
               })}
           </big>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </>
   );
 };
