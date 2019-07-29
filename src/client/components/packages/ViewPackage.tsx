@@ -51,10 +51,10 @@ export const ViewPackage: FC<Props> = (props = defaultProps) => {
     return null;
   }
 
-  const packageOptions =
-    user.id === pkg.user_id ? (
-      <PackageOptions slug={pkg.slug} name={pkg.name} />
-    ) : null;
+  const canUseOptions = user.id === pkg.user_id || user.isAdmin;
+  const packageOptions = canUseOptions ? (
+    <PackageOptions slug={pkg.slug} name={pkg.name} />
+  ) : null;
 
   const packageImage = pkg.image_id ? (
     <div className="col-md-3">

@@ -10,7 +10,7 @@ import React, {
 } from "react";
 
 const defaultState = {
-  user: { id: 0, login: "", avatar_url: "" },
+  user: { id: 0, login: "", avatar_url: "", isAdmin: false },
   refreshData: () => {},
   logout: () => {},
   openGithubLogin: (e: SyntheticEvent) => {},

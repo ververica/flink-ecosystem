@@ -3,17 +3,30 @@ import { commentMailerTemplate } from "../../../../helpers/mailerTemplates";
 import Joi from "@hapi/joi";
 import { parseValidatorError } from "server/helpers/parseValidatorError";
 import { commentSchema } from "server/helpers/validatorSchemas";
+import { checkAccess } from "server/helpers/admins";
+
+const checkCommentOwner = () => async (ctx, next) => {
+  const { commentOwnerId } = await ctx
+    .db("comment")
+    .select("user_id as commentOwnerId")
+    .where({ id: ctx.params.commentId })
+    .first();
+
+  checkAccess(ctx, commentOwnerId);
+
+  return next();
+};
 
 exports.delete = [
   checkUser(),
+  checkCommentOwner(),
   async ctx => {
     const { commentId } = ctx.params;
-    const user_id = ctx.state.user.id;
 
     await ctx
       .db("comment")
       .update({ deleted: 1 })
-      .where({ id: commentId, user_id })
+      .where({ id: commentId })
       .limit(1);
 
     ctx.body = { commentId };
@@ -22,6 +35,7 @@ exports.delete = [
 
 exports.post = [
   checkUser(),
+  checkCommentOwner(),
   async ctx => {
     const { commentId } = ctx.params;
     const { text, packageSlug, packageName } = ctx.request.body;
