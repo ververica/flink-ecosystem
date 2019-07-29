@@ -1,3 +1,8 @@
+import getFormData from "get-form-data";
+import styled from "styled-components/macro";
+
+import { useHistory } from "client/helpers";
+import { UserLogin } from "./UserLogin";
 import React, {
   SyntheticEvent,
   useState,
@@ -5,11 +10,6 @@ import React, {
   useEffect,
   FC,
 } from "react";
-import styled from "styled-components/macro";
-import useLocation from "client/helpers/useLocation";
-
-import getFormData from "get-form-data";
-import { UserLogin } from "./UserLogin";
 
 const SearchIcon = styled.small.attrs({
   className: "fal fa-search mr-2",
@@ -27,7 +27,7 @@ const SearchInput = styled.input.attrs({
 })``;
 
 export const Header: FC = () => {
-  const { location, navigate } = useLocation();
+  const { location, navigate } = useHistory();
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {

@@ -21,7 +21,7 @@ import {
 } from "client/types/FormProvider";
 import {
   slugify,
-  useLocation,
+  useHistory,
   mediaLarge,
   useScroll,
   categories,
@@ -73,7 +73,7 @@ export const FormProvider = React.createContext<FormProviderProps>({
 export const PackageForm: FC<Props> = props => {
   const [inputs, setInputs] = useState<PackageFormData>(props.initialValues);
   const [error, setError] = useState<FormError>({});
-  const { navigate } = useLocation();
+  const { navigate } = useHistory();
   useScroll(error);
 
   const isGenericError = !isEmpty(error) && !error.id;

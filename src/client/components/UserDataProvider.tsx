@@ -1,6 +1,6 @@
 import axios from "axios";
 import cookies from "js-cookie";
-import useLocation from "client/helpers/useLocation";
+import { useHistory } from "client/helpers";
 import React, {
   useEffect,
   useState,
@@ -10,11 +10,7 @@ import React, {
 } from "react";
 
 const defaultState = {
-  user: {
-    id: 0,
-    login: "",
-    avatar_url: "",
-  },
+  user: { id: 0, login: "", avatar_url: "" },
   refreshData: () => {},
   logout: () => {},
   openGithubLogin: (e: SyntheticEvent) => {},
@@ -26,7 +22,7 @@ export const UserDataProvider: FC = props => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(defaultState.user);
   const [authWindow, setAuthWindow] = useState<Window | null>(null);
-  const { location } = useLocation();
+  const { location } = useHistory();
 
   const refreshData = useCallback(async () => {
     try {

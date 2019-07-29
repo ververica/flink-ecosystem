@@ -1,9 +1,9 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import ReactGA from "react-ga";
 import { history } from "./Providers";
 import { useCookies } from "react-cookie";
 
-export const AnalyticsProvider: FC<Props> = props => {
+export const AnalyticsProvider: FC = props => {
   const [cookies] = useCookies();
 
   if (cookies.consent) {
@@ -13,10 +13,5 @@ export const AnalyticsProvider: FC<Props> = props => {
     });
   }
 
-  console.log(cookies);
   return <>{props.children}</>;
-};
-
-type Props = {
-  children: ReactNode;
 };
