@@ -1,11 +1,11 @@
-import React from "react";
+import React, { FC } from "react";
 import { Badge } from "reactstrap";
 import { categories } from "client/helpers/categories";
 import { Link } from "@reach/router";
 
 const categoryValues = categories.map(c => c.value);
 
-export default function Tags(props: TagsProps) {
+export const Tags: FC<Props> = props => {
   const { category } = props;
   return (
     <>
@@ -39,9 +39,9 @@ export default function Tags(props: TagsProps) {
       </div>
     </>
   );
-}
+};
 
-type TagsProps = {
+type Props = {
   tags: string;
   category: string;
 };

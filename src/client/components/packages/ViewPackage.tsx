@@ -1,7 +1,7 @@
 import PackageOptions from "client/components/packages/PackageOptions";
 import React, { FC, useContext } from "react";
 import styled from "styled-components/macro";
-import Tags from "client/components/packages/Tags";
+import { Col, Row } from "reactstrap";
 import { Comments } from "client/components/comments";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -10,8 +10,9 @@ import { MainCard } from "client/components/MainCard";
 import { MarkdownViewer } from "client/components/MarkdownViewer";
 import { PackageResult } from "client/types/Package";
 import { RouteComponentProps } from "@reach/router";
+import { Tags } from "client/components/packages/Tags";
 import { UserData } from "client/components/UserDataProvider";
-import { Votes } from "./Votes";
+import { Votes } from "client/components/packages/Votes";
 
 const Img = styled.img`
   object-fit: contain;
@@ -66,22 +67,25 @@ export const ViewPackage: FC<Props> = (props = defaultProps) => {
 
   return (
     <MainCard header={pkg.name} options={packageOptions}>
-      <div className="row">
-        <div className="col">
-          <div className="row text-muted">
-            <div className="col">{pkg.description}</div>
+      <Row>
+        <Col>
+          <Row className="text-muted">
+            <Col>{pkg.description}</Col>
             {packageImage}
-          </div>
+          </Row>
           <hr />
           <MarkdownViewer source={pkg.readme} />
-        </div>
-      </div>
-      <div className="row mt-3 justify-content-between">
-        <div className="col-auto">
-          <Icon icon={faHome} title="home" />
-          <a href={pkg.website} target="_blank" rel="noopener noreferrer">
-            {pkg.website}
-          </a>
+        </Col>
+      </Row>
+
+      <Row className="row mt-3 justify-content-between">
+        <Col md="6" style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+          <span style={{ whiteSpace: "nowrap" }}>
+            <Icon icon={faHome} title="home" />
+            <a href={pkg.website} target="_blank" rel="noopener noreferrer">
+              {pkg.website}
+            </a>
+          </span>
           <br />
           <Icon icon={faGithub} title="github" />
           <a href={pkg.repository} target="_blank" rel="noopener noreferrer">
@@ -96,10 +100,10 @@ export const ViewPackage: FC<Props> = (props = defaultProps) => {
           >
             {pkg.owner}
           </a>
-        </div>
+        </Col>
 
-        <div className="col-auto">License: {pkg.license}</div>
-        <big className="col-auto">
+        <Col md="auto">License: {pkg.license}</Col>
+        <Col md="auto" style={{ fontSize: "larger" }}>
           <Votes
             id={pkg.id}
             slug={pkg.slug}
@@ -107,8 +111,8 @@ export const ViewPackage: FC<Props> = (props = defaultProps) => {
             downvotes={pkg.downvotes}
             vote={pkg.vote}
           />
-        </big>
-      </div>
+        </Col>
+      </Row>
       <Tags tags={pkg.tags} category={pkg.category} />
       <hr />
       <Comments pkg={pkg} comments={comments} />

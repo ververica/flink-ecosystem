@@ -1,6 +1,6 @@
 import React, { FC, SyntheticEvent, useContext } from "react";
 import { format } from "date-fns";
-import { UserData } from "../UserDataProvider";
+import { UserData } from "client/components/UserDataProvider";
 
 export const CommentHeader: FC<Props> = props => {
   const { user } = useContext(UserData);

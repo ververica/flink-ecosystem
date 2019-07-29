@@ -1,13 +1,13 @@
 import Axios from "axios";
 import cx from "classnames";
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useState, FC } from "react";
 import styled from "styled-components/macro";
 import { Col, Row } from "reactstrap";
 import { CommentData } from "client/types/Package";
-import { CommentHeader } from "./CommentHeader";
-import { ConfirmModal } from "../ConfirmModal";
-import { EditComment } from "./EditComment";
-import { MarkdownViewer } from "../MarkdownViewer";
+import { CommentHeader } from "client/components/comments/CommentHeader";
+import { ConfirmModal } from "client/components/ConfirmModal";
+import { EditComment } from "client/components/comments/EditComment";
+import { MarkdownViewer } from "client/components/MarkdownViewer";
 import { useHistory } from "client/helpers";
 
 const Avatar = styled.img.attrs({
@@ -30,7 +30,7 @@ const Media = styled.li.attrs(props => ({
   }
 `;
 
-export default function Comment(props: CommentProps) {
+export const Comment: FC<Props> = props => {
   const [editing, setEditing] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -106,8 +106,8 @@ export default function Comment(props: CommentProps) {
       />
     </Media>
   );
-}
+};
 
-type CommentProps = CommentData & {
+type Props = CommentData & {
   removeComment: (id: CommentData["id"]) => void;
 };

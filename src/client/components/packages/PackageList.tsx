@@ -4,11 +4,11 @@ import styled from "styled-components/macro";
 import { CardText, Col, Row } from "reactstrap";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
-import { Icon } from "../Icon";
+import { Icon } from "client/components/Icon";
 import { Link } from "@reach/router";
 import { PackageData } from "client/types/Package";
 import { useScroll } from "client/helpers";
-import { Votes } from "./Votes";
+import { Votes } from "client/components/packages/Votes";
 
 const Img = styled.img`
   object-fit: cover;

@@ -1,9 +1,9 @@
 import Axios from "axios";
 import cx from "classnames";
 import React, { SyntheticEvent, useState } from "react";
-import { ConfirmModal } from "../ConfirmModal";
+import { ConfirmModal } from "client/components/ConfirmModal";
 import { faEdit, faTools, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { Icon } from "../Icon";
+import { Icon } from "client/components/Icon";
 import { Link } from "@reach/router";
 import { useHistory, useOutsideClick } from "client/helpers";
 

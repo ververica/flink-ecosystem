@@ -1,6 +1,6 @@
-import Comment from "./Comment";
 import React, { FC, useContext, useState } from "react";
-import { AddComment } from "./AddComment";
+import { AddComment } from "client/components/comments/AddComment";
+import { Comment } from "client/components/comments/Comment";
 import { CommentData, PackageData } from "client/types/Package";
 import { UserData } from "client/components/UserDataProvider";
 
