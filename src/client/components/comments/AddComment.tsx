@@ -2,7 +2,7 @@ import Axios from "axios";
 import React, { FC, useContext } from "react";
 import styled from "styled-components/macro";
 import { CommentData } from "client/types/Package";
-import { CommentForm } from "./CommentForm";
+import { CommentForm } from "client/components/comments/CommentForm";
 import { UserData } from "client/components/UserDataProvider";
 
 const Avatar = styled.img.attrs({

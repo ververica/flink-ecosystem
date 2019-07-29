@@ -1,12 +1,12 @@
 import Axios from "axios";
 import React, { FC, useContext } from "react";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
-import { Icon } from "../Icon";
+import { Icon } from "client/components/Icon";
 import { Link, Redirect, RouteComponentProps } from "@reach/router";
-import { MainCard } from "../MainCard";
+import { MainCard } from "client/components/MainCard";
 import { PackageData, PackageFormData } from "client/types/Package";
-import { PackageForm } from "../package-form";
-import { UserData } from "../UserDataProvider";
+import { PackageForm } from "client/components/package-form";
+import { UserData } from "client/components/UserDataProvider";
 
 const submitButton = (
   <button className="btn btn-success" type="submit">

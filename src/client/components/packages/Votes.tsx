@@ -1,9 +1,9 @@
 import cx from "classnames";
 import styled from "styled-components/macro";
 import { faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import { Icon } from "../Icon";
+import { Icon } from "client/components/Icon";
 import { UncontrolledTooltip } from "reactstrap";
-import { UserData } from "../UserDataProvider";
+import { UserData } from "client/components/UserDataProvider";
 import React, {
   useState,
   SyntheticEvent,
