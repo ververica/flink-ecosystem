@@ -12,12 +12,6 @@ export default function checkUser(options = defaultOptions) {
     };
 
     const token = ctx.cookies.get("github-token");
-    const user = ctx.cache.get(token);
-
-    if (user) {
-      ctx.state.user = user;
-      return next();
-    }
 
     // for some requests we don't want to force the user to login, so they can
     // continue through
@@ -26,6 +20,14 @@ export default function checkUser(options = defaultOptions) {
         return next();
       }
       ctx.throw(403);
+    }
+
+    const user = ctx.cache.get(token);
+
+    // cache hit, nothing more to do.
+    if (user) {
+      ctx.state.user = user;
+      return next();
     }
 
     const basicAuthString = Buffer.from(

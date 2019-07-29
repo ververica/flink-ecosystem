@@ -4,8 +4,9 @@ import { UserData } from "../UserDataProvider";
 
 export const CommentHeader: FC<Props> = props => {
   const { user } = useContext(UserData);
+  const canUseActions = props.user_id === user.id || user.isAdmin;
 
-  const commentActions = (
+  const commentActions = canUseActions ? (
     <small>
       [
       <a href="#delete" onClick={props.handleDeleteClick}>
@@ -17,7 +18,7 @@ export const CommentHeader: FC<Props> = props => {
       </a>
       ]
     </small>
-  );
+  ) : null;
 
   return (
     <small className="d-flex justify-content-between text-muted">
@@ -26,7 +27,7 @@ export const CommentHeader: FC<Props> = props => {
         {format(props.added, "MM-DD-YYYY hh:mma")}{" "}
         {props.added !== props.updated && <small>(edited)</small>}
       </span>
-      {props.user_id === user.id && commentActions}
+      {commentActions}
     </small>
   );
 };

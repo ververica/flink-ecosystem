@@ -5,6 +5,19 @@ import { omit } from "lodash/fp";
 import { packageMailerTemplate } from "server/helpers/mailerTemplates";
 import { packageSchema } from "server/helpers/validatorSchemas";
 import { parseValidatorError } from "server/helpers/parseValidatorError";
+import { checkAccess } from "server/helpers/admins";
+
+const checkPackageOwner = () => async (ctx, next) => {
+  const { packageOwnerId } = await ctx
+    .db("package")
+    .select("user_id as packageOwnerId")
+    .where({ slug: ctx.params.packageSlug })
+    .first();
+
+  checkAccess(ctx, packageOwnerId);
+
+  return next();
+};
 
 exports.get = [
   checkUser({ required: false }),
@@ -77,6 +90,7 @@ exports.get = [
 
 exports.post = [
   checkUser(),
+  checkPackageOwner(),
   async ctx => {
     const { body } = ctx.request;
     const slug = ctx.params.packageSlug;
@@ -115,6 +129,7 @@ exports.post = [
 
 exports.delete = [
   checkUser(),
+  checkPackageOwner(),
   async ctx => {
     const result = await ctx
       .db("package")

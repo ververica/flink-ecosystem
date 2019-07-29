@@ -14,6 +14,7 @@ export const mailer = (ctx, next) => {
       const subject = `Flink Community Packages - [${prefix}] - ${title}`;
 
       setTimeout(() => {
+        if (!process.env.SMTP_PASSWORD) return;
         transporter.sendMail(
           {
             // @TODO this will change based on how this runs when it eventually
