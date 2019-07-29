@@ -1,11 +1,11 @@
 import Axios from "axios";
 import cx from "classnames";
 import React, { SyntheticEvent, useState } from "react";
+import { ConfirmModal } from "../ConfirmModal";
 import { faEdit, faTools, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "../Icon";
 import { Link } from "@reach/router";
 import { useHistory, useOutsideClick } from "client/helpers";
-import { ConfirmModal } from "../ConfirmModal";
 
 export default function PackageOptions(props: PackageOptionsProps) {
   const [showDropdown, setShowDropdown] = useState(false);

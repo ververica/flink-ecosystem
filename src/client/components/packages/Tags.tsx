@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "@reach/router";
-import { categories } from "client/helpers/categories";
 import { Badge } from "reactstrap";
+import { categories } from "client/helpers/categories";
+import { Link } from "@reach/router";
 
 const categoryValues = categories.map(c => c.value);
 

@@ -1,6 +1,6 @@
-import React, { SyntheticEvent, FC } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import cx from "classnames";
+import React, { FC, SyntheticEvent } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 export const Icon: FC<Props> = props => {

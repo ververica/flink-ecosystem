@@ -1,7 +1,7 @@
-import React, { ReactNode, FC } from "react";
+import React, { FC, ReactNode } from "react";
 import styled from "styled-components/macro";
-import { mediaLarge } from "client/helpers/styles";
 import { CardBody } from "reactstrap";
+import { mediaLarge } from "client/helpers/styles";
 
 const Card = styled.div.attrs({
   className: `card rounded-0`,

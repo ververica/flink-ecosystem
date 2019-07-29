@@ -1,3 +1,12 @@
+import AnimateHeight from "react-animate-height";
+import cx from "classnames";
+import logo from "client/assets/flink-logo.png";
+import styled from "styled-components/macro";
+import { categories } from "client/helpers/categories";
+import { Icon } from "./Icon";
+import { Link } from "@reach/router";
+import { mediaLarge } from "client/helpers/styles";
+import { UserData } from "./UserDataProvider";
 import React, {
   useState,
   useEffect,
@@ -5,16 +14,6 @@ import React, {
   useContext,
   FC,
 } from "react";
-import { Link } from "@reach/router";
-import styled from "styled-components/macro";
-import cx from "classnames";
-import AnimateHeight from "react-animate-height";
-import logo from "client/assets/flink-logo.png";
-
-import { mediaLarge } from "client/helpers/styles";
-import { UserData } from "./UserDataProvider";
-import { Icon } from "./Icon";
-import { categories } from "client/helpers/categories";
 import {
   faBars,
   faTags,

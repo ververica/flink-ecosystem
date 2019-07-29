@@ -1,11 +1,11 @@
 import React, { FC, useContext, useEffect } from "react";
-import { FormProvider } from "./PackageForm";
-import { Badge, Card } from "reactstrap";
-import { FormProviderProps } from "client/types/FormProvider";
-import { useTokenizer } from "client/helpers/useTokenizer";
-import { Icon } from "../Icon";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components/macro";
+import { Badge, Card } from "reactstrap";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FormProvider } from "./PackageForm";
+import { FormProviderProps } from "client/types/FormProvider";
+import { Icon } from "../Icon";
+import { useTokenizer } from "client/helpers/useTokenizer";
 
 const Input = styled.input.attrs({
   className: "mx-1 border-0",

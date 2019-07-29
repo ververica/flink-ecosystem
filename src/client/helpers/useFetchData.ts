@@ -1,5 +1,5 @@
-import { useState, useContext, useEffect, useRef } from "react";
 import useFetch from "fetch-suspense";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserData } from "client/components/UserDataProvider";
 
 export default function useFetchData(url: string, key: string = "") {

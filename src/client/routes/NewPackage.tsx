@@ -1,13 +1,12 @@
-import React, { useContext, FC } from "react";
 import Axios from "axios";
-
-import { MainCard } from "client/components/MainCard";
-import { RouteComponentProps } from "@reach/router";
-import { PackageForm } from "client/components/package-form";
-import { initialValues } from "client/components/package-form/PackageForm";
-import { Icon } from "client/components/Icon";
-import { PackageFormData } from "client/types/Package";
+import React, { FC, useContext } from "react";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "client/components/Icon";
+import { initialValues } from "client/components/package-form/PackageForm";
+import { MainCard } from "client/components/MainCard";
+import { PackageForm } from "client/components/package-form";
+import { PackageFormData } from "client/types/Package";
+import { RouteComponentProps } from "@reach/router";
 import { UserData } from "client/components/UserDataProvider";
 
 export const NewPackage: FC<Props> = () => {

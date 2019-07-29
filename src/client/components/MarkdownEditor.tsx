@@ -1,3 +1,7 @@
+import cx from "classnames";
+import TextareaAutosize from "react-textarea-autosize";
+import { FormError } from "client/types/FormProvider";
+import { MarkdownViewer } from "./MarkdownViewer";
 import React, {
   useState,
   SyntheticEvent,
@@ -5,10 +9,6 @@ import React, {
   ChangeEvent,
   FC,
 } from "react";
-import cx from "classnames";
-import TextareaAutosize from "react-textarea-autosize";
-import { MarkdownViewer } from "./MarkdownViewer";
-import { FormError } from "client/types/FormProvider";
 
 export const MarkdownEditor: FC<Props> = props => {
   const [tab, setTab] = useState("write");

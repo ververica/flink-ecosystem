@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import { useCookies } from "react-cookie";
 import styled from "styled-components/macro";
+import { Alert, Button, Container } from "reactstrap";
 import { createPortal } from "react-dom";
-import { Container, Alert, Button } from "reactstrap";
-import { useSessionStorage } from "react-use";
 import { mediaLarge } from "client/helpers";
+import { useCookies } from "react-cookie";
+import { useSessionStorage } from "react-use";
 
 const CookieBannerContainer = styled.div`
   display: flex;

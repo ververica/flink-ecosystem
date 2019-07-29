@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-
-import { RouteComponentProps, Router } from "@reach/router";
-import { ViewPackage, EditPackage } from "client/components/packages";
+import { EditPackage, ViewPackage } from "client/components/packages";
 import { ErrorComponent } from "client/components/ErrorComponent";
-import { useFetchData } from "client/helpers";
 import { PackageResult } from "client/types/Package";
+import { RouteComponentProps, Router } from "@reach/router";
 import { ServerResponse } from "client/types/Server";
+import { useFetchData } from "client/helpers";
 
 export const Package: FC<Props> = props => {
   const [data] = useFetchData(

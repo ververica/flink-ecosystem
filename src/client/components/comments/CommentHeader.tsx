@@ -1,4 +1,4 @@
-import React, { useContext, FC, SyntheticEvent } from "react";
+import React, { FC, SyntheticEvent, useContext } from "react";
 import { format } from "date-fns";
 import { UserData } from "../UserDataProvider";
 
