@@ -1,5 +1,5 @@
-import React, { useContext, FC } from "react";
 import cx from "classnames";
+import React, { FC, useContext } from "react";
 import { FormProvider } from "./PackageForm";
 
 export const SelectField: FC<Props> = props => {

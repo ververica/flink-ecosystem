@@ -1,3 +1,7 @@
+import cx from "classnames";
+import styled from "styled-components/macro";
+import { FormProvider } from "./PackageForm";
+import { InputLabel } from "./InputLabel";
 import React, {
   useContext,
   MutableRefObject,
@@ -5,10 +9,6 @@ import React, {
   ReactElement,
   FC,
 } from "react";
-import cx from "classnames";
-import { FormProvider } from "./PackageForm";
-import styled from "styled-components/macro";
-import { InputLabel } from "./InputLabel";
 
 const InputWrapper = styled.div`
   position: relative;

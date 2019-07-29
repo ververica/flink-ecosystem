@@ -1,6 +1,5 @@
 import getFormData from "get-form-data";
 import styled from "styled-components/macro";
-
 import { useHistory } from "client/helpers";
 import { UserLogin } from "./UserLogin";
 import React, {

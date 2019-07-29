@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
 export const ConfirmModal: FC<Props> = props => {
   return (

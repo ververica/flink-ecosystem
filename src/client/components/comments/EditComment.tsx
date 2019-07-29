@@ -1,7 +1,7 @@
-import React, { FC, useContext } from "react";
-import { CommentForm } from "./CommentForm";
-import { CommentData } from "client/types/Package";
 import Axios from "axios";
+import React, { FC, useContext } from "react";
+import { CommentData } from "client/types/Package";
+import { CommentForm } from "./CommentForm";
 import { UserData } from "../UserDataProvider";
 
 export const EditComment: FC<Props> = props => {

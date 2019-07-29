@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { MainCard } from "client/components/MainCard";
 import { PackageList } from "client/components/packages";
-import { RouteComponentProps } from "@reach/router";
-import { useFetchData } from "client/helpers";
-import { ServerResponse } from "client/types/Server";
 import { PackagesResult } from "client/types/Package";
+import { RouteComponentProps } from "@reach/router";
+import { ServerResponse } from "client/types/Server";
+import { useFetchData } from "client/helpers";
 
 export const Category: FC<Props> = props => {
   const [data] = useFetchData(

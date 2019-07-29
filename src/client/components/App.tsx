@@ -1,5 +1,6 @@
 import React, { FC, Suspense } from "react";
 import styled from "styled-components/macro";
+import { Col, Container } from "reactstrap";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Loader } from "./Loader";
@@ -15,7 +16,6 @@ import {
   Search,
   NewPackage,
 } from "client/routes";
-import { Container } from "reactstrap";
 
 const AppContainer = styled(Container).attrs({
   className: "min-vh-100 d-flex flex-column",
@@ -55,7 +55,7 @@ export const App: FC = () => {
     <Providers>
       <AppContainer>
         <LayoutWrapper>
-          <div className="col-lg-9 d-flex flex-column">
+          <Col lg="9" className="d-flex flex-column">
             <Header />
             <Suspense fallback={<Loader />}>
               <RouterWrapper primary={false}>
@@ -67,7 +67,7 @@ export const App: FC = () => {
                 <Guide path="/guide" />
               </RouterWrapper>
             </Suspense>
-          </div>
+          </Col>
           <Sidebar />
         </LayoutWrapper>
         <Footer />

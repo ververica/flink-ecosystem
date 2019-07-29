@@ -1,5 +1,5 @@
-import React, { FC } from "react";
 import cx from "classnames";
+import React, { FC } from "react";
 
 export const ErrorComponent: FC<Props> = props => {
   return (

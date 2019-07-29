@@ -1,7 +1,7 @@
-import React, { useState, SyntheticEvent, ReactNode, FC } from "react";
-import { MarkdownEditor } from "../MarkdownEditor";
+import React, { FC, ReactNode, SyntheticEvent, useState } from "react";
 import { FormChangeEvent, FormError } from "client/types/FormProvider";
 import { handlePostError } from "client/helpers/handlePostError";
+import { MarkdownEditor } from "../MarkdownEditor";
 
 export const CommentForm: FC<Props> = props => {
   const [content, setContent] = useState(props.initialValue || "");

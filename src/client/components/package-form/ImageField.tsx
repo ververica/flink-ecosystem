@@ -1,9 +1,9 @@
-import React, { useCallback, useContext, useState, useEffect, FC } from "react";
-import { useDropzone } from "react-dropzone";
-import { FormProvider } from "./PackageForm";
-import styled from "styled-components/macro";
 import cx from "classnames";
+import React, { FC, useCallback, useContext, useEffect, useState } from "react";
+import styled from "styled-components/macro";
 import { FormFeedback } from "reactstrap";
+import { FormProvider } from "./PackageForm";
+import { useDropzone } from "react-dropzone";
 
 const Image = styled.img`
   object-fit: contain;

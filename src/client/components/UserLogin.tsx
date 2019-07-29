@@ -1,12 +1,12 @@
-import React, { FC, useContext, SyntheticEvent } from "react";
+import React, { FC, SyntheticEvent, useContext } from "react";
+import { useCookies } from "react-cookie";
+import { UserData } from "./UserDataProvider";
 import {
   UncontrolledPopover,
   PopoverHeader,
   PopoverBody,
   Button,
 } from "reactstrap";
-import { UserData } from "./UserDataProvider";
-import { useCookies } from "react-cookie";
 
 const WelcomeUser: FC = () => {
   const { user, logout } = useContext(UserData);

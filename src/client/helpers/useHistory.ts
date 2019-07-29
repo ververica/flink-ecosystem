@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { history } from "client/components/Providers";
+import { useEffect, useState } from "react";
 
 export const useHistory = () => {
   const [state, setState] = useState(history);

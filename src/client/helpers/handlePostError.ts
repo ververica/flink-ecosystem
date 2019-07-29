@@ -1,5 +1,5 @@
-import { get } from "lodash/fp";
 import { FormError } from "client/types/FormProvider";
+import { get } from "lodash/fp";
 
 const makeGeneralError: MakeGeneralError = message => ({ id: "", message });
 

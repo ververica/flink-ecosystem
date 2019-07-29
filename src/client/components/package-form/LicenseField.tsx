@@ -1,7 +1,7 @@
-import React, { useState, useContext, useRef, FC } from "react";
-import { SelectField } from "./SelectField";
-import { InputField } from "./InputField";
+import React, { FC, useContext, useRef, useState } from "react";
 import { FormProvider } from "./PackageForm";
+import { InputField } from "./InputField";
+import { SelectField } from "./SelectField";
 
 const licenses = [
   "MIT License",

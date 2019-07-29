@@ -2,6 +2,8 @@ import cx from "classnames";
 import styled from "styled-components/macro";
 import { faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "../Icon";
+import { UncontrolledTooltip } from "reactstrap";
+import { UserData } from "../UserDataProvider";
 import React, {
   useState,
   SyntheticEvent,
@@ -11,8 +13,6 @@ import React, {
   FC,
   useContext,
 } from "react";
-import { UncontrolledTooltip } from "reactstrap";
-import { UserData } from "../UserDataProvider";
 
 const VoteContainer = styled.small`
   cursor: ${(props: { loggedOut: boolean }) =>

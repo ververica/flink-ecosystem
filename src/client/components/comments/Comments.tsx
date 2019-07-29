@@ -1,9 +1,8 @@
-import React, { useContext, useState, FC } from "react";
-import { UserData } from "client/components/UserDataProvider";
-import { PackageData, CommentData } from "client/types/Package";
-
-import { AddComment } from "./AddComment";
 import Comment from "./Comment";
+import React, { FC, useContext, useState } from "react";
+import { AddComment } from "./AddComment";
+import { CommentData, PackageData } from "client/types/Package";
+import { UserData } from "client/components/UserDataProvider";
 
 export const Comments: FC<Props> = props => {
   const { user } = useContext(UserData);
