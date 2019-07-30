@@ -1,10 +1,8 @@
-import Joi from "@hapi/joi";
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
 import { omit } from "lodash/fp";
 import { packageMailerTemplate } from "server/helpers/mailerTemplates";
-import { packageSchema } from "server/helpers/validatorSchemas";
-import { parseValidatorError } from "server/helpers/parseValidatorError";
+import { validatePackage } from "server/middleware/validatePackage";
 
 exports.get = [
   checkUser({ required: false }),
@@ -77,16 +75,9 @@ exports.get = [
 
 exports.post = [
   checkUser(),
+  validatePackage(),
   async ctx => {
-    const { body } = ctx.request;
-    const slug = ctx.params.packageSlug;
-
-    const validation = Joi.validate(body, packageSchema);
-    if (validation.error) {
-      ctx.throw(400, parseValidatorError(validation.error.message));
-    }
-
-    const data = omit(["slug"], body);
+    const data = omit(["slug"], ctx.request.body);
     const result = await ctx
       .db("package")
       .update({ ...data, updated: ctx.db.raw("now()") })

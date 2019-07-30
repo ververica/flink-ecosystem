@@ -5,15 +5,16 @@ import {
   SyntheticEvent,
   ClipboardEvent,
 } from "react";
+
 export const useTokenizer = (initialTokens: string[]) => {
   const [tokens, setTokens] = useState(initialTokens);
   const [value, setValue] = useState("");
-  const [error, setError] = useState(false);
+  const [tokenizerError, setError] = useState("");
 
   const addToken = () => {
     if (value) {
       if (tokens.includes(value)) {
-        setError(true);
+        setError('"tags" cannot have duplicate tags.');
         return;
       }
       setTokens([...tokens, value]);
@@ -53,7 +54,7 @@ export const useTokenizer = (initialTokens: string[]) => {
     addToken();
   };
   const updateValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setError(false);
+    setError("");
     setValue(e.target.value.toLowerCase());
   };
   const deleteToken = (token: string) => (e: SyntheticEvent) => {
@@ -76,5 +77,5 @@ export const useTokenizer = (initialTokens: string[]) => {
     onPaste: handlePaste,
     onBlur,
   };
-  return { tokens, error, inputProps, deleteToken };
+  return { tokens, tokenizerError, inputProps, deleteToken, setError };
 };

@@ -20,7 +20,7 @@ export const packageSchema = Joi.object().keys({
   description: requiredString,
   readme: requiredString,
   website: optionalString,
-  repository: Joi.string(),
+  repository: requiredString,
   license: requiredString,
   category: requiredString,
   tags: optionalString,

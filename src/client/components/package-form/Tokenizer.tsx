@@ -34,13 +34,15 @@ const TokenizerWrapper = styled(Card).attrs({
 `;
 
 export const Tokenizer: FC<Props> = props => {
-  const { inputs, setInputs } = useContext(FormProvider);
+  const { inputs, setInputs, error } = useContext(FormProvider);
   const tags = inputs.tags
     .split(/,/)
     .filter((tag: string) => !!tag)
     .map((tag: string) => tag.trim());
 
-  const { tokens, error, deleteToken, inputProps } = useTokenizer(tags);
+  const { tokens, tokenizerError, deleteToken, inputProps } = useTokenizer(
+    tags
+  );
 
   useEffect(() => {
     const tags = tokens.join(",");
@@ -80,11 +82,11 @@ export const Tokenizer: FC<Props> = props => {
           placeholder={props.placeholder}
         />
       </TokenizerWrapper>
-      {error && (
-        <div className="invalid-feedback d-block">
-          You cannot have the same tag more than once.
-        </div>
-      )}
+      {tokenizerError ? (
+        <div className="invalid-feedback d-block">{tokenizerError}</div>
+      ) : error.id === props.id ? (
+        <div className="invalid-feedback d-block">{error.message}</div>
+      ) : null}
       <small id={`${props.id}-help`} className="form-text text-muted">
         Press <kbd>,</kbd> or <kbd>return</kbd> to separate tags.
       </small>

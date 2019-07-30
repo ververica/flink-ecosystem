@@ -1,9 +1,7 @@
-import Joi from "@hapi/joi";
 import checkUser from "server/middleware/checkUser";
 import { selectVotes, joinVotes } from "server/helpers/votes";
 import { packageMailerTemplate } from "server/helpers/mailerTemplates";
-import { parseValidatorError } from "server/helpers/parseValidatorError";
-import { packageSchema } from "server/helpers/validatorSchemas";
+import { validatePackage } from "server/middleware/validatePackage";
 
 const addCategory = (query, category) =>
   query.andWhere(whereCtx => {
@@ -66,16 +64,11 @@ exports.get = [
 
 exports.post = [
   checkUser(),
+  validatePackage(),
   async ctx => {
-    const { body } = ctx.request;
-    const validation = Joi.validate(body, packageSchema);
-    if (validation.error) {
-      ctx.throw(400, parseValidatorError(validation.error.message));
-    }
-
     try {
       const result = await ctx.db("package").insert({
-        ...body,
+        ...ctx.request.body,
         user_id: ctx.state.user.id,
         added: ctx.db.raw("now()"),
         updated: ctx.db.raw("now()"),
