@@ -28,7 +28,10 @@ export const Packages: FC<Props> = props => {
   return (
     <>
       <MainCard>
-        <h5>This page contains third-party projects around Apache Flink</h5>
+        <h5>
+          This page contains third-party projects for{" "}
+          <a href="https://flink.apache.org/">Apache Flink</a>
+        </h5>
         <p>
           Users can explore the Flink ecosystem of connectors, extensions, APIs,
           tool and integrations here. Developers in the ecosystem can submit
@@ -39,6 +42,14 @@ export const Packages: FC<Props> = props => {
         <p>
           <strong>Note:</strong> Packages listed here are user-submitted, they
           are not not endorsed by the Apache Flink project.
+        </p>
+        <p>
+          Unlike Apache Flink, the packages here are potentially covered by the
+          licenses LGPL and GPL.
+        </p>
+        <p>
+          Note that this site is not affiliated with or released by Apache
+          Flink, although you may recognize many of the same committers.
         </p>
       </MainCard>
       <MainCard header={`Most Recent Packages (${count})`}>
