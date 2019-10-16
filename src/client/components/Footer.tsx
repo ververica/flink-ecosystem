@@ -20,7 +20,11 @@ export const Footer: FC = () => {
         managed by Ververica.
       </p>
       <p>
-        <a href="TBD">
+      <a href="/terms-of-use">
+          Terms of Use
+        </a>
+        &nbsp;|&nbsp;
+        <a href="/privacy-policy">
           Privacy Policy
         </a>
         &nbsp;|&nbsp;

@@ -62,8 +62,9 @@ export const CookieBanner: FC = () => {
               className="mb-0 rounded-0 justify-content-between d-flex align-items-center"
             >
               <span>
-                According to our <a href="#">Privacy Policy</a>, this website uses cookies for Google Analytics and storing a 
-                temporary login token from GitHub. Please accept the use of cookies for an improved experience with our website.
+                According to our <a href="/privacy-policy">Privacy Policy</a>, this website uses cookies for Google Analytics and storing a
+                temporary login token from GitHub. For the use of Google Analytics Cookies we require your consent. 
+                Please accept the use of cookies for an improved experience with our website.
               </span>
 
               <CookieButtons>

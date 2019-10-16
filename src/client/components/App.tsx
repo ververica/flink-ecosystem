@@ -13,8 +13,10 @@ import {
   Packages,
   Category,
   Guide,
+  TermsOfUse,
   Search,
   NewPackage,
+  PrivacyPolicy,
 } from "client/routes";
 
 const AppContainer = styled(Container).attrs({
@@ -65,6 +67,8 @@ export const App: FC = () => {
                 <Category path="/categories/:category" />
                 <Search path="/search/:searchQuery" />
                 <Guide path="/guide" />
+                <TermsOfUse path="/terms-of-use" />
+                <PrivacyPolicy path="/privacy-policy" />
               </RouterWrapper>
             </Suspense>
           </Col>
