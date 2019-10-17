@@ -56,6 +56,9 @@ export const App: FC = () => {
   return (
     <Providers>
       <AppContainer>
+        <div className="alert alert-warning" role="alert">
+          <b>PREVIEW ONLY!</b> This website is still under development.
+        </div>
         <LayoutWrapper>
           <Col lg="9" className="d-flex flex-column">
             <Header />

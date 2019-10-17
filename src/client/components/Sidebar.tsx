@@ -1,6 +1,6 @@
 import AnimateHeight from "react-animate-height";
 import cx from "classnames";
-import logo from "client/assets/flink-logo.png";
+import logo from "client/assets/logo-acorn.png";
 import styled from "styled-components/macro";
 import { categories } from "client/helpers/categories";
 import { Icon } from "./Icon";
@@ -36,16 +36,16 @@ const SidebarColumn = styled.div.attrs({
   }
 `;
 
-const FlinkLogo = styled.img.attrs({
+const SiteLogo = styled.img.attrs({
   src: logo,
-  alt: "Flink Logo",
+  alt: "Logo",
 })`
   height: 40px;
   object-fit: contain;
 
   @media ${mediaLarge} {
     height: auto;
-    max-width: 100%;
+    max-width: 65%;
     padding: 3rem 3rem 1rem;
   }
 `;
@@ -55,6 +55,7 @@ const NavTitle = styled.h1`
   display: inline;
   vertical-align: middle;
   margin-left: 15px;
+  
 
   br {
     display: none;
@@ -145,8 +146,8 @@ export const Sidebar: FC = () => {
   return (
     <SidebarColumn>
       <TitleContainer>
-        <Link to="/" className="text-dark text-decoration-none">
-          <FlinkLogo />
+        <Link to="/" className="text-dark text-decoration-none text-center">
+          <SiteLogo />
 
           <NavTitle>
             Community Packages
