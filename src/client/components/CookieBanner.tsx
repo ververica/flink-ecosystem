@@ -5,6 +5,9 @@ import { createPortal } from "react-dom";
 import { mediaLarge } from "client/helpers";
 import { useCookies } from "react-cookie";
 import { useSessionStorage } from "react-use";
+import { Link } from "@reach/router";
+
+const COOKIE_AGE = 60 * 60 * 24 * 365; // Seconds
 
 const CookieBannerContainer = styled.div`
   display: flex;
@@ -45,12 +48,13 @@ export const CookieBanner: FC = () => {
   const div = document.createElement("div");
   document.body.appendChild(div);
 
-  const handleConsentClick = () =>
-    setCookie("consent", true, {
-      maxAge: 60 * 60 * 24 * 365,
-    });
+  const handleConsentClick = () => {
+    setCookie("consent", true, { maxAge: COOKIE_AGE });
+  };
 
-  const handleDeclineClick = () => setDeclined(true);
+  const handleDeclineClick = () => {
+    setDeclined(true);
+  };
 
   return cookies.consent || declined
     ? null
@@ -62,9 +66,12 @@ export const CookieBanner: FC = () => {
               className="mb-0 rounded-0 justify-content-between d-flex align-items-center"
             >
               <span>
-                According to our <a href="/privacy-policy">Privacy Policy</a>, this website uses cookies for Google Analytics and storing a
-                temporary login token from GitHub. For the use of Google Analytics Cookies we require your consent. 
-                Please accept the use of cookies for an improved experience with our website.
+                According to our{" "}
+                <Link to="/privacy-policy">Privacy Policy</Link>, this website
+                uses cookies for Google Analytics and storing a temporary login
+                token from GitHub. For the use of Google Analytics Cookies we
+                require your consent. Please accept the use of cookies for an
+                improved experience with our website.
               </span>
 
               <CookieButtons>
