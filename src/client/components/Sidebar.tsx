@@ -55,7 +55,6 @@ const NavTitle = styled.h1`
   display: inline;
   vertical-align: middle;
   margin-left: 15px;
-  
 
   br {
     display: none;
