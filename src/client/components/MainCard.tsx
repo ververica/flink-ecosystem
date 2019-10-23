@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from "react";
 import styled from "styled-components/macro";
 import { CardBody } from "reactstrap";
 import { mediaLarge } from "client/helpers/styles";
+import cx from "classnames";
 
 const Card = styled.div.attrs({
   className: `card rounded-0`,
@@ -13,10 +14,6 @@ const Card = styled.div.attrs({
   & + & {
     border-top: 0;
     flex-grow: 1;
-  }
-
-  p:last-child {
-    margin-bottom: 0;
   }
 `;
 
@@ -32,7 +29,9 @@ export const MainCard: FC<Props> = props => {
         </Card>
       )}
       <Card>
-        <CardBody className={props.bodyClass}>{props.children}</CardBody>
+        <CardBody className={cx(props.bodyClass, props.className)}>
+          {props.children}
+        </CardBody>
       </Card>
     </>
   );
@@ -42,4 +41,5 @@ type Props = {
   header?: ReactNode;
   options?: ReactNode;
   bodyClass?: string;
+  className?: string;
 };

@@ -13,8 +13,10 @@ import {
   Packages,
   Category,
   Guide,
+  TermsOfUse,
   Search,
   NewPackage,
+  PrivacyPolicy,
 } from "client/routes";
 
 const AppContainer = styled(Container).attrs({
@@ -54,6 +56,9 @@ export const App: FC = () => {
   return (
     <Providers>
       <AppContainer>
+        <div className="alert alert-warning" role="alert">
+          <b>PREVIEW ONLY!</b> This website is still under development.
+        </div>
         <LayoutWrapper>
           <Col lg="9" className="d-flex flex-column">
             <Header />
@@ -65,6 +70,8 @@ export const App: FC = () => {
                 <Category path="/categories/:category" />
                 <Search path="/search/:searchQuery" />
                 <Guide path="/guide" />
+                <TermsOfUse path="/terms-of-use" />
+                <PrivacyPolicy path="/privacy-policy" />
               </RouterWrapper>
             </Suspense>
           </Col>
