@@ -14,7 +14,7 @@ exports.get = async ctx => {
     client_id: process.env.GITHUB_CLIENT,
     client_secret: process.env.GITHUB_SECRET,
     code,
-    redirect_uri: `${ctx.request.origin}/auth/callback`,
+    redirect_uri: `${process.env.SITE_DOMAIN}/auth/callback`,
     state,
   };
 

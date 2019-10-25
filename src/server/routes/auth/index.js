@@ -4,7 +4,7 @@ import crypto from "crypto";
 exports.get = ctx => {
   const params = {
     client_id: process.env.GITHUB_CLIENT,
-    redirect_uri: `${ctx.request.origin}/auth/callback`,
+    redirect_uri: `${process.env.SITE_DOMAIN}/auth/callback`,
     state: crypto.randomBytes(8).toString("hex"),
   };
 
