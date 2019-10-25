@@ -28,28 +28,27 @@ export const Packages: FC<Props> = props => {
   return (
     <>
       <MainCard>
-        <h5>
-          This page contains third-party projects for{" "}
-          <a href="https://flink.apache.org/">Apache Flink</a>
-        </h5>
-        <p>
-          Users can explore the Flink ecosystem of connectors, extensions, APIs,
+        <h6>
+          Welcome to flink-packages.org! This page contains third-party projects
+          for <a href="https://flink.apache.org/">Apache Flink</a>
+        </h6>
+        <p className="small">
+          You can explore the Flink ecosystem of connectors, extensions, APIs,
           tool and integrations here. Developers in the ecosystem can submit
-          what they have build as a new packages. Comments and votes allow users
-          leave feedback, get help and assess the quality of a community
+          what they have built as a new package. Comments and votes allow users
+          leave feedback, get support and assess the quality of a community
           package.
         </p>
-        <p>
-          <strong>Note:</strong> Packages listed here are user-submitted, they
-          are not not endorsed by the Apache Flink project.
+        <p className="small">
+          Packages listed here are user-submitted, they are not not endorsed by
+          the Apache Flink project or Ververica. This site is not affiliated
+          with or released by Apache Flink, although you may recognize many of
+          the same committers.
         </p>
-        <p>
-          Unlike Apache Flink, the packages here are potentially covered by the
-          licenses LGPL and GPL.
-        </p>
-        <p>
-          Note that this site is not affiliated with or released by Apache
-          Flink, although you may recognize many of the same committers.
+        <p className="small">
+          We are not checking the license of user-submitted packages. Please
+          check yourself if the license of a package you intend to use is
+          suitable.
         </p>
       </MainCard>
       <MainCard header={`Most Recent Packages (${count})`}>
