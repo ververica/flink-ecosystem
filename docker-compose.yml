@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.4"
 services:
   client:
     build:
@@ -23,6 +23,7 @@ services:
       MYSQL_USER: flink_ecosystem
       MYSQL_PASSWORD: test
       MYSQL_DATABASE: flink_ecosystem
+      SITE_DOMAIN: ${SITE_DOMAIN}
       GITHUB_CLIENT: ${GITHUB_CLIENT}
       GITHUB_SECRET: ${GITHUB_SECRET}
       EMAIL_ADDRESS: ${EMAIL_ADDRESS}

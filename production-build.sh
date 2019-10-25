@@ -8,4 +8,5 @@ npm install
 npm run build
 
 echo "Moving build results to nginx"
-cp build/ /var/www/html
+sudo cp -r build/* /var/www/html/
+
