@@ -1,10 +1,10 @@
 export const commentMailerTemplate = ({
-    packageName,
-    userName,
-    text,
-    origin,
-    packageSlug,
-    commentId,
+  packageName,
+  userName,
+  text,
+  origin,
+  packageSlug,
+  commentId,
 }) => `
 Package: ${packageName}
 Comment:
@@ -17,17 +17,17 @@ View this comment: ${origin}/packages/${packageSlug}#comment-${commentId}
 `;
 
 export const packageMailerTemplate = ({
-    name,
-    slug,
-    description,
-    readme,
-    website,
-    repository,
-    license,
-    category,
-    tags,
-    origin,
-    userName,
+  name,
+  slug,
+  description,
+  readme,
+  website,
+  repository,
+  license,
+  category,
+  tags,
+  origin,
+  userName,
 }) => `
 Name: ${name}
 ID: ${slug}
