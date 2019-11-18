@@ -12,11 +12,13 @@ export const Footer: FC = () => {
         Apache Flink, Flink, Apache and the squirrel logo are either registered
         trademarks or trademarks of the{" "}
         <a href="https://www.apache.org">The Apache Software Foundation</a> in
-        the United States and/or other countries
-        {/* , and are <a href="https://www.apache.org/foundation/marks/domains">used with permission</a> as of XXXX*/}
-        . The Apache Software Foundation has no affiliation with and does not
-        endorse or review the materials provided at this website, which is
-        managed by Ververica.
+        the United States and/or other countries, and are{" "}
+        <a href="https://www.apache.org/foundation/marks/domains">
+          used with permission
+        </a>{" "}
+        as of November 2019. The Apache Software Foundation has no affiliation
+        with and does not endorse or review the materials provided at this
+        website, which is managed by Ververica.
       </p>
       <p>
         <a href="/terms-of-use">Terms of Use</a>
