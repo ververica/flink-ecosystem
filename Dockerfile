@@ -18,5 +18,5 @@ COPY --from=build /home/node/app/*.json ./
 RUN npm install
 COPY src/server ./src/server
 COPY --from=build /home/node/app/build ./build
-EXPOSE 3000
+EXPOSE 4000
 CMD ["npm", "run", "server"]
