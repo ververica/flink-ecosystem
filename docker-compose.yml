@@ -1,23 +1,18 @@
+# to launch production docker compose, run
+#   docker-compose up -d
+#
+# To launch a development environment, run
+#   docker-compose up -d
+# and
+#  npm run client
+#
+
 version: "3.4"
 services:
-  client:
-    build:
-      context: .
-      dockerfile: dev.Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./public:/node/public:ro
-      - ./src/client:/node/src/client:ro
-      - ./src/index.js:/node/src/index.js:ro
-      - ./src/setupProxy.js:/node/src/setupProxy.js:ro
-      - ./src/react-app-env.d.ts:/node/src/react-app-env.d.ts:ro
-    command: npm run client
-
   server:
     build:
       context: .
-      dockerfile: dev.Dockerfile
+      dockerfile: server.Dockerfile
     environment:
       MYSQL_HOST: database
       MYSQL_USER: flink_ecosystem
@@ -30,12 +25,14 @@ services:
       EMAIL_TO_ADDRESS: ${EMAIL_TO_ADDRESS}
       EMAIL_SERVICE_CLIENT: ${EMAIL_SERVICE_CLIENT}
       EMAIL_PRIVATE_KEY: ${EMAIL_PRIVATE_KEY}
+      NODE_ENV: production
+      NODE_PATH: src/
     ports:
       - "4000:4000"
     volumes:
       - ./public:/node/public:ro
       - ./src/server:/node/src/server:ro
-    command: npm run nodemon
+    command: npm run server
 
   database:
     image: mariadb:10

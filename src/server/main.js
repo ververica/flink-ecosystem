@@ -1,7 +1,6 @@
 import Koa from "koa";
 import FileRouter from "koa-file-router";
 import Router from "koa-router";
-import serve from "koa-static";
 import cors from "kcors";
 import koaBody from "koa-body";
 import knex from "knex";
@@ -17,22 +16,8 @@ const app = new Koa();
 const fileRouter = new FileRouter("./src/server/routes");
 const router = new Router();
 
-// For devel, we serve the index file out of /public/index.html.  This fill
-// will not load the app, or do anything useful, it will just spit out a blank
-// page.  But in devel, we actually load the app from the webpack-dev-server, so
-// there is no need for this file to do anything.
-const indexFilePath =
-  process.env.NODE_ENV === "production"
-    ? "./build/index.html"
-    : "./public/index.html";
-
-const indexFile = fs.readFileSync(path.resolve(indexFilePath), {
-  encoding: "utf8",
-});
-
 // 404's for /api routes that don't exist, and the webapp for everythign else
 router.get("/api/*", ctx => ctx.throw(404));
-router.get("*", ctx => (ctx.body = indexFile));
 
 const db = knex({
   client: "mysql",
@@ -55,7 +40,6 @@ const middleware = [
   },
   mailer,
   lruCache,
-  serve("./build"),
   fileRouter.routes(),
   router.routes(),
 ];
