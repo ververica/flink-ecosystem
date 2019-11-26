@@ -9,6 +9,9 @@ export const admins = [
   5725237, // zentol
   68551, // aljoscha
   89049, // rmetzger
+  11538663, // knaufk
+  1891970, // sjwiesman
+  6242259, // dawidwys
 ];
 
 if (process.env.NODE_ENV !== "production") {
