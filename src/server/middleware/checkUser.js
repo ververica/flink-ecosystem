@@ -34,9 +34,12 @@ export default function checkUser(options = defaultOptions) {
       `${process.env.GITHUB_CLIENT}:${process.env.GITHUB_SECRET}`
     ).toString("base64");
 
+    const body = { access_token: token };
+
     try {
-      const { data } = await axios.get(
-        `https://api.github.com/applications/${process.env.GITHUB_CLIENT}/tokens/${token}`,
+      const { data } = await axios.post(
+        `https://api.github.com/applications/${process.env.GITHUB_CLIENT}/token`,
+        body,
         { headers: { Authorization: `Basic ${basicAuthString}` } }
       );
 
