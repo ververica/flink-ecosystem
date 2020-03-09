@@ -5,9 +5,6 @@ import cors from "kcors";
 import koaBody from "koa-body";
 import knex from "knex";
 
-import path from "path";
-import fs from "fs";
-
 import errorHandler from "./middleware/errorHandler";
 import lruCache from "./middleware/lruCache";
 import { mailer } from "./middleware/mailer";
@@ -30,14 +27,16 @@ const db = knex({
   },
 });
 
+const dbMiddleWare = (ctx, next) => {
+  ctx.db = db;
+  return next();
+};
+
 const middleware = [
   cors(),
   koaBody({ multipart: true }),
   errorHandler,
-  (ctx, next) => {
-    ctx.db = db;
-    return next();
-  },
+  dbMiddleWare,
   mailer,
   lruCache,
   fileRouter.routes(),
