@@ -25,7 +25,7 @@
     "@hapi/joi": "^15.1.0",
     "@reach/router": "^1.2.1",
     "@rooks/use-timeout": "^3.0.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "date-fns": "^1.30.1",
