@@ -2,7 +2,7 @@
 
 Ecosystem website for Apache Flink
 
-[![Build Status](https://travis-ci.com/sorahn/flink-ecosystem.svg?branch=master)](https://travis-ci.com/sorahn/flink-ecosystem)
+[![Build Status](https://travis-ci.com/ververica/flink-ecosystem.svg?branch=master)](https://travis-ci.com/ververica/flink-ecosystem)
 
 # Design document
 
