@@ -132,7 +132,10 @@ export const PackageForm: FC<Props> = props => {
     setInputs,
   };
 
-  const redoIcon = slugIsCustom ? <RedoIcon onClick={handleRedoClick} /> : null;
+  const redoIcon =
+    slugIsCustom && !slugDisabled ? (
+      <RedoIcon onClick={handleRedoClick} />
+    ) : null;
 
   const categoryOptions = categories.map(cat => ({
     value: cat.value,
