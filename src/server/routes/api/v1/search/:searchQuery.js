@@ -39,10 +39,11 @@ exports.get = [
 
     const finalPackagesQuery = joinVotes(packagesQuery, ctx.state.user.id);
 
-    const [packages, { count }] = await Promise.all([
+    const [packages, countRow] = await Promise.all([
       finalPackagesQuery,
       countQuery,
     ]);
+    const count = (countRow && countRow.count) || 0;
 
     // + 1 pecause pages are 1 indexed, not 0 indexed.
     const totalPages = ((count / limit) | 0) + 1;
