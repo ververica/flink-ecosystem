@@ -104,6 +104,7 @@ exports.post = [
             message: `the package id "${ctx.request.body.slug}" is already in use`,
           });
         default:
+          console.log("Caught exception", e);
           return ctx.throw(500, { message: "an unknown error has occured" });
       }
     }
