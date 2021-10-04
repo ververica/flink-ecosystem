@@ -1,6 +1,6 @@
 # Flink Ecosystem
 
-Ecosystem website for Apache Flink
+Ecosystem website for Apache Flink: https://flink-packages.org
 
 [![Build Status](https://travis-ci.com/ververica/flink-ecosystem.svg?branch=master)](https://travis-ci.com/ververica/flink-ecosystem)
 
