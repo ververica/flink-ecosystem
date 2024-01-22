@@ -1,12 +1,23 @@
+# The Dockerfile for building
+# the backend and the frontend
+#
 FROM node:10
-RUN mkdir /home/node/app
-WORKDIR /home/node/app
-COPY *.json ./
+LABEL PROJECT=flink-packages
+# set working directory
+WORKDIR /app
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+# Set the env to "production"
 ENV NODE_ENV=production \
     NODE_PATH=src/
-
-RUN npm ci
-COPY src/server ./src/server
 EXPOSE 4000
 CMD ["npm", "run", "server"]

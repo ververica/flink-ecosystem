@@ -6,13 +6,14 @@
 # and
 #  npm run client
 #
-
 version: "3.4"
+
 services:
   server:
     build:
       context: .
       dockerfile: server.Dockerfile
+    container_name: flink-packages-server
     environment:
       MYSQL_HOST: database
       MYSQL_USER: flink_ecosystem
@@ -36,6 +37,7 @@ services:
 
   database:
     image: mariadb:10
+    container_name: mariadb-server
     environment:
       MYSQL_USER: flink_ecosystem
       MYSQL_PASSWORD: test
@@ -47,5 +49,6 @@ services:
       - mariadb-data:/var/lib/mysql:rw
     ports:
       - "3306:3306"
+      
 volumes:
   mariadb-data:
