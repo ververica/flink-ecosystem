@@ -1,13 +1,11 @@
 #!/bin/sh
-
+# The script for making backups of a database
+# of a website.
 set -x
 
 DATE=`date +"%m_%d_%Y"`
-
 DIR=`dirname "$(readlink -f "$0")"`
-
 FILE="${FILE:-$DIR/backups/db_backup_$DATE.sql.gz}"
-
 CONTAINER=`docker ps --format "{{.ID}}: {{.Image}}" | grep "mariadb" | cut -d: -f1`
 
 echo "Backup database to file '$FILE' from container '$CONTAINER'"
