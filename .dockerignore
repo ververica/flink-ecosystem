@@ -1,3 +1,9 @@
+.vscode
+.env.example
+.gitignore
 node_modules
 dist
-Dockerfile
+server.Dockerfile
+client.Dockerfile
+docker-compose.yml
+docker-compose-prod.yml

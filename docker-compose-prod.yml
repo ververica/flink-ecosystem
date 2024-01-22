@@ -1,12 +1,10 @@
-# to launch production docker compose, run
-#   docker-compose up -d
+# This is the Docker Compose file for the production use
 #
-# To launch a development environment, run
-#   docker-compose up -d
-# and
-#  npm run client
+# Please use the 'production-build.sh' file 
+# for building and running the backend server
+# on the production environment
 #
-version: "3.4"
+version: "3"
 
 services:
   server:
@@ -14,6 +12,7 @@ services:
       context: .
       dockerfile: server.Dockerfile
     container_name: flink-packages-server
+    restart: unless-stopped
     environment:
       MYSQL_HOST: database
       MYSQL_USER: flink_ecosystem
@@ -30,14 +29,11 @@ services:
       NODE_PATH: src/
     ports:
       - "4000:4000"
-    volumes:
-      - ./public:/node/public:ro
-      - ./src/server:/node/src/server:ro
-    command: npm run server
 
   database:
     image: mariadb:10
     container_name: mariadb-server
+    restart: unless-stopped
     environment:
       MYSQL_USER: flink_ecosystem
       MYSQL_PASSWORD: test
@@ -49,6 +45,6 @@ services:
       - mariadb-data:/var/lib/mysql:rw
     ports:
       - "3306:3306"
-      
+
 volumes:
   mariadb-data:
