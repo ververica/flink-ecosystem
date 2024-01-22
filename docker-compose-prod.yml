@@ -1,0 +1,50 @@
+# This is the Docker Compose file for the production use
+#
+# Please use the 'production-build.sh' file 
+# for building and running the backend server
+# on the production environment
+#
+version: "3"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    container_name: flink-packages-server
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: database
+      MYSQL_USER: flink_ecosystem
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: flink_ecosystem
+      SITE_DOMAIN: ${SITE_DOMAIN}
+      GITHUB_CLIENT: ${GITHUB_CLIENT}
+      GITHUB_SECRET: ${GITHUB_SECRET}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      EMAIL_TO_ADDRESS: ${EMAIL_TO_ADDRESS}
+      EMAIL_SERVICE_CLIENT: ${EMAIL_SERVICE_CLIENT}
+      EMAIL_PRIVATE_KEY: ${EMAIL_PRIVATE_KEY}
+      NODE_ENV: production
+      NODE_PATH: src/
+    ports:
+      - "4000:4000"
+
+  database:
+    image: mariadb:10
+    container_name: mariadb-server
+    restart: unless-stopped
+    environment:
+      MYSQL_USER: flink_ecosystem
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: flink_ecosystem
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+      - ./src/server/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./src/server/sql/fixtures.sql.gz:/docker-entrypoint-initdb.d/02-fixtures.sql.gz:ro
+      - mariadb-data:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
+
+volumes:
+  mariadb-data:
